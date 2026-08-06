@@ -94,7 +94,7 @@
             </div>
             <div class="dashboard-stat">
               <span class="stat-value" id="lastAccessed">--</span>
-              <span class="stat-label" data-i18n="latestAccessed">最近访问日期</span>
+              <span class="stat-label" data-i18n="latestVerified">最近核验日期</span>
             </div>
           </section>
         </details>
@@ -103,7 +103,7 @@
           <div>
             <span class="notice-kicker" data-i18n="candidatePool">自动候选池</span>
             <strong id="candidateCountLabel">0 条待审核候选</strong>
-            <p id="candidateNote">候选由每日爬虫生成，需人工确认后才会计入正式案例总数。</p>
+            <p id="candidateNote">只有启用额外质量门槛时，未达阈值的条目才会暂存在这里。</p>
           </div>
           <div class="candidate-actions">
             <button class="button button-secondary" id="candidatePreviewToggle" type="button">查看候选</button>
@@ -111,6 +111,18 @@
           </div>
         </section>
         <section class="candidate-preview" id="candidatePreview" hidden></section>
+
+        <section class="learning-paths" id="learningPathSection" data-case-list-block>
+          <div class="learning-paths-header">
+            <div>
+              <p class="eyebrow" data-i18n="learningPathsEyebrow">Curated Pathways</p>
+              <h2 data-i18n="learningPathsTitle">专题学习路径</h2>
+              <p data-i18n="learningPathsCopy">把案例、教材和 Prompt 组合成可以直接采用的备课路线。</p>
+            </div>
+            <a class="button button-secondary" href="paths/index.html" data-i18n="viewAllPaths">查看全部路径</a>
+          </div>
+          <div class="learning-path-grid" id="learningPaths"></div>
+        </section>
 
         <section class="toolbar" aria-label="案例检索和筛选" data-i18n-aria-label="caseToolbarAria" data-case-list-block>
           <details class="filter-details" data-mobile-collapsible>
@@ -161,6 +173,16 @@
                 <label class="field" for="methodFilter">
                   <span data-i18n="aiType">AI类型</span>
                   <select id="methodFilter"></select>
+                </label>
+
+                <label class="field" for="caseQualityFilter">
+                  <span data-i18n="quality">资料质量</span>
+                  <select id="caseQualityFilter"></select>
+                </label>
+
+                <label class="field" for="caseLinkFilter">
+                  <span data-i18n="linkStatus">链接状态</span>
+                  <select id="caseLinkFilter"></select>
                 </label>
 
                 <label class="field" for="sortSelect">
@@ -226,7 +248,7 @@
             </div>
             <div class="dashboard-stat">
               <span class="stat-value" id="resourceLastAccessed">--</span>
-              <span class="stat-label" data-i18n="latestAccessed">最近访问日期</span>
+              <span class="stat-label" data-i18n="latestVerified">最近核验日期</span>
             </div>
           </section>
         </details>
@@ -283,6 +305,16 @@
                 <label class="field" for="resourceAccessFilter">
                   <span data-i18n="accessType">访问方式</span>
                   <select id="resourceAccessFilter"></select>
+                </label>
+
+                <label class="field" for="resourceQualityFilter">
+                  <span data-i18n="quality">资料质量</span>
+                  <select id="resourceQualityFilter"></select>
+                </label>
+
+                <label class="field" for="resourceLinkFilter">
+                  <span data-i18n="linkStatus">链接状态</span>
+                  <select id="resourceLinkFilter"></select>
                 </label>
 
                 <label class="field" for="resourceSortSelect">
@@ -347,7 +379,7 @@
             </div>
             <div class="dashboard-stat">
               <span class="stat-value" id="promptLastAccessed">--</span>
-              <span class="stat-label" data-i18n="latestAccessed">最近访问日期</span>
+              <span class="stat-label" data-i18n="latestVerified">最近核验日期</span>
             </div>
           </section>
         </details>
@@ -394,6 +426,16 @@
                   <select id="promptTypeFilter"></select>
                 </label>
 
+                <label class="field" for="promptDomainFilter">
+                  <span data-i18n="skillDomain">技能领域</span>
+                  <select id="promptDomainFilter"></select>
+                </label>
+
+                <label class="field" for="promptEvidenceFilter">
+                  <span data-i18n="evidenceStrength">证据等级</span>
+                  <select id="promptEvidenceFilter"></select>
+                </label>
+
                 <label class="field" for="promptCategoryFilter">
                   <span data-i18n="category">类别</span>
                   <select id="promptCategoryFilter"></select>
@@ -407,6 +449,16 @@
                 <label class="field" for="promptOutputFilter">
                   <span data-i18n="outputFormat">输出格式</span>
                   <select id="promptOutputFilter"></select>
+                </label>
+
+                <label class="field" for="promptQualityFilter">
+                  <span data-i18n="quality">资料质量</span>
+                  <select id="promptQualityFilter"></select>
+                </label>
+
+                <label class="field" for="promptLinkFilter">
+                  <span data-i18n="linkStatus">链接状态</span>
+                  <select id="promptLinkFilter"></select>
                 </label>
 
                 <label class="field" for="promptSortSelect">

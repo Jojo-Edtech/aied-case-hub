@@ -1,0 +1,83 @@
+{
+  "datasets": [
+    {
+      "dataset": "data/cases.csv",
+      "before": 324,
+      "after": 314,
+      "removed_count": 10,
+      "removed": [
+        {
+          "id": "case-174",
+          "duplicate_of": "case-173",
+          "title": "科學（中一至中三）：人工智能學與教示例"
+        },
+        {
+          "id": "case-175",
+          "duplicate_of": "case-173",
+          "title": "科學（中一至中三）：人工智能學與教示例"
+        },
+        {
+          "id": "case-254",
+          "duplicate_of": "case-148",
+          "title": "Safer Internet Day 2026: Helping students become AI‑aware, safe, and smart online"
+        },
+        {
+          "id": "case-260",
+          "duplicate_of": "case-255",
+          "title": "The Dopamine Dilemma: How Instant AI Gratification Fuels Over-Reliance and Undermines Critical Thinking"
+        },
+        {
+          "id": "case-262",
+          "duplicate_of": "case-259",
+          "title": "Thinking Beyond AI in College: How English Major Students Can Explore Literature through Geography"
+        },
+        {
+          "id": "case-286",
+          "duplicate_of": "case-279",
+          "title": "AI Didn’t Break Assessment: It Exposed What Was Already Broken"
+        },
+        {
+          "id": "case-293",
+          "duplicate_of": "case-292",
+          "title": "Still the Teacher: How California’s AI Law Keeps You at the Center"
+        },
+        {
+          "id": "case-303",
+          "duplicate_of": "case-298",
+          "title": "The Cognitive Concern: Why AI Needs a Nutrition Label"
+        },
+        {
+          "id": "case-310",
+          "duplicate_of": "case-306",
+          "title": "The Pedagogy of Trading Places: Lessons from an Unexpected Role Reversal with AI"
+        },
+        {
+          "id": "case-318",
+          "duplicate_of": "case-315",
+          "title": "Why AI Is Changing What It Means to Be Intelligent"
+        }
+      ]
+    },
+    {
+      "dataset": "data/candidate_cases.csv",
+      "before": 0,
+      "after": 0,
+      "removed_count": 0,
+      "removed": []
+    },
+    {
+      "dataset": "data/resources.csv",
+      "before": 40,
+      "after": 40,
+      "removed_count": 0,
+      "removed": []
+    },
+    {
+      "dataset": "data/prompts.csv",
+      "before": 270,
+      "after": 270,
+      "removed_count": 0,
+      "removed": []
+    }
+  ]
+}

@@ -28,7 +28,7 @@ const MIME_TYPES = {
 
 function argValue(name, fallback) {
   const prefix = `--${name}=`;
-  const match = process.argv.find((arg) => arg.startsWith(prefix));
+  const match = process.argv.findLast((arg) => arg.startsWith(prefix));
   return match ? match.slice(prefix.length) : fallback;
 }
 
@@ -184,7 +184,7 @@ async function ensureFiltersOpen(page, view) {
 }
 
 async function runScenario(page, round) {
-  const scenario = round % 20;
+  const scenario = round % 22;
 
   if (scenario === 0) {
     await page.locator('#mainTabs a[data-view="cases"]').click();
@@ -215,46 +215,90 @@ async function runScenario(page, round) {
     await ensureFiltersOpen(page, "cases");
     await pickSelectOption(page.locator("#levelFilter"), round);
     await pickSelectOption(page.locator("#regionFilter"), round);
+    await pickSelectOption(page.locator("#caseQualityFilter"), round);
+    await pickSelectOption(page.locator("#caseLinkFilter"), round);
   } else if (scenario === 10) {
     await page.locator('#mainTabs a[data-view="resources"]').click();
     await ensureFiltersOpen(page, "resources");
     await pickSelectOption(page.locator("#resourceRegionFilter"), round);
     await pickSelectOption(page.locator("#resourceTypeFilter"), round);
+    await pickSelectOption(page.locator("#resourceQualityFilter"), round);
+    await pickSelectOption(page.locator("#resourceLinkFilter"), round);
   } else if (scenario === 11) {
     await page.locator('#mainTabs a[data-view="prompts"]').click();
     await ensureFiltersOpen(page, "prompts");
     await pickSelectOption(page.locator("#promptSubjectFilter"), round);
     await pickSelectOption(page.locator("#promptTypeFilter"), round);
+    await pickSelectOption(page.locator("#promptDomainFilter"), round);
+    await pickSelectOption(page.locator("#promptEvidenceFilter"), round);
+    await pickSelectOption(page.locator("#promptQualityFilter"), round);
   } else if (scenario === 12) {
     await page.locator('#mainTabs a[data-view="cases"]').click();
     const detail = page.locator("#cases .detail-link").first();
-    if ((await detail.count()) > 0) await detail.click();
+    if ((await detail.count()) > 0) {
+      await detail.click();
+      await page.waitForURL(/\/cases\/case-[^/]+\.html$/);
+      await page.locator(".standalone-detail-card h1").waitFor();
+      expect(await page.locator("[data-copy-value]").count() > 0, "Case detail page has no share control");
+      await page.goBack();
+      await waitForData(page);
+    }
   } else if (scenario === 13) {
-    if ((await page.locator("#caseDetail").isVisible().catch(() => false))) {
-      await page.locator("#caseDetail .button").first().click();
+    await page.locator('#mainTabs a[data-view="prompts"]').click();
+    const promptDetail = page.locator("#prompts .detail-link").first();
+    if ((await promptDetail.count()) > 0) {
+      await promptDetail.click();
+      await page.waitForURL(/\/prompts\/prompt-[^/]+\.html$/);
+      await page.locator(".copy-detail-section pre").waitFor();
+      expect(await page.locator(".standalone-section-grid").count() > 0, "Prompt detail page has no skill structure");
+      await page.goBack();
+      await waitForData(page);
     }
   } else if (scenario === 14) {
+    await page.locator('#mainTabs a[data-view="resources"]').click();
+    const resourceDetail = page.locator("#resources .detail-link").first();
+    if ((await resourceDetail.count()) > 0) {
+      await resourceDetail.click();
+      await page.waitForURL(/\/resources\/resource-[^/]+\.html$/);
+      await page.locator(".standalone-detail-card h1").waitFor();
+      expect(await page.locator(".detail-footer-actions").count() > 0, "Resource detail page has no source actions");
+      await page.goBack();
+      await waitForData(page);
+    }
+  } else if (scenario === 15) {
+    await page.locator('#mainTabs a[data-view="cases"]').click();
+    const pathLink = page.locator("#learningPaths .source-link").first();
+    if ((await pathLink.count()) > 0) {
+      await pathLink.click();
+      await page.waitForURL(/\/paths\/[^/]+\.html$/);
+      await page.locator(".path-step-list").waitFor();
+      expect(await page.locator(".path-step").count() >= 2, "Learning pathway has fewer than two steps");
+      await page.goBack();
+      await waitForData(page);
+    }
+  } else if (scenario === 16) {
     await page.locator('#mainTabs a[data-view="cases"]').click();
     const fav = page.locator("#cases .favorite-button").first();
     if ((await fav.count()) > 0) await fav.click();
-  } else if (scenario === 15) {
+  } else if (scenario === 17) {
     await page.locator('#mainTabs a[data-view="prompts"]').click();
     const copy = page.locator("#prompts .copy-button").first();
     if ((await copy.count()) > 0) await copy.click();
-  } else if (scenario === 16) {
+  } else if (scenario === 18) {
     await page.locator('#mainTabs a[data-view="toolkit"]').click();
     await page.locator("#toolTopic").fill(`测试主题 ${round}`);
     await page.locator("#toolGeneratePrompt").click();
-  } else if (scenario === 17) {
+  } else if (scenario === 19) {
     await page.locator('#mainTabs a[data-view="cases"]').click();
     const next = page.locator("#casePagination button").last();
     if ((await next.count()) > 0 && (await next.isEnabled())) await next.click();
-  } else if (scenario === 18) {
+  } else if (scenario === 20) {
     await page.locator('#mainTabs a[data-view="resources"]').click();
     const next = page.locator("#resourcePagination button").last();
     if ((await next.count()) > 0 && (await next.isEnabled())) await next.click();
   } else {
     await page.locator('#mainTabs a[data-view="prompts"]').click();
+    await ensureFiltersOpen(page, "prompts");
     const reset = page.locator("#promptResetFilters");
     if ((await reset.count()) > 0) await reset.click();
   }

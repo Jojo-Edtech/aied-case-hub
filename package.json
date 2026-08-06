@@ -4,8 +4,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build:static": "node scripts/build-static-site.mjs",
-    "refresh:accessed": "node scripts/refresh-accessed-dates.mjs",
+    "build:static": "node scripts/generate-detail-pages.mjs && node scripts/build-static-site.mjs",
+    "generate:pages": "node scripts/generate-detail-pages.mjs",
+    "check:links": "node scripts/check-links.mjs",
+    "expand:prompts": "node scripts/expand-prompt-skills.mjs",
+    "migrate:data": "node scripts/enrich-data-schema.mjs",
+    "test:quality": "node scripts/test-data-quality.mjs",
     "update:candidates": "node scripts/collect-candidate-cases.mjs",
     "test:ux": "node scripts/ux-stress-test.mjs --rounds=500",
     "validate:data": "node scripts/validate-data.mjs"

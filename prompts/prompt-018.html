@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>科学阅读导读与证据标注 | AIED Case Hub</title>
+  <meta name="description" content="用于让学生阅读科学文章时抓关键词、证据和论证。">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AIED Case Hub">
+  <meta property="og:title" content="科学阅读导读与证据标注">
+  <meta property="og:description" content="用于让学生阅读科学文章时抓关键词、证据和论证。">
+  <meta property="og:url" content="https://jojo-edtech.github.io/aiedcase/prompts/prompt-018.html">
+  <link rel="canonical" href="https://jojo-edtech.github.io/aiedcase/prompts/prompt-018.html">
+  <link rel="stylesheet" href="../styles.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"科学阅读导读与证据标注","description":"用于让学生阅读科学文章时抓关键词、证据和论证。","url":"https://jojo-edtech.github.io/aiedcase/prompts/prompt-018.html","inLanguage":"zh-CN","educationalUse":"Prompt 教学技能"}</script>
+</head>
+<body class="standalone-detail-page">
+  <header class="detail-site-header"><a href="../index.html">AIED Case Hub</a><span>Prompt 教学技能</span></header>
+  <main class="standalone-detail-main"><article class="standalone-detail-card">
+    <header class="standalone-hero"><p class="eyebrow">AI Education Library</p><h1>科学阅读导读与证据标注</h1>
+    <p class="standalone-secondary-title">用于让学生阅读科学文章时抓关键词、证据和论证。</p>
+    <div class="case-topline"><span class="tag">教材与认知支架</span><span class="tag">教材生成</span><span class="tag">Science</span><span class="tag">初中/高中</span><span class="tag">资料不完整</span></div></header>
+    <div class="standalone-section-grid">
+      <section class="standalone-section"><h2>必填输入</h2><p>年级；目标；粘贴文本</p></section>
+      <section class="standalone-section"><h2>可选输入</h2><p>学生已有基础；可用设备；课堂时间；本校要求</p></section>
+      <section class="standalone-section"><h2>输出结构</h2><p>阅读学习单；包含目标、步骤、教师提示、学生产出、评价证据和调整建议。</p></section>
+      <section class="standalone-section"><h2>证据等级</h2><p>实践框架；AI for Education Prompt Library</p></section>
+    </div>
+    <section class="standalone-section copy-detail-section"><div class="workflow-header"><h2>可复制 Prompt</h2>
+    <button class="copy-button" data-copy-target="#copy-content">复制 Prompt</button></div><pre id="copy-content">请把以下科学文本改造成一份阅读导读学习单。年级：[年级]；学习目标：[目标]；文本：[粘贴文本]。请输出：关键词表、段落主旨、3个证据定位问题、2个推理问题、1个质疑问题、学生需要回到原文标注的句子类型。不要替学生完成全部答案。</pre></section>
+    <div class="standalone-section-grid">
+      <section class="standalone-section"><h2>使用限制</h2><p>生成结果可能出现事实错误、课程错配或不适合本班情境的活动，教师必须核对后再使用。</p></section>
+      <section class="standalone-section"><h2>下一步</h2><p>再生成分层版本，并用事实核查清单检查内容。</p></section>
+      <section class="standalone-section"><h2>生成后检查清单</h2><ul><li>事实与引用是否可核实</li><li>是否符合学习目标与学段</li><li>任务是否要求学生主动思考</li><li>评价标准是否清楚且公平</li><li>是否已经删除个人资料</li><li>教师是否完成最终审阅</li></ul></section>
+      <section class="standalone-section"><h2>隐私提醒</h2><p>不要输入学生真实姓名、联系方式、健康资料、成绩明细或其他可识别个人资料；必要时先匿名化。</p></section>
+    </div>
+    <dl class="meta-list standalone-meta"><div><dt>适用模型</dt><dd>ChatGPT/Gemini/Copilot</dd></div><div><dt>预期输出</dt><dd>阅读学习单</dd></div><div><dt>目标受众</dt><dd>科学教师</dd></div><div><dt>版本</dt><dd>1.0</dd></div><div><dt>质量评分</dt><dd>53/100</dd></div><div><dt>最近核验日期</dt><dd>2026-08-06</dd></div><div><dt>链接状态</dt><dd>已核验可访问（HTTP 206）</dd></div></dl>
+    <div class="detail-actions detail-footer-actions"><a class="button button-primary" href="https://www.aiforeducation.io/prompt-library" target="_blank" rel="noreferrer">查看参考来源</a>
+    <button class="button button-secondary" data-copy-value="https://jojo-edtech.github.io/aiedcase/prompts/prompt-018.html">复制本页链接</button></div></article></main>
+  <footer class="detail-site-footer"><a href="../index.html">返回资料库</a><span>内容以原始来源为准</span></footer>
+  <script>
+    document.addEventListener('click', async (event) => {
+      const button = event.target.closest('[data-copy-value], [data-copy-target]');
+      if (!button) return;
+      const value = button.dataset.copyValue || document.querySelector(button.dataset.copyTarget)?.textContent || '';
+      await navigator.clipboard.writeText(value);
+      const previous = button.textContent;
+      button.textContent = '已复制';
+      setTimeout(() => { button.textContent = previous; }, 1400);
+    });
+  </script>
+</body>
+</html>

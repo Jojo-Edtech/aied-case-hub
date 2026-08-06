@@ -1,8 +1,14 @@
-import { readFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
+import { readFile } from 'node:fs/promises';
 import { CASE_FIELDS, PROMPT_FIELDS, RESOURCE_FIELDS, parseCsv } from './csv-utils.mjs';
+import {
+  LINK_STATUSES,
+  QUALITY_LABEL_SET,
+  canonicalizeUrl,
+  duplicateKey,
+  titleFingerprint,
+} from './data-quality.mjs';
 
-const files = ['data/cases.csv', 'data/candidate_cases.csv'];
 const categories = new Set([
   'AI Literacy',
   'AI+STEM',
@@ -32,174 +38,182 @@ const promptTypes = new Set([
   '家校沟通',
   '学生支持',
 ]);
-
+const evidenceStrengths = new Set(['强', '中等', '初步', '实践框架', '未评级']);
+const datePattern = /^\d{4}(?:-\d{2}(?:-\d{2})?)?$/;
 let failures = 0;
+const recordsByFile = new Map();
 
-async function readCsvFile(file, fields) {
-  if (!existsSync(file)) {
-    console.error(`${file} does not exist.`);
-    failures += 1;
-    return [];
-  }
+const datasetConfigs = [
+  {
+    file: 'data/cases.csv',
+    fields: CASE_FIELDS,
+    required: CASE_FIELDS.filter((field) => !['last_verified_date', 'http_status', 'redirect_url'].includes(field)),
+    type: 'case',
+  },
+  {
+    file: 'data/candidate_cases.csv',
+    fields: CASE_FIELDS,
+    required: CASE_FIELDS.filter((field) => !['last_verified_date', 'http_status', 'redirect_url'].includes(field)),
+    type: 'case',
+  },
+  {
+    file: 'data/resources.csv',
+    fields: RESOURCE_FIELDS,
+    required: RESOURCE_FIELDS.filter((field) => !['last_verified_date', 'http_status', 'redirect_url'].includes(field)),
+    type: 'resource',
+  },
+  {
+    file: 'data/prompts.csv',
+    fields: PROMPT_FIELDS,
+    required: PROMPT_FIELDS.filter((field) => !['last_verified_date', 'http_status', 'redirect_url'].includes(field)),
+    type: 'prompt',
+  },
+];
 
-  const text = await readFile(file, 'utf8');
-  const header = text.split(/\r?\n/, 1)[0].split(',').map((cell) => cell.replace(/^"|"$/g, ''));
-  const records = parseCsv(text);
-
-  if (header.join('|') !== fields.join('|')) {
-    console.error(`${file} has an unexpected header.`);
-    failures += 1;
-  }
-
-  return records;
+for (const config of datasetConfigs) {
+  const records = await readCsvFile(config);
+  recordsByFile.set(config.file, records);
+  validateRecords(config, records);
 }
 
-for (const file of files) {
-  const records = await readCsvFile(file, CASE_FIELDS);
-  let duplicateUrlCount = 0;
-  const ids = new Set();
-  const urls = new Set();
-
-  records.forEach((record, index) => {
-    const label = `${file} row ${index + 2}`;
-    const missing = CASE_FIELDS.filter((field) => !record[field]);
-    if (missing.length > 0) {
-      console.error(`${label} is missing: ${missing.join(', ')}`);
-      failures += 1;
-    }
-
-    if (ids.has(record.id)) {
-      console.error(`${label} duplicates id ${record.id}.`);
-      failures += 1;
-    }
-    ids.add(record.id);
-
-    if (urls.has(record.source_url)) {
-      duplicateUrlCount += 1;
-    }
-    urls.add(record.source_url);
-
-    if (record.category && !categories.has(record.category)) {
-      console.error(`${label} has unsupported category ${record.category}.`);
-      failures += 1;
-    }
-
-    if (record.credibility && !credibilityLabels.has(record.credibility)) {
-      console.error(`${label} has unsupported credibility ${record.credibility}.`);
-      failures += 1;
-    }
-
-    if (record.source_url && !/^https?:\/\//.test(record.source_url)) {
-      console.error(`${label} has invalid source_url ${record.source_url}.`);
-      failures += 1;
-    }
-  });
-
-  const duplicateSummary =
-    duplicateUrlCount > 0 ? `, ${duplicateUrlCount} reused source URL(s)` : '';
-  console.log(`${file}: ${records.length} row(s) validated${duplicateSummary}.`);
-}
-
-{
-  const file = 'data/resources.csv';
-  const records = await readCsvFile(file, RESOURCE_FIELDS);
-  let duplicateUrlCount = 0;
-  const ids = new Set();
-  const urls = new Set();
-
-  records.forEach((record, index) => {
-    const label = `${file} row ${index + 2}`;
-    const missing = RESOURCE_FIELDS.filter((field) => !record[field]);
-    if (missing.length > 0) {
-      console.error(`${label} is missing: ${missing.join(', ')}`);
-      failures += 1;
-    }
-
-    if (ids.has(record.id)) {
-      console.error(`${label} duplicates id ${record.id}.`);
-      failures += 1;
-    }
-    ids.add(record.id);
-
-    if (urls.has(record.source_url)) {
-      duplicateUrlCount += 1;
-    }
-    urls.add(record.source_url);
-
-    if (record.category && !categories.has(record.category)) {
-      console.error(`${label} has unsupported category ${record.category}.`);
-      failures += 1;
-    }
-
-    if (record.resource_type && !resourceTypes.has(record.resource_type)) {
-      console.error(`${label} has unsupported resource_type ${record.resource_type}.`);
-      failures += 1;
-    }
-
-    if (record.access_type && !accessTypes.has(record.access_type)) {
-      console.error(`${label} has unsupported access_type ${record.access_type}.`);
-      failures += 1;
-    }
-
-    if (record.source_url && !/^https?:\/\//.test(record.source_url)) {
-      console.error(`${label} has invalid source_url ${record.source_url}.`);
-      failures += 1;
-    }
-  });
-
-  const duplicateSummary =
-    duplicateUrlCount > 0 ? `, ${duplicateUrlCount} reused source URL(s)` : '';
-  console.log(`${file}: ${records.length} row(s) validated${duplicateSummary}.`);
-}
-
-{
-  const file = 'data/prompts.csv';
-  const records = await readCsvFile(file, PROMPT_FIELDS);
-  let duplicateUrlCount = 0;
-  const ids = new Set();
-  const urls = new Set();
-
-  records.forEach((record, index) => {
-    const label = `${file} row ${index + 2}`;
-    const missing = PROMPT_FIELDS.filter((field) => !record[field]);
-    if (missing.length > 0) {
-      console.error(`${label} is missing: ${missing.join(', ')}`);
-      failures += 1;
-    }
-
-    if (ids.has(record.id)) {
-      console.error(`${label} duplicates id ${record.id}.`);
-      failures += 1;
-    }
-    ids.add(record.id);
-
-    if (urls.has(record.source_url)) {
-      duplicateUrlCount += 1;
-    }
-    urls.add(record.source_url);
-
-    if (record.category && !categories.has(record.category)) {
-      console.error(`${label} has unsupported category ${record.category}.`);
-      failures += 1;
-    }
-
-    if (record.prompt_type && !promptTypes.has(record.prompt_type)) {
-      console.error(`${label} has unsupported prompt_type ${record.prompt_type}.`);
-      failures += 1;
-    }
-
-    if (record.source_url && !/^https?:\/\//.test(record.source_url)) {
-      console.error(`${label} has invalid source_url ${record.source_url}.`);
-      failures += 1;
-    }
-  });
-
-  const duplicateSummary =
-    duplicateUrlCount > 0 ? `, ${duplicateUrlCount} reused source URL(s)` : '';
-  console.log(`${file}: ${records.length} row(s) validated${duplicateSummary}.`);
-}
+await validateLearningPaths();
 
 if (failures > 0) {
   console.error(`${failures} validation failure(s).`);
   process.exitCode = 1;
+}
+
+async function readCsvFile(config) {
+  if (!existsSync(config.file)) {
+    fail(`${config.file} does not exist.`);
+    return [];
+  }
+  const text = await readFile(config.file, 'utf8');
+  const header = text.split(/\r?\n/, 1)[0].split(',').map((cell) => cell.replace(/^"|"$/g, ''));
+  if (header.join('|') !== config.fields.join('|')) fail(`${config.file} has an unexpected header.`);
+  return parseCsv(text);
+}
+
+function validateRecords(config, records) {
+  const ids = new Set();
+  const duplicateKeys = new Map();
+  const titleKeys = new Map();
+  let repeatedUrls = 0;
+  const urls = new Set();
+
+  records.forEach((record, index) => {
+    const label = `${config.file} row ${index + 2}`;
+    const missing = config.required.filter((field) => !String(record[field] || '').trim());
+    if (missing.length > 0) fail(`${label} is missing: ${missing.join(', ')}`);
+
+    if (ids.has(record.id)) fail(`${label} duplicates id ${record.id}.`);
+    ids.add(record.id);
+
+    if (!/^https?:\/\//.test(record.source_url || '')) fail(`${label} has invalid source_url ${record.source_url}.`);
+    if (record.canonical_url !== canonicalizeUrl(record.canonical_url)) {
+      fail(`${label} has non-canonical canonical_url ${record.canonical_url}.`);
+    }
+    if (urls.has(record.source_url)) repeatedUrls += 1;
+    urls.add(record.source_url);
+
+    const key = duplicateKey(record);
+    if (key && duplicateKeys.has(key)) fail(`${label} duplicates ${duplicateKeys.get(key)} by canonical URL and title.`);
+    if (key) duplicateKeys.set(key, record.id);
+
+    const titleKey = titleFingerprint(record.title_original || record.title_cn);
+    if (titleKey.length >= 16 && titleKeys.has(titleKey)) {
+      fail(`${label} duplicates title from ${titleKeys.get(titleKey)}.`);
+    }
+    if (titleKey.length >= 16) titleKeys.set(titleKey, record.id);
+
+    if (record.category && !categories.has(record.category)) fail(`${label} has unsupported category ${record.category}.`);
+    if (!LINK_STATUSES.has(record.link_status)) fail(`${label} has unsupported link_status ${record.link_status}.`);
+    if (!QUALITY_LABEL_SET.has(record.quality_label)) fail(`${label} has unsupported quality_label ${record.quality_label}.`);
+    const qualityScore = Number(record.quality_score);
+    if (!Number.isInteger(qualityScore) || qualityScore < 0 || qualityScore > 100) {
+      fail(`${label} has invalid quality_score ${record.quality_score}.`);
+    }
+    validateDate(label, 'published_date', record.published_date, config.type === 'prompt');
+    validateDate(label, 'accessed_date', record.accessed_date, false);
+    validateDate(label, 'last_verified_date', record.last_verified_date, true);
+
+    if (config.type === 'case' && !credibilityLabels.has(record.credibility)) {
+      fail(`${label} has unsupported credibility ${record.credibility}.`);
+    }
+    if (config.type === 'resource') {
+      if (!resourceTypes.has(record.resource_type)) fail(`${label} has unsupported resource_type ${record.resource_type}.`);
+      if (!accessTypes.has(record.access_type)) fail(`${label} has unsupported access_type ${record.access_type}.`);
+    }
+    if (config.type === 'prompt') {
+      if (!promptTypes.has(record.prompt_type)) fail(`${label} has unsupported prompt_type ${record.prompt_type}.`);
+      if (!evidenceStrengths.has(record.evidence_strength)) {
+        fail(`${label} has unsupported evidence_strength ${record.evidence_strength}.`);
+      }
+    }
+  });
+
+  console.log(`${config.file}: ${records.length} row(s) validated, ${repeatedUrls} reused source URL(s).`);
+}
+
+function validateDate(label, field, value, optional) {
+  if (!value && optional) return;
+  if (value && !datePattern.test(value)) fail(`${label} has invalid ${field} ${value}.`);
+}
+
+async function validateLearningPaths() {
+  const file = 'data/learning_paths.json';
+  if (!existsSync(file)) {
+    fail(`${file} does not exist.`);
+    return;
+  }
+
+  let paths;
+  try {
+    paths = JSON.parse(await readFile(file, 'utf8'));
+  } catch (error) {
+    fail(`${file} is not valid JSON: ${error.message}`);
+    return;
+  }
+
+  if (!Array.isArray(paths) || paths.length === 0) {
+    fail(`${file} must contain at least one learning path.`);
+    return;
+  }
+
+  const references = {
+    case: new Set((recordsByFile.get('data/cases.csv') || []).map((record) => record.id)),
+    resource: new Set((recordsByFile.get('data/resources.csv') || []).map((record) => record.id)),
+    prompt: new Set((recordsByFile.get('data/prompts.csv') || []).map((record) => record.id)),
+  };
+  const pathIds = new Set();
+
+  paths.forEach((path, index) => {
+    const label = `${file} item ${index + 1}`;
+    for (const field of ['id', 'title_cn', 'title_en', 'duration', 'audience', 'description_cn', 'outcome_cn']) {
+      if (!String(path[field] || '').trim()) fail(`${label} is missing ${field}.`);
+    }
+    if (pathIds.has(path.id)) fail(`${label} duplicates path id ${path.id}.`);
+    pathIds.add(path.id);
+    if (!Array.isArray(path.steps) || path.steps.length < 2) {
+      fail(`${label} must contain at least two linked steps.`);
+      return;
+    }
+
+    path.steps.forEach((step, stepIndex) => {
+      const stepLabel = `${label} step ${stepIndex + 1}`;
+      if (!references[step.type]) {
+        fail(`${stepLabel} has unsupported type ${step.type}.`);
+        return;
+      }
+      if (!references[step.type].has(step.id)) fail(`${stepLabel} references missing ${step.type} ${step.id}.`);
+      if (!String(step.action_cn || '').trim()) fail(`${stepLabel} is missing action_cn.`);
+    });
+  });
+
+  console.log(`${file}: ${paths.length} learning path(s) validated.`);
+}
+
+function fail(message) {
+  console.error(message);
+  failures += 1;
 }

@@ -1,0 +1,71 @@
+name: Daily Source Link Verification
+
+on:
+  schedule:
+    # 22:05 UTC = 06:05 Hong Kong time.
+    - cron: '5 22 * * *'
+  workflow_dispatch:
+    inputs:
+      check_all:
+        description: Check every source URL in this run
+        required: false
+        type: boolean
+        default: false
+
+concurrency:
+  group: aied-data-writes
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  verify-links:
+    name: Verify original source links
+    runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Hong_Kong
+      LINK_CHECK_LIMIT: '120'
+      LINK_CHECK_CONCURRENCY: '6'
+      LINK_CHECK_ALL: ${{ inputs.check_all || 'false' }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Verify source links
+        run: npm run check:links
+
+      - name: Validate updated data
+        run: npm run validate:data
+
+      - name: Regenerate shareable detail pages
+        run: npm run generate:pages
+
+      - name: Commit verification results
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- data/cases.csv data/resources.csv data/prompts.csv data/reports/link-check-report.json cases/ resources/ prompts/ paths/ sitemap.xml; then
+            echo "No link verification changes."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/cases.csv data/resources.csv data/prompts.csv data/reports/link-check-report.json cases/ resources/ prompts/ paths/ sitemap.xml
+          git commit -m "Verify AIED source links"
+          git pull --rebase origin main
+          git push origin main
+
+      - name: Publish link report summary
+        if: always()
+        run: |
+          if [ -f data/reports/link-check-report.json ]; then
+            node -e 'const r=require("./data/reports/link-check-report.json"); console.log(`## Link verification\n\nChecked **${r.checked_urls}** of **${r.total_urls}** unique URLs.\n\n\`${JSON.stringify(r.counts)}\``)' >> "$GITHUB_STEP_SUMMARY"
+          fi

@@ -1,221 +1,204 @@
 # AIED Case Hub
 
-AIED Case Hub 是一个可部署到 GitHub Pages 的静态 AI 教育资料库。首页顶部使用醒目的选项卡展示教学案例、教材资源、Prompt 模板、教师工具和 AI 助手，并在右上角提供英文、简体中文、繁体中文界面切换。页面分别读取 `data/cases.csv`、`data/resources.csv` 和 `data/prompts.csv`。
+AIED Case Hub 是一个面向教师的 AI 教育资料库，部署于 GitHub Pages，并可同步到阿里云 OSS。网站把教学案例、教材资源、Prompt 教学技能、教师工具和专题学习路径放在同一个入口中。
 
-当前交互功能包括：
+在线地址：<https://jojo-edtech.github.io/aiedcase/>
 
-- 教学案例可打开同页详情视图，并生成可分享的 `#case=...` 链接。
-- 教学案例、教材资源和 Prompt 模板都支持按“教师任务”筛选。
-- 三类内容都支持本地收藏和“只看收藏”；收藏数据保存在浏览器 `localStorage`，不会写入仓库或上传服务器。
-- 每张案例卡和案例详情页都保留原始来源链接，并提供可复制工作流。
-- Prompt 模板页包含“我要做什么”任务入口，并在卡片上显示需要替换的输入变量。
-- 教师工具页提供教学 Prompt 生成器、收藏备课包导出、课堂 AI 使用守则生成器和专项模板生成器；这些工具都在浏览器本地运行，不需要后端或 API。
+## 当前内容
 
-## 本地预览
+- 314 个教学案例，覆盖 AI Literacy、AI+STEM、AI+Humanities、AI+Social Sciences、AI for Teaching & Assessment。
+- 40 个全球课程、教材、框架、工具包和教师指南。
+- 270 个结构化 Prompt 教学技能，覆盖备课、教材、练习、评价、差异化支持、项目学习和课堂活动。
+- 4 条专题学习路径，把案例、资源和 Prompt 组合成可直接采用的备课路线。
+- 简体中文、繁体中文和英文界面。英文或繁体来源保留原始标题，资料摘要以简体中文为主。
 
-在项目目录运行：
+所有数量都从 CSV 数据实时读取，不写死在页面中。
+
+## 核心功能
+
+- 搜索、栏目、学科、学段、地区、来源、语言、AI 方法、资料质量和链接状态筛选。
+- 每条内容显示质量分级、链接核验状态、来源和独立详情链接。
+- 案例详情包含教学目标、课堂流程、学习成效证据、限制条件和可复制工作流。
+- Prompt 采用“教学技能”结构，包含必填变量、可选变量、输出结构、证据等级、限制、后续步骤、核查清单和隐私提醒。
+- 每条案例、资源和 Prompt 都有独立静态页，可单独分享、生成页面预览并被搜索引擎索引。
+- 本地收藏、只看收藏、复制内容和 Markdown 备课包导出。收藏仅保存在浏览器 `localStorage`。
+- 教师工具完全在浏览器本地运行，不上传老师输入的内容。
+
+独立详情页示例：
+
+```text
+https://jojo-edtech.github.io/aiedcase/cases/case-001.html
+https://jojo-edtech.github.io/aiedcase/resources/resource-001.html
+https://jojo-edtech.github.io/aiedcase/prompts/prompt-001.html
+https://jojo-edtech.github.io/aiedcase/paths/ai-literacy-30min.html
+```
+
+## 本地运行
 
 ```bash
 python3 -m http.server 4173
 ```
 
-然后打开：
+浏览器打开 `http://localhost:4173`。
 
-```text
-http://localhost:4173
-```
-
-## 用户视角测试
-
-本仓库提供一个轻量 UX 压测脚本，会启动本地静态服务器，并用浏览器模拟桌面、平板和手机用户操作：
+常用命令：
 
 ```bash
-npm run test:ux
+npm run migrate:data       # 迁移字段、规范 URL、计算质量分和去重
+npm run expand:prompts     # 重建 150 条原创学科教学技能，并保留原有 Prompt
+npm run validate:data      # 校验 CSV、固定标签和学习路径引用
+npm run test:quality       # 测试 URL 规范化、质量评分和 Prompt 技能补全
+npm run generate:pages     # 生成独立详情页和 sitemap.xml
+npm run build:static       # 生成可部署到 OSS 的 dist/
+npm run test:ux            # 500 轮桌面/平板/手机用户交互测试
+npm run check:links        # 实际访问来源链接并记录核验结果
 ```
 
-默认会执行 500 轮桌面交互，并额外执行平板和手机交互检查，覆盖选项卡、搜索、筛选、分页、详情页、收藏、复制按钮、语言切换和教师工具。脚本会检查页面是否出现横向溢出、卡片是否正常渲染、本站是否有 console 错误。若本机没有 Playwright，可先安装或在 Codex 桌面环境中运行。
+## 数据结构
 
-## 数据维护
+数据接口的完整字段、固定标签和解释见 [`data/schema.md`](data/schema.md)。主要文件为：
 
-案例数据在 `data/cases.csv`。字段固定为：
+- `data/cases.csv`：正式教学案例。
+- `data/candidate_cases.csv`：可选质量门槛启用时的暂存池。
+- `data/resources.csv`：全球资源与教材。
+- `data/prompts.csv`：结构化 Prompt 教学技能。
+- `data/learning_paths.json`：专题学习路径。
+- `data/reports/`：去重和链接核验报告。
 
-```text
-id,title_original,title_cn,category,subcategory,subject,education_level,language,region,ai_tool_or_method,summary_cn,workflow_cn,source_type,credibility,source_url,published_date,accessed_date
-```
+### 质量评分
 
-一级栏目当前为：`AI Literacy`、`AI+STEM`、`AI+Humanities`、`AI+Social Sciences`、`AI for Teaching & Assessment`。
+质量评分是资料完整度提示，不代表教学效果的最终判断。固定标签为：
 
-新增案例时请保留来源链接和访问日期。英文或繁体来源保留原题，并补充简体中文摘要。`workflow_cn` 用来保存可复制的课堂 skill / 工作流，方便读者直接改写使用。
+| 分数 | 标签 |
+| --- | --- |
+| 85-100 | 高质量 |
+| 70-84 | 资料完整 |
+| 55-69 | 基本可用 |
+| 0-54 | 资料不完整 |
 
-资源数据在 `data/resources.csv`。字段固定为：
+案例评分考虑教学目标、实施过程、工作流、学习成效证据、限制说明和来源可信度。资源评分考虑简介、使用方式、出版机构、访问方式和来源完整性。Prompt 评分考虑变量、输出结构、证据来源、限制、核查清单和隐私提醒。
 
-```text
-id,title_original,title_cn,resource_type,category,subject,education_level,audience,language,region,publisher,summary_cn,use_case_cn,source_url,published_date,accessed_date,access_type
-```
+自动补全不会虚构学习效果。如果原来源没有报告成果，`outcomes_cn` 会明确写明“来源页面未提供可核实的学习成效数据”。
 
-资源类型固定为：`课程/教材`、`教师指南`、`政策框架`、`课堂工具包`、`学生课程`、`资源目录`、`研究报告`。
+### 链接核验
 
-访问方式固定为：`免费`、`需注册`、`付费/订阅`、`未知`。
+`accessed_date` 表示资料最初收集或人工访问的日期；`last_verified_date` 只会在自动程序真正成功访问原链接时更新。
 
-Prompt 模板数据在 `data/prompts.csv`。字段固定为：
+链接状态固定为：
 
-```text
-id,title_cn,prompt_type,category,subject,education_level,audience,output_format,ai_tool_or_method,prompt_cn,use_case_cn,source_title,source_url,accessed_date
-```
+- `unverified`：尚未实际检测。
+- `ok`：成功访问原链接。
+- `redirected`：成功访问，但跳转到新地址。
+- `blocked`：来源站点返回登录、限流、地区限制或反自动化状态，不等同于失效。
+- `broken`：明确返回 404 或 410。
+- `error`：本次出现网络或服务器错误，之后会重试。
 
-Prompt 类型固定为：`备课设计`、`教材生成`、`练习与作业`、`评价反馈`、`差异化支持`、`项目学习`、`课堂活动`、`家校沟通`、`学生支持`。
+核验报告保存在 `data/reports/link-check-report.json`，包含 HTTP 状态码和最终重定向地址。失败或被拦截不会被伪装成“当天已核验”。
 
-当前第一版 Prompt 模板约 120 条，覆盖 STEM、语言、人文、社会科学、艺术设计、商科、AI 素养、学生支持和教师工作流。案例、资源和 Prompt 三类数据列表都默认每页显示 24 张卡片；筛选、搜索或切换教师任务后会自动回到第 1 页。
+### 去重
 
-## 教师工具
+数据迁移会先规范来源 URL，删除追踪参数、片段和多余斜线，再使用“规范 URL + 标题指纹”识别重复记录。报告保存在 `data/reports/dedup-report.json`。
 
-`教师工具` 选项卡是纯前端工具区，面向一线老师的快速备课场景：
+## Prompt 教学技能
 
-- `教学 Prompt 生成器`：输入学科、学段、主题、课堂时间和学生情况后，生成可直接复制到任意生成式 AI 工具的教学 Prompt。
-- `收藏备课包导出`：读取本机浏览器中收藏的教学案例、教材资源和 Prompt 模板，生成 Markdown 格式的备课清单。
-- `课堂 AI 使用守则`：按学段、允许用途、评价方式和隐私规则生成学生可读的课堂 AI 使用规范。
-- `专项模板生成器`：按评价量规、分层改写、反馈语、家校沟通、课堂提问、退出卡/小测等高频任务生成可复制 Prompt。
+Prompt 不再只是单段文字。每条记录包括：
 
-以上工具不上传老师输入的内容，也不会写入仓库；收藏数据只保存在本机浏览器 `localStorage` 中。
+- 技能领域和适用任务。
+- 必填与可选输入。
+- 预期输出结构。
+- 证据等级与参考来源。
+- 限制条件、下一步 Prompt 和模型适用说明。
+- 事实、目标、公平性、个人资料和教师最终审阅核查清单。
 
-## AI 助手 / RAG
+该结构参考了 `education-agent-skills` 对输入、输出、证据、限制和技能连接的组织方式，并根据本项目的教师工作流重新设计。没有直接复制第三方 Prompt 内容。
 
-首页包含一个 `AI 助手` 选项卡，用来嵌入部署在 ModelScope Studio 或 Notebook 上的有限额 RAG 应用。
+## AI 助手与 RAG
 
-RAG 应用代码在 `modelscope_rag/`：
+`AI 助手` 选项卡可以嵌入 ModelScope Studio 或 Notebook 上的有限额 RAG 应用。应用代码位于 `modelscope_rag/`，部署说明见该目录的 README。公开地址写入 `data/rag-config.json` 的 `studio_url`。
 
-- `app.py`：Gradio 应用，启动时读取公开的案例、资源和 Prompt CSV。
-- `requirements.txt`：ModelScope Studio 需要安装的依赖。
-- `README.md`：部署到魔搭创空间或 Notebook 的步骤。
-
-部署后，把魔搭 Studio 的公开访问地址填入 `data/rag-config.json` 的 `studio_url`。不要把 `MODELSCOPE_API_TOKEN`、阿里云 API Key 或其它密钥写入本仓库；密钥只应放在魔搭 Studio/Notebook 的环境变量中。
-
-推荐在魔搭环境变量里设置：
-
-```text
-MODELSCOPE_API_TOKEN=你的魔搭访问令牌
-RAG_DAILY_GENERATION_LIMIT=50
-```
-
-`RAG_DAILY_GENERATION_LIMIT` 是公开试用的每日生成上限。超过后，AI 助手会停止调用模型，只返回检索到的引用来源，避免继续消耗免费额度。
-
-本地检查 RAG 检索：
-
-```bash
-python3 modelscope_rag/app.py --self-test
-```
+`MODELSCOPE_API_TOKEN`、阿里云 AccessKey、Firecrawl Key 或其他密钥不得写入仓库，只能放在对应平台的 Secrets 或环境变量中。RAG 每日生成上限可通过 `RAG_DAILY_GENERATION_LIMIT` 控制，超出后只返回检索来源，不继续消耗模型额度。
 
 ## 每日自动更新
 
-仓库已配置两类 GitHub Actions：
+仓库配置了两个互不混淆的 GitHub Actions，并使用同一并发锁避免同时写入数据：
 
-- 每天香港时间 06:00 自动运行一次案例收集任务，也可以在 GitHub 的 `Actions -> Daily AIED Candidate Update -> Run workflow` 手动触发。
-- 每天香港时间 06:05 自动刷新正式数据的 `accessed_date`，并推送到 `main`，让 GitHub Pages 上的“最近访问日期”保持为当天日期；也可以在 `Actions -> Daily Site Data Refresh -> Run workflow` 手动触发。
+1. `Daily AIED Candidate Update` 每天香港时间 06:00 收集新案例。
+2. `Daily Source Link Verification` 每天香港时间 06:05 实际检测一批来源链接。
 
-自动任务采用直接发布流程：
+案例收集流程：
 
-1. 从 `data/source_feeds.json` 中列出的教育与 AI 信息源抓取最新内容。当前支持 RSS、Atom 和 YouTube channel feed。
-2. 对可能相关但摘要不足的条目，自动尝试打开原文页抽取正文；如果仓库设置了 `FIRECRAWL_API_KEY`，Actions 会优先使用 Firecrawl `scrape/search` 做正文抽取和搜索补充。Firecrawl 失败、限流或访问被拦截时不会中断任务。
-3. 用关键词规则筛出可能属于课堂、课程、活动或学习任务的 AI 教育案例，新闻报道、官方博客、研究论文、教师实践和视频来源都可以进入收录范围。
-4. 把新增记录直接写入 `data/cases.csv`，并推送到 `main`，网页会自动显示这些正式案例。
-5. `data/candidate_cases.csv` 仍保留为兼容旧版本或临时人工暂存使用；默认自动任务不会再把新内容放进候选池。
+1. 读取 `data/source_feeds.json` 中的 RSS、Atom 和 YouTube 信息源。
+2. 判断内容是否同时涉及 AI、教育和明确课堂或学习实践。
+3. 尝试读取原文正文；配置 `FIRECRAWL_API_KEY` 后优先使用 Firecrawl 增强抓取和搜索。
+4. 规范来源 URL、排除已知标题和重复记录。
+5. 生成简体中文摘要、课堂结构、可复制工作流和资料质量标签。
+6. 默认直接写入 `data/cases.csv`，重新生成独立详情页并推送到 `main`。
 
-网页显示的案例数量来自 `data/cases.csv`。自动收录内容会带有来源链接、访问日期、简体中文摘要和可复制工作流，后续可再人工精修摘要或删除不合适条目。
+默认 `AUTO_PUBLISH_MIN_SCORE=0`，即符合教学实践规则的匹配结果直接发布，同时以质量标签区分完整度。如果希望把低分内容暂存在候选池，可以在 GitHub Repository Variables 中把 `AUTO_PUBLISH_MIN_SCORE` 设为高于 0 的分数。
 
-本地运行：
-
-```bash
-npm run update:candidates
-npm run validate:data
-```
-
-可选爬虫增强环境变量：
+可选爬虫变量：
 
 ```text
-ARTICLE_ENRICHMENT_ENABLED=false      # 关闭原文页正文抽取
-ARTICLE_ENRICHMENT_MAX_PER_RUN=18     # 每次最多抽取多少篇原文
-AUTO_PUBLISH_CASES=false              # 改回只写入 candidate_cases.csv 的候选模式
-FIRECRAWL_ENABLED=false               # 关闭 Firecrawl
-FIRECRAWL_PRIMARY=false               # 不优先使用 Firecrawl，改为普通 HTML 不足时再尝试
-FIRECRAWL_SEARCH_ENABLED=false        # 关闭 Firecrawl 搜索发现
-FIRECRAWL_MAX_PER_RUN=6               # 每次最多调用 Firecrawl 多少次
-FIRECRAWL_API_KEY=你的免费或付费 Key       # 可选；不写时尝试 keyless，用不了会自动降级
+ARTICLE_ENRICHMENT_ENABLED=true
+ARTICLE_ENRICHMENT_MAX_PER_RUN=18
+AUTO_PUBLISH_CASES=true
+AUTO_PUBLISH_MIN_SCORE=0
+FIRECRAWL_ENABLED=true
+FIRECRAWL_PRIMARY=true
+FIRECRAWL_SEARCH_ENABLED=true
+FIRECRAWL_MAX_PER_RUN=6
+FIRECRAWL_API_KEY=仅存放在 GitHub Secrets 的 Key
 FIRECRAWL_SEARCH_QUERIES="query1||query2"
 ```
 
-Actions 运行摘要会显示正文抽取数量、Firecrawl 调用数量、搜索结果数量和失败原因，方便判断当天自动更新是否真的抓到了新案例。
+Firecrawl 返回 403 或 `suspicious IP` 通常是共享云运行器 IP 的风控结果。配置个人 API Key 后会优先使用认证请求；Firecrawl 失败、限流或被拦截时，任务会降级为 RSS 和普通 HTML 抽取，不会因此中断整个更新。
 
-如果 Firecrawl keyless 在 GitHub Actions 或本机返回 `HTTP 403` / `suspicious IP`，通常是因为共享云服务器、代理或自动化运行器 IP 被 Firecrawl 风控拦截。这不是网站代码问题。解决办法：
+## 静态详情页与 Sitemap
 
-1. 到 Firecrawl 注册免费 API Key。
-2. 在 GitHub 仓库 `Settings -> Secrets and variables -> Actions -> Secrets` 新增 `FIRECRAWL_API_KEY`。
-3. 重新运行 `Daily AIED Candidate Update`。
+`scripts/generate-detail-pages.mjs` 根据 CSV 自动生成 `cases/`、`resources/`、`prompts/`、`paths/` 和 `sitemap.xml`。每个详情页包含唯一标题、简介、Open Graph 元数据、canonical URL 和 `LearningResource` 结构化数据。
 
-如果暂时不想使用 Firecrawl，可以把 Repository Variable `FIRECRAWL_ENABLED` 设为 `false`，脚本会只使用 RSS 和普通 HTML 正文抽取。
+数据变化后必须运行：
 
-Bilibili 搜索源目前不放入每日无人值守任务，因为常见公开 RSSHub 搜索接口在 GitHub Actions 环境中容易返回 403/503。相关视频案例可以先人工加入 `data/cases.csv`。
+```bash
+npm run generate:pages
+```
+
+每日案例工作流已自动执行该命令。
 
 ## GitHub Pages
 
 推荐设置：
 
-- Repository name: `aiedcase`
-- Pages source: `main` branch, root folder
-- URL: `https://jojo-edtech.github.io/aiedcase/`
+- Repository：`Jojo-Edtech/aiedcase`
+- Pages source：`main` branch，`/root`
+- URL：<https://jojo-edtech.github.io/aiedcase/>
 
-如果 GitHub 上已经创建好空仓库，可以在本地运行：
+## 阿里云 OSS 镜像
 
-```bash
-git remote add origin git@github.com:Jojo-Edtech/aiedcase.git
-git push -u origin main
-```
-
-然后进入 GitHub 仓库的 `Settings -> Pages`，选择 `Deploy from a branch`，分支选择 `main`，目录选择 `/root`。
-
-## 阿里云 OSS 镜像部署
-
-仓库已加入 `.github/workflows/deploy-aliyun-oss.yml`，用于把同一份静态网站同步到阿里云 OSS。默认不会自动运行，等阿里云 Bucket 和 GitHub Secrets 配好后再开启。
-
-推荐阿里云结构：
-
-- OSS Bucket：存放当前静态网页。
-- CDN：面向中国内地用户加速访问。
-- 自定义域名：例如 `aied.yourdomain.com`，后续也方便在同一域名下挂更多网页。
-
-阿里云侧先完成：
-
-1. 创建 OSS Bucket，建议选择中国内地地域，例如华东 1（杭州）、华南 1（深圳）等。
-2. 在 Bucket 中开启静态网站托管，默认首页设为 `index.html`。
-3. 如果要使用中国内地 CDN 或中国内地 Bucket 绑定自定义域名，需要先完成 ICP 备案。
-4. 创建一个 RAM 用户或 RAM 角色，只给目标 Bucket 的上传/读取权限，不要使用主账号 AccessKey。
-
-GitHub 仓库中配置：
-
-在 `Settings -> Secrets and variables -> Actions` 中加入 Secrets：
+`.github/workflows/deploy-aliyun-oss.yml` 会在启用后把同一份 `dist/` 同步到阿里云 OSS。GitHub Secrets：
 
 ```text
-ALIYUN_ACCESS_KEY_ID=你的 RAM AccessKey ID
-ALIYUN_ACCESS_KEY_SECRET=你的 RAM AccessKey Secret
-ALIYUN_OSS_BUCKET=你的 OSS Bucket 名称
-ALIYUN_OSS_ENDPOINT=https://oss-cn-hangzhou.aliyuncs.com
-ALIYUN_OSS_PREFIX=
+ALIYUN_ACCESS_KEY_ID
+ALIYUN_ACCESS_KEY_SECRET
+ALIYUN_OSS_BUCKET
+ALIYUN_OSS_ENDPOINT
+ALIYUN_OSS_PREFIX
 ```
 
-`ALIYUN_OSS_PREFIX` 可以留空，表示部署到 Bucket 根目录；如果想放在子目录，例如 `aiedcase/`，就填 `aiedcase`。
-
-再加入 Repository Variable：
+Repository Variable：
 
 ```text
 ALIYUN_DEPLOY_ENABLED=true
 ```
 
-开启后，每次 `main` 分支更新网页文件或数据 CSV，GitHub Pages 会继续更新，同时会把 `dist/` 中的静态文件同步到阿里云 OSS。也可以在 GitHub 的 `Actions -> Deploy Static Site to Aliyun OSS -> Run workflow` 手动触发。
+AccessKey 只能存放在 GitHub Secrets 或阿里云环境变量，不得写入代码、README 或 CSV。中国内地 Bucket 绑定自定义域名以及使用中国内地 CDN 前，需要按实际服务完成 ICP 备案。
 
-本地检查即将上传的静态文件：
+## 参考与许可证边界
 
-```bash
-npm run validate:data
-npm run build:static
-```
+- `awesome-ai-llm4education` 的教学场景分类可作为信息架构参考，但该仓库未声明许可证，本项目不复制其代码或内容。
+- `education-agent-skills` 使用 CC BY-SA。本项目只参考其结构化技能思想并自行编写字段与内容；若未来直接改编其具体文本，必须按许可证署名并满足相同方式共享要求。
+- MIT 代码可在保留版权和许可证声明后复用。
+- CC0 Prompt 可复用；CC BY 和 CC BY-SA 内容需要相应署名，CC BY-SA 还要求相同方式共享。
+- 未声明许可证的代码、Prompt 或资料只作结构研究，不直接复制。
 
-不要把阿里云 AccessKey 写入代码、README 或 CSV；只放在 GitHub Secrets 或阿里云环境变量中。
+网站展示的外部资料版权归原作者或机构所有。本站仅提供简介、教学工作流和原始链接。

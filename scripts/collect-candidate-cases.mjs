@@ -2,6 +2,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { CASE_FIELDS, parseCsv, toCsv } from './csv-utils.mjs';
+import { canonicalizeUrl, enrichCaseRecord, titleFingerprint } from './data-quality.mjs';
 
 const CASES_PATH = process.env.CASES_PATH || 'data/cases.csv';
 const CANDIDATES_PATH = process.env.CANDIDATES_PATH || 'data/candidate_cases.csv';
@@ -9,6 +10,7 @@ const FEEDS_PATH = process.env.FEEDS_PATH || 'data/source_feeds.json';
 const SUMMARY_PATH = process.env.SUMMARY_FILE || '.tmp/candidate_update_summary.md';
 const MAX_NEW_CANDIDATES = Number(process.env.MAX_NEW_CANDIDATES || 30);
 const AUTO_PUBLISH_CASES = process.env.AUTO_PUBLISH_CASES !== 'false';
+const AUTO_PUBLISH_MIN_SCORE = Number(process.env.AUTO_PUBLISH_MIN_SCORE || 0);
 const ARTICLE_ENRICHMENT_ENABLED = process.env.ARTICLE_ENRICHMENT_ENABLED !== 'false';
 const ARTICLE_ENRICHMENT_MAX_PER_RUN = Number(process.env.ARTICLE_ENRICHMENT_MAX_PER_RUN || 18);
 const ARTICLE_MIN_TEXT_CHARS = Number(process.env.ARTICLE_MIN_TEXT_CHARS || 450);
@@ -122,12 +124,17 @@ async function main() {
 
   const knownUrls = new Set(
     [...existingCases, ...candidates]
-      .map((record) => normalizeUrl(record.source_url))
+      .map((record) => canonicalizeUrl(record.canonical_url || record.source_url))
       .filter(Boolean),
+  );
+  const knownTitles = new Set(
+    [...existingCases, ...candidates]
+      .map((record) => titleFingerprint(record.title_original || record.title_cn))
+      .filter((value) => value.length >= 16),
   );
 
   const nextRecordId = AUTO_PUBLISH_CASES
-    ? createCaseIdFactory(existingCases)
+    ? createCaseIdFactory([...existingCases, ...candidates])
     : createCandidateIdFactory(candidates);
   const newCandidates = [];
   const feedReports = [];
@@ -144,7 +151,7 @@ async function main() {
           break;
         }
 
-        const sourceUrl = normalizeUrl(item.url);
+        const sourceUrl = canonicalizeUrl(item.url);
         if (!sourceUrl || knownUrls.has(sourceUrl)) {
           continue;
         }
@@ -153,6 +160,10 @@ async function main() {
         }
 
         const enrichedItem = await maybeEnrichItem(item, sourceUrl, feed, enrichmentState);
+        const titleKey = titleFingerprint(enrichedItem.title);
+        if (titleKey.length >= 16 && knownTitles.has(titleKey)) {
+          continue;
+        }
         const searchableText = `${enrichedItem.title} ${enrichedItem.description}`;
         if (!hasAiInTitle(enrichedItem.title, feed) || !looksLikeTeachingPractice(searchableText, enrichedItem.title)) {
           continue;
@@ -167,11 +178,12 @@ async function main() {
         });
 
         knownUrls.add(sourceUrl);
+        if (titleKey.length >= 16) knownTitles.add(titleKey);
         newCandidates.push(record);
         matched += 1;
       }
 
-      feedReports.push(`- ${feed.name}: 读取 ${items.length} 条，新增 ${matched} 条${AUTO_PUBLISH_CASES ? '正式案例' : '候选'}`);
+      feedReports.push(`- ${feed.name}: 读取 ${items.length} 条，新增 ${matched} 条质量待判定匹配`);
     } catch (error) {
       feedReports.push(`- ${feed.name}: 读取失败，${error.message}`);
     }
@@ -180,6 +192,7 @@ async function main() {
   if (newCandidates.length < MAX_NEW_CANDIDATES) {
     const searchReport = await collectFirecrawlSearchCandidates({
       knownUrls,
+      knownTitles,
       nextRecordId,
       remaining: MAX_NEW_CANDIDATES - newCandidates.length,
       enrichmentState,
@@ -188,20 +201,22 @@ async function main() {
     feedReports.push(...searchReport.reports);
   }
 
+  const newPublished = AUTO_PUBLISH_CASES
+    ? newCandidates.filter((record) => Number(record.quality_score) >= AUTO_PUBLISH_MIN_SCORE)
+    : [];
+  const newReview = AUTO_PUBLISH_CASES
+    ? newCandidates.filter((record) => Number(record.quality_score) < AUTO_PUBLISH_MIN_SCORE)
+    : newCandidates;
+
   if (newCandidates.length > 0) {
-    if (AUTO_PUBLISH_CASES) {
-      await mkdir(dirname(CASES_PATH), { recursive: true });
-      await writeFile(CASES_PATH, toCsv([...existingCases, ...newCandidates], CASE_FIELDS));
-      await mkdir(dirname(CANDIDATES_PATH), { recursive: true });
-      await writeFile(CANDIDATES_PATH, toCsv(candidates, CASE_FIELDS));
-    } else {
-      await mkdir(dirname(CANDIDATES_PATH), { recursive: true });
-      await writeFile(CANDIDATES_PATH, toCsv([...candidates, ...newCandidates], CASE_FIELDS));
-    }
+    await mkdir(dirname(CASES_PATH), { recursive: true });
+    await mkdir(dirname(CANDIDATES_PATH), { recursive: true });
+    await writeFile(CASES_PATH, toCsv([...existingCases, ...newPublished], CASE_FIELDS));
+    await writeFile(CANDIDATES_PATH, toCsv([...candidates, ...newReview], CASE_FIELDS));
   }
 
-  await writeSummary({ newCandidates, feedReports, enrichmentState });
-  console.log(`Added ${newCandidates.length} ${AUTO_PUBLISH_CASES ? 'published case' : 'candidate case'}(s).`);
+  await writeSummary({ newCandidates, newPublished, newReview, feedReports, enrichmentState });
+  console.log(`Discovered ${newCandidates.length}: published ${newPublished.length}, held ${newReview.length}.`);
 }
 
 async function fetchText(
@@ -472,7 +487,7 @@ function formatFirecrawlError(path, status, text) {
   return `Firecrawl ${path} HTTP ${status}: ${truncate(text, 160)}`;
 }
 
-async function collectFirecrawlSearchCandidates({ knownUrls, nextRecordId, remaining, enrichmentState }) {
+async function collectFirecrawlSearchCandidates({ knownUrls, knownTitles, nextRecordId, remaining, enrichmentState }) {
   const records = [];
   const reports = [];
 
@@ -504,7 +519,7 @@ async function collectFirecrawlSearchCandidates({ knownUrls, nextRecordId, remai
           break;
         }
 
-        const sourceUrl = normalizeUrl(result.url || result.link);
+        const sourceUrl = canonicalizeUrl(result.url || result.link);
         if (!sourceUrl || knownUrls.has(sourceUrl) || isLikelyVideoUrl(sourceUrl)) {
           continue;
         }
@@ -526,6 +541,10 @@ async function collectFirecrawlSearchCandidates({ knownUrls, nextRecordId, remai
         };
 
         const enrichedItem = await maybeEnrichItem(item, sourceUrl, searchFeed, enrichmentState);
+        const titleKey = titleFingerprint(enrichedItem.title);
+        if (titleKey.length >= 16 && knownTitles.has(titleKey)) {
+          continue;
+        }
         const searchableText = `${enrichedItem.title} ${enrichedItem.description}`;
         if (!looksLikeTeachingPractice(searchableText, enrichedItem.title)) {
           continue;
@@ -540,6 +559,7 @@ async function collectFirecrawlSearchCandidates({ knownUrls, nextRecordId, remai
         });
 
         knownUrls.add(sourceUrl);
+        if (titleKey.length >= 16) knownTitles.add(titleKey);
         records.push(record);
         totalMatched += 1;
       }
@@ -549,7 +569,7 @@ async function collectFirecrawlSearchCandidates({ knownUrls, nextRecordId, remai
   }
 
   if (totalResults > 0 || totalMatched > 0) {
-    reports.push(`- Firecrawl Search: 读取 ${totalResults} 条搜索结果，新增 ${totalMatched} 条${AUTO_PUBLISH_CASES ? '正式案例' : '候选'}`);
+    reports.push(`- Firecrawl Search: 读取 ${totalResults} 条搜索结果，新增 ${totalMatched} 条质量待判定匹配`);
   } else if (enrichmentState.firecrawlDisabledReason) {
     reports.push(`- Firecrawl Search: 已自动跳过，${enrichmentState.firecrawlDisabledReason}`);
   }
@@ -750,15 +770,26 @@ function buildCandidateRecord({ id, item, feed, sourceUrl, autoPublish = false }
     summary_cn: autoPublish
       ? `自动收录：${truncate(summarySource, 180)}。原文包含 AI 教育、课堂实践、教师工作流或学生学习任务相关信息，可打开来源进一步查看。`
       : `自动候选：${truncate(summarySource, 140)}。请审核是否为真实教学实践案例，并补充正式简体中文摘要。`,
+    teaching_goal_cn: '',
+    implementation_cn: '',
+    outcomes_cn: '',
+    limitations_cn: '',
     workflow_cn: '',
     source_type: feed.source_type || '媒体报道',
     credibility: feed.credibility || '媒体报道',
     source_url: sourceUrl,
+    canonical_url: canonicalizeUrl(sourceUrl),
     published_date: item.publishedDate,
     accessed_date: todayInHongKong(),
+    last_verified_date: '',
+    link_status: 'unverified',
+    http_status: '',
+    redirect_url: '',
+    quality_score: '0',
+    quality_label: '资料不完整',
   };
   record.workflow_cn = workflowFor(record, autoPublish);
-  return record;
+  return enrichCaseRecord(record);
 }
 
 function inferCategory(text) {
@@ -898,22 +929,6 @@ function createCandidateIdFactory(candidates) {
   };
 }
 
-function normalizeUrl(value) {
-  if (!value) return '';
-  try {
-    const url = new URL(value.trim());
-    url.hash = '';
-    for (const key of [...url.searchParams.keys()]) {
-      if (/^(utm_|fbclid|gclid|mc_cid|mc_eid)/i.test(key)) {
-        url.searchParams.delete(key);
-      }
-    }
-    return url.toString();
-  } catch {
-    return value.trim();
-  }
-}
-
 function normalizeDate(value) {
   if (!value) return '';
   const date = new Date(value);
@@ -938,13 +953,15 @@ function truncate(value, maxLength) {
   return `${clean.slice(0, maxLength - 1)}…`;
 }
 
-async function writeSummary({ newCandidates, feedReports, enrichmentState }) {
+async function writeSummary({ newCandidates, newPublished, newReview, feedReports, enrichmentState }) {
   const lines = [
     `# Daily AIED ${AUTO_PUBLISH_CASES ? 'Case' : 'Candidate'} Update`,
     '',
     `Run date: ${todayInHongKong()} HKT`,
     '',
-    `${AUTO_PUBLISH_CASES ? 'New published cases' : 'New candidates'}: ${newCandidates.length}`,
+    `New matches: ${newCandidates.length}`,
+    `Published automatically (minimum score ${AUTO_PUBLISH_MIN_SCORE}): ${newPublished.length}`,
+    `Held in candidate pool: ${newReview.length}`,
     '',
     '## Crawler enrichment',
     '',
@@ -968,9 +985,10 @@ async function writeSummary({ newCandidates, feedReports, enrichmentState }) {
   if (newCandidates.length > 0) {
     lines.push('## Review checklist', '');
     if (AUTO_PUBLISH_CASES) {
-      lines.push('- Newly matched rows were appended directly to `data/cases.csv`.');
-      lines.push('- Spot-check links and summaries when convenient.');
-      lines.push('- Use source filters on the site if any broad news item should be removed later.');
+      lines.push(`- Records scoring ${AUTO_PUBLISH_MIN_SCORE} or above were appended to \`data/cases.csv\`.`);
+      lines.push('- The default minimum is 0, so matched teaching-practice records publish directly and remain distinguishable by quality and verification labels.');
+      lines.push('- Set `AUTO_PUBLISH_MIN_SCORE` above 0 only when a separate candidate pool is desired.');
+      lines.push('- Quality scores reward explicit teaching goals, implementation details, outcomes evidence, limitations and credible sources.');
     } else {
       lines.push('- Confirm each source is a real classroom, course, activity, or learning task.');
       lines.push('- Replace `待审核` titles and automatic notes with polished Simplified Chinese copy.');
@@ -978,9 +996,10 @@ async function writeSummary({ newCandidates, feedReports, enrichmentState }) {
       lines.push('- Remove rejected candidate rows before merging.');
     }
     lines.push('');
-    lines.push(AUTO_PUBLISH_CASES ? '## New published case links' : '## New candidate links', '');
+    lines.push('## New match links', '');
     for (const candidate of newCandidates) {
-      lines.push(`- ${candidate.title_original}: ${candidate.source_url}`);
+      const destination = newPublished.includes(candidate) ? 'published' : 'candidate';
+      lines.push(`- [${destination}; score ${candidate.quality_score}] ${candidate.title_original}: ${candidate.source_url}`);
     }
   } else {
     lines.push(`No new ${AUTO_PUBLISH_CASES ? 'published' : 'candidate'} cases matched the filters.`);

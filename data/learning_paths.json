@@ -1,0 +1,61 @@
+[
+  {
+    "id": "ai-literacy-30min",
+    "title_cn": "30 分钟 AI 素养入门",
+    "title_en": "30-minute AI literacy starter",
+    "duration": "30-45 分钟",
+    "audience": "小学高年级 / 初中",
+    "description_cn": "用一个真实案例、一份免费教材和一条课堂 Prompt，帮助学生区分 AI 能力、局限与人工判断。",
+    "outcome_cn": "学生能够解释 AI 输出为何需要核查，并完成一张可信度检查单。",
+    "steps": [
+      { "type": "case", "id": "case-001", "action_cn": "用生活例子导入：什么是 AI，什么不是 AI。" },
+      { "type": "resource", "id": "resource-007", "action_cn": "选择一项 Day of AI 入门活动作为课堂材料。" },
+      { "type": "prompt", "id": "prompt-010", "action_cn": "生成适合本班的幻觉与可信度检查任务。" }
+    ]
+  },
+  {
+    "id": "responsible-ai-week",
+    "title_cn": "一周负责任 AI 学习路径",
+    "title_en": "One-week responsible AI pathway",
+    "duration": "3-5 课时",
+    "audience": "初中 / 高中",
+    "description_cn": "围绕算法偏见、事实核查、资料私隐与透明使用设计连续学习任务。",
+    "outcome_cn": "学生能够审查 AI 输出、标注 AI 参与方式，并提出负责任的修改方案。",
+    "steps": [
+      { "type": "case", "id": "case-007", "action_cn": "讨论算法偏见如何影响不同群体。" },
+      { "type": "resource", "id": "resource-008", "action_cn": "选用 MIT RAISE 的负责任 AI 材料。" },
+      { "type": "prompt", "id": "prompt-010", "action_cn": "生成事实核查和偏见审查学习单。" },
+      { "type": "prompt", "id": "prompt-005", "action_cn": "用出门条检查学生是否形成可迁移判断。" }
+    ]
+  },
+  {
+    "id": "stem-inquiry-pack",
+    "title_cn": "AI + STEM 探究备课包",
+    "title_en": "AI + STEM inquiry lesson pack",
+    "duration": "2-4 课时",
+    "audience": "初中",
+    "description_cn": "从真实健康科学任务出发，把 AI 概念、实验设计、证据判断和学生反思连成完整探究。",
+    "outcome_cn": "学生能够提出问题、判断训练数据与结果的限制，并展示可核查的探究产出。",
+    "steps": [
+      { "type": "case", "id": "case-017", "action_cn": "分析 AI 识别疾病图像的真实任务与限制。" },
+      { "type": "resource", "id": "resource-005", "action_cn": "对照 AI4K12 五大核心概念确定学习目标。" },
+      { "type": "prompt", "id": "prompt-015", "action_cn": "生成包含变量、证据和安全要求的实验方案。" },
+      { "type": "prompt", "id": "prompt-016", "action_cn": "诊断并纠正常见科学概念误解。" }
+    ]
+  },
+  {
+    "id": "assessment-redesign",
+    "title_cn": "AI 时代评价任务重设计",
+    "title_en": "Assessment redesign for the AI era",
+    "duration": "教师工作坊 60-90 分钟",
+    "audience": "教师 / 课程主任",
+    "description_cn": "把容易被 AI 直接代做的作业改成包含过程证据、口头解释、版本比较和透明披露的评价任务。",
+    "outcome_cn": "教师完成一份新评价任务、评价量规和 AI 使用说明。",
+    "steps": [
+      { "type": "case", "id": "case-114", "action_cn": "分析量规驱动的 AI 写作反馈案例。" },
+      { "type": "resource", "id": "resource-001", "action_cn": "用 UNESCO 教师能力框架检查伦理和教学责任。" },
+      { "type": "prompt", "id": "prompt-002", "action_cn": "从最终表现任务开始做逆向设计。" },
+      { "type": "prompt", "id": "prompt-006", "action_cn": "生成并人工校准评价量规。" }
+    ]
+  }
+]
