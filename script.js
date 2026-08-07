@@ -7,7 +7,7 @@ const DATA_URLS = {
   paths: "data/learning_paths.json",
 };
 const RAG_CONFIG_URL = "data/rag-config.json";
-const VIEWS = ["cases", "resources", "prompts", "toolkit", "assistant"];
+const VIEWS = ["dashboard", "cases", "resources", "prompts", "toolkit", "assistant"];
 
 const CATEGORIES = [
   "AI Literacy",
@@ -34,9 +34,9 @@ const TEXT = {
     documentTitle: "AIED Case Hub | AI教育资料库",
     documentDescription:
       "AIED Case Hub 收集 AI 教育教学案例、全球教材资源和教师可复制 Prompt 模板，支持按学科、学段、语言、地区和类型筛选。",
-    skipLink: "跳到内容列表",
+    skipLink: "跳到教师工作台",
     eyebrow: "AI Education Library",
-    subtitle: "AI 教育教学案例、教材资源与 Prompt 模板库",
+    subtitle: "香港教师 AI 跨学科备课平台",
     mainTabsAria: "内容选项卡",
     dataActionsAria: "数据操作",
     languageLabel: "语言",
@@ -48,6 +48,8 @@ const TEXT = {
     candidateCsv: "候选 CSV",
     resourcesCsv: "资源 CSV",
     promptsCsv: "Prompt CSV",
+    tabDashboard: "教师工作台",
+    dashboardTabStatus: "跨学科备课",
     tabCases: "教学案例",
     tabResources: "教材资源",
     tabPrompts: "Prompt 模板",
@@ -57,6 +59,61 @@ const TEXT = {
     assistantStatusTrial: "有限额试用",
     assistantStatusPending: "待连接",
     assistantStatusConnected: "已连接",
+    workspaceEyebrow: "Teacher Workspace",
+    workspaceTitle: "从一个教学目标，组合出一节 AI 跨学科课程",
+    workspaceCopy: "先确定学科与学生需要，再从真实案例、教材和教学技能中取材。",
+    startPlanning: "开始设计课程",
+    browseCases: "浏览案例",
+    workspaceMetricsAria: "教师工作台资料概览",
+    workspaceCasesLabel: "可参考案例",
+    workspacePromptsLabel: "可复制教学技能",
+    workspaceHkLabel: "香港案例占比",
+    workspaceSavedLabel: "已收藏备课材料",
+    courseBuilderEyebrow: "Interdisciplinary Planner",
+    courseBuilderTitle: "跨学科课程生成器",
+    courseBuilderCopy: "完成 6 项选择，得到可复制的课程框架与下一步资料入口。",
+    primarySubject: "主学科",
+    partnerSubject: "融合学科",
+    chooseOption: "请选择",
+    courseDurationLabel: "课时",
+    aiRoleLabel: "AI 在课堂中的角色",
+    courseTopicLabel: "真实问题或主题",
+    courseTopicPlaceholder: "例如：校园热岛、社区口述史",
+    generateCoursePlan: "生成课程框架",
+    copyCoursePlan: "复制框架",
+    courseOutputSummary: "课程框架",
+    courseOutputEmpty: "选择课程条件后生成；内容只在本机浏览器中处理。",
+    courseMissingFields: "请先选择两门不同学科、学段，并填写真实问题或主题。",
+    coursePlanCopied: "课程框架已复制",
+    coverageEyebrow: "Library Coverage",
+    categoryChartTitle: "案例学科覆盖",
+    categoryChartAria: "不同案例栏目数量的横向条形图",
+    categoryChartNote: "用于判断哪些学科已有较多可参考实践。",
+    learnerCoverageEyebrow: "Learner Coverage",
+    levelChartTitle: "案例学段分布",
+    levelChartAria: "不同学段案例占比的环形图",
+    levelChartNote: "学段标签可能包含多个阶段，图中按主要标签统计。",
+    caseUnit: "案例",
+    planningRouteEyebrow: "Planning Route",
+    planningRouteTitle: "一节课的四步备课路线",
+    routeFindCase: "找相近案例",
+    routeFindCaseMeta: "确认活动可行性",
+    routeChooseResource: "取教材与框架",
+    routeChooseResourceMeta: "补足知识与规范",
+    routeAdaptPrompt: "改写教学技能",
+    routeAdaptPromptMeta: "生成可编辑材料",
+    routeBuildPack: "整理备课包",
+    routeBuildPackMeta: "导出收藏与规则",
+    recommendedEyebrow: "Verified Picks",
+    recommendedTitle: "近期核验的香港案例",
+    viewAll: "查看全部",
+    recommendedEmpty: "数据加载后会显示近期核验案例。",
+    coursePlanTitle: "跨学科课程框架",
+    coursePlanGoal: "学习目标",
+    coursePlanFlow: "建议流程",
+    coursePlanEvidence: "学习证据",
+    coursePlanAiRule: "AI 使用边界",
+    coursePlanReferences: "可参考案例",
     caseDashboardAria: "案例库概览",
     dashboardSummary: "数据概览",
     casesCollected: "已收录案例",
@@ -275,9 +332,9 @@ const TEXT = {
     documentTitle: "AIED Case Hub | AI Education Library",
     documentDescription:
       "AIED Case Hub collects AI teaching cases, global curriculum resources and teacher-ready prompt templates with filters by subject, level, language, region and type.",
-    skipLink: "Skip to content list",
+    skipLink: "Skip to teacher workspace",
     eyebrow: "AI Education Library",
-    subtitle: "AI teaching cases, curriculum resources, prompt templates and a RAG assistant",
+    subtitle: "An AI interdisciplinary planning platform for Hong Kong teachers",
     mainTabsAria: "Content tabs",
     dataActionsAria: "Data actions",
     languageLabel: "Language",
@@ -289,6 +346,8 @@ const TEXT = {
     candidateCsv: "Candidates CSV",
     resourcesCsv: "Resources CSV",
     promptsCsv: "Prompt CSV",
+    tabDashboard: "Teacher Workspace",
+    dashboardTabStatus: "Plan across subjects",
     tabCases: "Teaching Cases",
     tabResources: "Resources",
     tabPrompts: "Prompt Templates",
@@ -298,6 +357,61 @@ const TEXT = {
     assistantStatusTrial: "Trial quota",
     assistantStatusPending: "Not connected",
     assistantStatusConnected: "Connected",
+    workspaceEyebrow: "Teacher Workspace",
+    workspaceTitle: "Turn one teaching goal into an AI-supported interdisciplinary lesson",
+    workspaceCopy: "Set the subjects and learner needs first, then draw on real cases, resources and teaching skills.",
+    startPlanning: "Start planning",
+    browseCases: "Browse cases",
+    workspaceMetricsAria: "Teacher workspace library overview",
+    workspaceCasesLabel: "Reference cases",
+    workspacePromptsLabel: "Copy-ready teaching skills",
+    workspaceHkLabel: "Hong Kong case share",
+    workspaceSavedLabel: "Saved planning items",
+    courseBuilderEyebrow: "Interdisciplinary Planner",
+    courseBuilderTitle: "Interdisciplinary lesson builder",
+    courseBuilderCopy: "Complete six choices to create a copy-ready lesson structure and next-step resource links.",
+    primarySubject: "Primary subject",
+    partnerSubject: "Partner subject",
+    chooseOption: "Select an option",
+    courseDurationLabel: "Duration",
+    aiRoleLabel: "AI role in the lesson",
+    courseTopicLabel: "Authentic question or topic",
+    courseTopicPlaceholder: "For example: campus heat islands or local oral history",
+    generateCoursePlan: "Generate lesson structure",
+    copyCoursePlan: "Copy structure",
+    courseOutputSummary: "Lesson structure",
+    courseOutputEmpty: "Choose the lesson conditions to generate a plan. Processing stays in this browser.",
+    courseMissingFields: "Choose two different subjects and a level, then enter an authentic question or topic.",
+    coursePlanCopied: "Lesson structure copied",
+    coverageEyebrow: "Library Coverage",
+    categoryChartTitle: "Case coverage by subject area",
+    categoryChartAria: "Horizontal bar chart of case counts by top-level subject area",
+    categoryChartNote: "Use this to see which subject areas already have more classroom examples.",
+    learnerCoverageEyebrow: "Learner Coverage",
+    levelChartTitle: "Case distribution by level",
+    levelChartAria: "Doughnut chart of case share by education level",
+    levelChartNote: "Some records span multiple levels; the chart uses the main level label.",
+    caseUnit: "cases",
+    planningRouteEyebrow: "Planning Route",
+    planningRouteTitle: "A four-step lesson planning route",
+    routeFindCase: "Find a similar case",
+    routeFindCaseMeta: "Check activity feasibility",
+    routeChooseResource: "Choose resources",
+    routeChooseResourceMeta: "Add knowledge and guardrails",
+    routeAdaptPrompt: "Adapt a teaching skill",
+    routeAdaptPromptMeta: "Generate editable materials",
+    routeBuildPack: "Build the lesson pack",
+    routeBuildPackMeta: "Export saved items and rules",
+    recommendedEyebrow: "Verified Picks",
+    recommendedTitle: "Recently verified Hong Kong cases",
+    viewAll: "View all",
+    recommendedEmpty: "Recently verified cases will appear after the data loads.",
+    coursePlanTitle: "Interdisciplinary lesson structure",
+    coursePlanGoal: "Learning goal",
+    coursePlanFlow: "Suggested flow",
+    coursePlanEvidence: "Learning evidence",
+    coursePlanAiRule: "AI use boundary",
+    coursePlanReferences: "Reference cases",
     caseDashboardAria: "Case library overview",
     dashboardSummary: "Overview",
     casesCollected: "Collected cases",
@@ -536,6 +650,22 @@ const VALUE_EN = {
   中学: "Secondary",
   高等教育: "Higher education",
   教师教育: "Teacher education",
+  科学: "Science",
+  数学: "Mathematics",
+  "计算机/编程": "Computing / coding",
+  英语: "English",
+  人文: "Humanities",
+  社会科学: "Social sciences",
+  "艺术与设计": "Arts and design",
+  "商业与经济": "Business and economics",
+  "1 课时": "1 lesson",
+  "2-3 课时": "2-3 lessons",
+  "4-6 课时": "4-6 lessons",
+  问题提出者: "Question generator",
+  认知支架: "Thinking scaffold",
+  反馈伙伴: "Feedback partner",
+  创作工具: "Creation tool",
+  资料分析助手: "Data analysis assistant",
   中小学: "K-12",
   "中小学/高等教育": "K-12 / higher education",
   "小学/中学": "Primary / secondary",
@@ -2821,9 +2951,42 @@ const AGREEMENT_ALLOWED_OPTIONS = ["保守使用", "开放使用"];
 const AGREEMENT_ASSESSMENT_OPTIONS = ["只作过程支持", "可计入过程证据", "不计入成绩"];
 const AGREEMENT_PRIVACY_OPTIONS = ["不输入个人资料", "只输入匿名资料", "可输入课堂材料"];
 const SPECIAL_TOOL_OPTIONS = ["评价量规", "分层改写", "反馈语", "家校沟通", "课堂提问", "退出卡/小测"];
+const COURSE_SUBJECT_OPTIONS = [
+  "AI素养",
+  "科学",
+  "数学",
+  "计算机/编程",
+  "英语",
+  "中文",
+  "人文",
+  "社会科学",
+  "艺术与设计",
+  "商业与经济",
+];
+const COURSE_LEVEL_OPTIONS = ["小学", "中学", "高等教育", "教师教育"];
+const COURSE_DURATION_OPTIONS = ["1 课时", "2-3 课时", "4-6 课时"];
+const COURSE_AI_ROLE_OPTIONS = ["问题提出者", "认知支架", "反馈伙伴", "创作工具", "资料分析助手"];
+const COURSE_SUBJECT_KEYWORDS = {
+  AI素养: ["ai literacy", "ai素养", "人工智能素养", "伦理", "安全"],
+  科学: ["science", "科学", "生物", "物理", "化学", "stem"],
+  数学: ["math", "数学", "数理", "统计", "stem"],
+  "计算机/编程": ["coding", "computer", "编程", "计算机", "机器人", "stem"],
+  英语: ["english", "英语", "英文", "language"],
+  中文: ["chinese", "中文", "语文", "language"],
+  人文: ["humanities", "历史", "文学", "人文", "文化"],
+  社会科学: ["social", "公民", "地理", "社会", "政策"],
+  "艺术与设计": ["arts", "design", "艺术", "设计", "音乐", "戏剧"],
+  "商业与经济": ["business", "economics", "商业", "经济", "创业"],
+};
 
 const viewState = {
-  active: "cases",
+  active: "dashboard",
+};
+
+const dashboardState = {
+  categoryChart: null,
+  levelChart: null,
+  coursePlanText: "",
 };
 
 const languageState = {
@@ -2918,11 +3081,37 @@ const viewElements = {
   assistantTabStatus: document.querySelector("#assistantTabStatus"),
 };
 
+const workspaceEls = {
+  cases: document.querySelector("#workspaceCases"),
+  prompts: document.querySelector("#workspacePrompts"),
+  hkShare: document.querySelector("#workspaceHkShare"),
+  saved: document.querySelector("#workspaceSaved"),
+  categoryTotal: document.querySelector("#categoryChartTotal"),
+  categoryCanvas: document.querySelector("#categoryChart"),
+  categorySummary: document.querySelector("#categoryChartSummary"),
+  levelTotal: document.querySelector("#levelChartTotal"),
+  levelCanvas: document.querySelector("#levelChart"),
+  levelSummary: document.querySelector("#levelChartSummary"),
+  recommendations: document.querySelector("#teacherRecommendations"),
+  startPlanning: document.querySelector("#startCoursePlanning"),
+  builder: document.querySelector("#courseBuilder"),
+  primarySubject: document.querySelector("#coursePrimarySubject"),
+  partnerSubject: document.querySelector("#coursePartnerSubject"),
+  level: document.querySelector("#courseLevel"),
+  duration: document.querySelector("#courseDuration"),
+  aiRole: document.querySelector("#courseAiRole"),
+  topic: document.querySelector("#courseTopic"),
+  stepCount: document.querySelector("#courseStepCount"),
+  generate: document.querySelector("#coursePlanGenerate"),
+  copy: document.querySelector("#coursePlanCopy"),
+  output: document.querySelector("#coursePlanOutput"),
+};
+
 const caseEls = {
   listBlocks: [...document.querySelectorAll("[data-case-list-block]")],
   detail: document.querySelector("#caseDetail"),
   tabs: document.querySelector("#categoryTabs"),
-  cards: document.querySelector("#cases"),
+  cards: document.querySelector("#caseCards"),
   empty: document.querySelector("#emptyState"),
   search: document.querySelector("#searchInput"),
   subcategory: document.querySelector("#subcategoryFilter"),
@@ -2955,7 +3144,7 @@ const candidateEls = {
 };
 
 const resourceEls = {
-  cards: document.querySelector("#resources"),
+  cards: document.querySelector("#resourceCards"),
   empty: document.querySelector("#resourceEmptyState"),
   search: document.querySelector("#resourceSearchInput"),
   region: document.querySelector("#resourceRegionFilter"),
@@ -2981,7 +3170,7 @@ const resourceEls = {
 };
 
 const promptEls = {
-  cards: document.querySelector("#prompts"),
+  cards: document.querySelector("#promptCards"),
   empty: document.querySelector("#promptEmptyState"),
   shortcuts: document.querySelector("#promptTaskShortcuts"),
   search: document.querySelector("#promptSearchInput"),
@@ -3163,6 +3352,7 @@ function refreshLanguage() {
   applyStaticTranslations();
   renderSortOptions();
   renderToolkitOptions();
+  populateCourseControls();
   renderPromptShortcuts();
   renderToolkitSavedCounts();
   renderTeacherPrompt();
@@ -3186,6 +3376,10 @@ function refreshLanguage() {
     renderPromptStats();
     renderPrompts();
   }
+  if (dashboardState.coursePlanText && !workspaceEls.generate.disabled) {
+    renderCoursePlan();
+  }
+  renderTeacherDashboard();
   renderAssistant(assistantState.studioUrl);
 }
 
@@ -3237,6 +3431,7 @@ function toggleFavorite(type, item) {
     renderPrompts();
   }
   renderToolkitSavedCounts();
+  renderWorkspaceMetrics();
 }
 
 function createFavoriteButton(type, item) {
@@ -3498,7 +3693,7 @@ function pageSlice(items, state) {
 }
 
 function setActiveView(view, updateHash = true) {
-  const nextView = VIEWS.includes(view) ? view : "cases";
+  const nextView = VIEWS.includes(view) ? view : "dashboard";
   viewState.active = nextView;
   viewElements.tabs.forEach((tab) => {
     const active = tab.dataset.view === nextView;
@@ -3513,6 +3708,9 @@ function setActiveView(view, updateHash = true) {
   });
   if (nextView === "assistant") {
     mountAssistantFrame();
+  }
+  if (nextView === "dashboard") {
+    renderTeacherDashboard();
   }
   if (updateHash && window.location.hash !== `#${nextView}`) {
     history.replaceState(null, "", `#${nextView}`);
@@ -3587,6 +3785,7 @@ function setupViewTabs() {
       caseEls.detail.hidden = true;
       setActiveView(tab.dataset.view);
       if (tab.dataset.view === "cases") renderCases();
+      window.scrollTo({ top: 0, behavior: "smooth" });
     });
   });
 
@@ -3605,7 +3804,7 @@ function handleHashChange() {
   caseDetailState.activeId = "";
   document.body.classList.remove("detail-open");
   caseEls.detail.hidden = true;
-  setActiveView(hash || "cases", false);
+  setActiveView(hash || "dashboard", false);
   if (viewState.active === "cases") renderCases();
 }
 
@@ -3630,6 +3829,476 @@ function setupMobileCollapsibleFilters() {
   } else if (typeof mobileQuery.addListener === "function") {
     mobileQuery.addListener(sync);
   }
+}
+
+function fillCourseSelect(select, values, includePlaceholder = true) {
+  if (!select) return;
+  const currentValue = select.value;
+  select.innerHTML = "";
+  if (includePlaceholder) {
+    const placeholder = document.createElement("option");
+    placeholder.value = "";
+    placeholder.textContent = t("chooseOption");
+    select.append(placeholder);
+  }
+  values.forEach((value) => {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = localizeValue(value);
+    select.append(option);
+  });
+  if ([...select.options].some((option) => option.value === currentValue)) {
+    select.value = currentValue;
+  }
+}
+
+function populateCourseControls() {
+  fillCourseSelect(workspaceEls.primarySubject, COURSE_SUBJECT_OPTIONS);
+  const partnerOptions = COURSE_SUBJECT_OPTIONS.filter((value) => value !== workspaceEls.primarySubject?.value);
+  fillCourseSelect(workspaceEls.partnerSubject, partnerOptions);
+  fillCourseSelect(workspaceEls.level, COURSE_LEVEL_OPTIONS);
+  fillCourseSelect(workspaceEls.duration, COURSE_DURATION_OPTIONS);
+  fillCourseSelect(workspaceEls.aiRole, COURSE_AI_ROLE_OPTIONS);
+  updateCourseProgress();
+}
+
+function updateCourseProgress() {
+  const values = [
+    workspaceEls.primarySubject?.value,
+    workspaceEls.partnerSubject?.value,
+    workspaceEls.level?.value,
+    workspaceEls.duration?.value,
+    workspaceEls.aiRole?.value,
+    workspaceEls.topic?.value.trim(),
+  ];
+  const completed = values.filter(Boolean).length;
+  if (workspaceEls.stepCount) workspaceEls.stepCount.textContent = `${completed} / ${values.length}`;
+  const ready =
+    Boolean(workspaceEls.primarySubject?.value) &&
+    Boolean(workspaceEls.partnerSubject?.value) &&
+    workspaceEls.primarySubject.value !== workspaceEls.partnerSubject.value &&
+    Boolean(workspaceEls.level?.value) &&
+    Boolean(workspaceEls.topic?.value.trim());
+  if (workspaceEls.generate) workspaceEls.generate.disabled = !ready;
+}
+
+function courseReferenceCases(primary, partner, level) {
+  const keywords = [...(COURSE_SUBJECT_KEYWORDS[primary] || []), ...(COURSE_SUBJECT_KEYWORDS[partner] || [])];
+  return caseState.items
+    .filter((item) => {
+      const text = itemText(item);
+      const subjectMatch = keywords.some((keyword) => text.includes(keyword.toLowerCase()));
+      const levelMatch = !level || String(item.education_level || "").includes(level) || item.education_level === "混合";
+      return subjectMatch && levelMatch;
+    })
+    .sort((a, b) => {
+      const qualityDifference = Number(b.quality_score || 0) - Number(a.quality_score || 0);
+      if (qualityDifference !== 0) return qualityDifference;
+      return dateValue(b.last_verified_date) - dateValue(a.last_verified_date);
+    })
+    .slice(0, 3);
+}
+
+function coursePlanParts() {
+  const primaryRaw = workspaceEls.primarySubject.value;
+  const partnerRaw = workspaceEls.partnerSubject.value;
+  const levelRaw = workspaceEls.level.value;
+  const durationRaw = workspaceEls.duration.value || COURSE_DURATION_OPTIONS[0];
+  const aiRoleRaw = workspaceEls.aiRole.value || COURSE_AI_ROLE_OPTIONS[0];
+  const topicRaw = workspaceEls.topic.value.trim();
+  const references = courseReferenceCases(primaryRaw, partnerRaw, levelRaw);
+
+  const primary = localizeValue(primaryRaw);
+  const partner = localizeValue(partnerRaw);
+  const level = localizeValue(levelRaw);
+  const duration = localizeValue(durationRaw);
+  const aiRole = localizeValue(aiRoleRaw);
+  const topic = localizeText(topicRaw);
+
+  if (languageState.current === "en") {
+    return {
+      title: `${primary} + ${partner}: ${topic}`,
+      meta: `${level} · ${duration} · AI as ${aiRole}`,
+      goal: `Students use ideas from ${primary} and ${partner} to investigate “${topic}”, compare AI-supported and human reasoning, and justify a final decision or product with evidence.`,
+      flow: [
+        `Launch with a local, authentic question about ${topic}; collect what students already know and what evidence they need.`,
+        `Teach one core concept from ${primary} and one complementary lens from ${partner}.`,
+        `Use AI as a ${aiRole} to generate questions, organize evidence or critique a draft; students must check every important claim.`,
+        `Teams create a cross-subject product, exchange feedback and revise once.`,
+        `Close with a short reflection on what AI improved, what it distorted and what the student decided independently.`,
+      ],
+      evidence: `Collect the inquiry question, source-check notes, one annotated AI interaction, the final product and an individual reflection.`,
+      aiRule: `Do not enter personal data. Label AI-generated content, retain the original student decision trail, and verify factual claims with named sources.`,
+      references,
+    };
+  }
+
+  const parts = {
+    title: `${primary} + ${partner}：${topic}`,
+    meta: `${level} · ${duration} · AI 作为${aiRole}`,
+    goal: `学生综合${primary}与${partner}的知识探究“${topic}”，比较 AI 建议与人的判断，并用证据说明最终决定或作品。`,
+    flow: [
+      `用与学生生活相关的“${topic}”问题启动，先记录已有认识与需要搜集的证据。`,
+      `分别教授一个${primary}核心概念与一个${partner}补充视角。`,
+      `让 AI 作为${aiRole}提出问题、整理证据或批评草稿；学生核验所有关键事实。`,
+      "小组制作跨学科作品，进行同伴反馈，并至少修订一次。",
+      "以个人反思结束：AI 改善了什么、可能扭曲了什么、哪些判断由学生独立完成。",
+    ],
+    evidence: "保留探究问题、资料核验记录、一段标注过的 AI 互动、最终作品和个人反思。",
+    aiRule: "不输入个人资料；标注 AI 生成内容；保留学生原始判断过程；重要事实必须用具名来源核验。",
+    references,
+  };
+
+  if (languageState.current === "zh-Hant") {
+    return {
+      ...parts,
+      title: toTraditional(parts.title),
+      meta: toTraditional(parts.meta),
+      goal: toTraditional(parts.goal),
+      flow: parts.flow.map(toTraditional),
+      evidence: toTraditional(parts.evidence),
+      aiRule: toTraditional(parts.aiRule),
+    };
+  }
+  return parts;
+}
+
+function appendCourseOutputSection(container, title, content) {
+  const section = document.createElement("section");
+  const heading = document.createElement("h5");
+  heading.textContent = title;
+  section.append(heading);
+  if (Array.isArray(content)) {
+    const list = document.createElement("ol");
+    content.forEach((item) => {
+      const listItem = document.createElement("li");
+      listItem.textContent = item;
+      list.append(listItem);
+    });
+    section.append(list);
+  } else {
+    const paragraph = document.createElement("p");
+    paragraph.textContent = content;
+    section.append(paragraph);
+  }
+  container.append(section);
+}
+
+function renderCoursePlan() {
+  updateCourseProgress();
+  if (workspaceEls.generate.disabled) {
+    workspaceEls.output.innerHTML = "";
+    const message = document.createElement("p");
+    message.className = "course-output-warning";
+    message.textContent = t("courseMissingFields");
+    workspaceEls.output.append(message);
+    return;
+  }
+
+  const parts = coursePlanParts();
+  workspaceEls.output.innerHTML = "";
+  const header = document.createElement("div");
+  header.className = "course-output-header";
+  const kicker = document.createElement("span");
+  kicker.textContent = t("coursePlanTitle");
+  const title = document.createElement("h4");
+  title.textContent = parts.title;
+  const meta = document.createElement("p");
+  meta.textContent = parts.meta;
+  header.append(kicker, title, meta);
+  workspaceEls.output.append(header);
+
+  const grid = document.createElement("div");
+  grid.className = "course-output-grid";
+  appendCourseOutputSection(grid, t("coursePlanGoal"), parts.goal);
+  appendCourseOutputSection(grid, t("coursePlanFlow"), parts.flow);
+  appendCourseOutputSection(grid, t("coursePlanEvidence"), parts.evidence);
+  appendCourseOutputSection(grid, t("coursePlanAiRule"), parts.aiRule);
+  workspaceEls.output.append(grid);
+
+  if (parts.references.length > 0) {
+    const references = document.createElement("div");
+    references.className = "course-reference-list";
+    const heading = document.createElement("h5");
+    heading.textContent = t("coursePlanReferences");
+    references.append(heading);
+    parts.references.forEach((item) => {
+      const link = document.createElement("a");
+      link.href = `cases/${encodeURIComponent(item.id)}.html`;
+      link.textContent = localizeTitle(item);
+      references.append(link);
+    });
+    workspaceEls.output.append(references);
+  }
+
+  dashboardState.coursePlanText = [
+    `${t("coursePlanTitle")}：${parts.title}`,
+    parts.meta,
+    "",
+    `${t("coursePlanGoal")}：${parts.goal}`,
+    "",
+    `${t("coursePlanFlow")}：`,
+    ...parts.flow.map((item, index) => `${index + 1}. ${item}`),
+    "",
+    `${t("coursePlanEvidence")}：${parts.evidence}`,
+    "",
+    `${t("coursePlanAiRule")}：${parts.aiRule}`,
+    ...(parts.references.length > 0
+      ? ["", `${t("coursePlanReferences")}：`, ...parts.references.map((item) => `- ${localizeTitle(item)} (${new URL(`cases/${item.id}.html`, window.location.href).href})`)]
+      : []),
+  ].join("\n");
+  workspaceEls.copy.disabled = false;
+}
+
+function setupCoursePlanner() {
+  populateCourseControls();
+  workspaceEls.primarySubject?.addEventListener("change", () => {
+    const currentPartner = workspaceEls.partnerSubject.value;
+    fillCourseSelect(
+      workspaceEls.partnerSubject,
+      COURSE_SUBJECT_OPTIONS.filter((value) => value !== workspaceEls.primarySubject.value)
+    );
+    if (currentPartner && currentPartner !== workspaceEls.primarySubject.value) {
+      workspaceEls.partnerSubject.value = currentPartner;
+    }
+    updateCourseProgress();
+  });
+  [
+    workspaceEls.partnerSubject,
+    workspaceEls.level,
+    workspaceEls.duration,
+    workspaceEls.aiRole,
+    workspaceEls.topic,
+  ].forEach((element) => {
+    element?.addEventListener("input", updateCourseProgress);
+    element?.addEventListener("change", updateCourseProgress);
+  });
+  workspaceEls.generate?.addEventListener("click", renderCoursePlan);
+  workspaceEls.copy?.addEventListener("click", async () => {
+    if (!dashboardState.coursePlanText) return;
+    try {
+      await navigator.clipboard.writeText(dashboardState.coursePlanText);
+      const label = workspaceEls.copy.querySelector("span");
+      label.textContent = t("coursePlanCopied");
+      window.setTimeout(() => {
+        label.textContent = t("copyCoursePlan");
+      }, 1600);
+    } catch {
+      workspaceEls.copy.querySelector("span").textContent = t("copyFailed");
+    }
+  });
+  workspaceEls.startPlanning?.addEventListener("click", () => {
+    workspaceEls.builder?.scrollIntoView({ behavior: "smooth", block: "start" });
+    window.setTimeout(() => workspaceEls.primarySubject?.focus(), 320);
+  });
+}
+
+function countPrimaryLevels(items) {
+  const counts = new Map([
+    ["小学", 0],
+    ["中学", 0],
+    ["中小学", 0],
+    ["高等教育", 0],
+    ["教师教育", 0],
+    ["混合", 0],
+  ]);
+  items.forEach((item) => {
+    const value = String(item.education_level || "");
+    let key = "混合";
+    if (value.includes("小学") && value.includes("中学")) key = "中小学";
+    else if (value.includes("小学")) key = "小学";
+    else if (value.includes("中学")) key = "中学";
+    else if (value.includes("高等教育")) key = "高等教育";
+    else if (value.includes("教师教育") || value.includes("教师")) key = "教师教育";
+    counts.set(key, (counts.get(key) || 0) + 1);
+  });
+  return [...counts.entries()].filter(([, count]) => count > 0);
+}
+
+function chartFont() {
+  return getComputedStyle(document.body).fontFamily;
+}
+
+function categoryChartLabel(category) {
+  const labels = {
+    "AI for Teaching & Assessment": languageState.current === "en" ? "Teaching & Assessment" : "AI 教学与评价",
+    "AI+Social Sciences": languageState.current === "en" ? "Social Sciences" : "AI+社会科学",
+    "AI+Humanities": languageState.current === "en" ? "Humanities" : "AI+人文",
+  };
+  return labels[category] || localizeValue(category);
+}
+
+function renderDashboardCharts() {
+  if (typeof Chart === "undefined" || viewState.active !== "dashboard") return;
+  const categoryCounts = CATEGORIES.map((category) => [
+    category,
+    caseState.items.filter((item) => item.category === category).length,
+  ]).sort((a, b) => b[1] - a[1]);
+  const levelCounts = countPrimaryLevels(caseState.items);
+  const palette = ["#5d7cf5", "#31c5d7", "#8b7be8", "#58c5a5", "#f2a68b", "#a8b5c8"];
+
+  dashboardState.categoryChart?.destroy();
+  dashboardState.levelChart?.destroy();
+  dashboardState.categoryChart = null;
+  dashboardState.levelChart = null;
+
+  if (workspaceEls.categoryCanvas && categoryCounts.length > 0) {
+    dashboardState.categoryChart = new Chart(workspaceEls.categoryCanvas, {
+      type: "bar",
+      data: {
+        labels: categoryCounts.map(([label]) => categoryChartLabel(label)),
+        datasets: [
+          {
+            data: categoryCounts.map(([, count]) => count),
+            backgroundColor: palette,
+            borderRadius: 5,
+            borderSkipped: false,
+            barThickness: 14,
+          },
+        ],
+      },
+      options: {
+        indexAxis: "y",
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false,
+        plugins: { legend: { display: false }, tooltip: { displayColors: false } },
+        scales: {
+          x: {
+            beginAtZero: true,
+            grid: { color: "rgba(95, 110, 145, 0.10)" },
+            ticks: { precision: 0, color: "#657086", font: { family: chartFont(), size: 11 } },
+            border: { display: false },
+          },
+          y: {
+            grid: { display: false },
+            ticks: { color: "#26324a", font: { family: chartFont(), size: 11, weight: 600 } },
+            border: { display: false },
+          },
+        },
+      },
+    });
+  }
+
+  if (workspaceEls.levelCanvas && levelCounts.length > 0) {
+    dashboardState.levelChart = new Chart(workspaceEls.levelCanvas, {
+      type: "doughnut",
+      data: {
+        labels: levelCounts.map(([label]) => localizeValue(label)),
+        datasets: [
+          {
+            data: levelCounts.map(([, count]) => count),
+            backgroundColor: palette,
+            borderColor: "#ffffff",
+            borderWidth: 4,
+            hoverOffset: 3,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false,
+        cutout: "68%",
+        plugins: {
+          legend: {
+            position: "bottom",
+            labels: {
+              boxWidth: 9,
+              boxHeight: 9,
+              usePointStyle: true,
+              pointStyle: "circle",
+              color: "#657086",
+              padding: 12,
+              font: { family: chartFont(), size: 10 },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  if (workspaceEls.categoryTotal) workspaceEls.categoryTotal.textContent = caseState.items.length;
+  if (workspaceEls.levelTotal) workspaceEls.levelTotal.textContent = caseState.items.length;
+  if (categoryCounts[0] && workspaceEls.categorySummary) {
+    workspaceEls.categorySummary.textContent =
+      languageState.current === "en"
+        ? `${localizeValue(categoryCounts[0][0])} currently has the largest collection, with ${categoryCounts[0][1]} cases.`
+        : localizeText(`当前案例最多的是${categoryCounts[0][0]}，共 ${categoryCounts[0][1]} 条。`);
+  }
+  if (levelCounts[0] && workspaceEls.levelSummary) {
+    const topLevel = [...levelCounts].sort((a, b) => b[1] - a[1])[0];
+    workspaceEls.levelSummary.textContent =
+      languageState.current === "en"
+        ? `${localizeValue(topLevel[0])} is the largest level group, with ${topLevel[1]} cases.`
+        : localizeText(`${topLevel[0]}案例最多，共 ${topLevel[1]} 条。`);
+  }
+}
+
+function renderWorkspaceMetrics() {
+  const total = caseState.items.length;
+  const hongKong = caseState.items.filter((item) => String(item.region || "").includes("香港")).length;
+  if (workspaceEls.cases) workspaceEls.cases.textContent = total;
+  if (workspaceEls.prompts) workspaceEls.prompts.textContent = promptState.items.length;
+  if (workspaceEls.hkShare) workspaceEls.hkShare.textContent = total > 0 ? `${Math.round((hongKong / total) * 100)}%` : "0%";
+  if (workspaceEls.saved) workspaceEls.saved.textContent = favoriteState.keys.size;
+}
+
+function renderTeacherRecommendations() {
+  if (!workspaceEls.recommendations) return;
+  workspaceEls.recommendations.innerHTML = "";
+  const preferred = caseState.items
+    .filter((item) => String(item.region || "").includes("香港"))
+    .sort((a, b) => {
+      const verifiedDifference = dateValue(b.last_verified_date) - dateValue(a.last_verified_date);
+      if (verifiedDifference !== 0) return verifiedDifference;
+      return Number(b.quality_score || 0) - Number(a.quality_score || 0);
+    })
+    .slice(0, 4);
+
+  if (preferred.length === 0) {
+    const message = document.createElement("p");
+    message.className = "recommendation-empty";
+    message.textContent = t("recommendedEmpty");
+    workspaceEls.recommendations.append(message);
+    return;
+  }
+
+  preferred.forEach((item) => {
+    const link = document.createElement("a");
+    link.className = "recommendation-item";
+    link.href = `cases/${encodeURIComponent(item.id)}.html`;
+    const body = document.createElement("span");
+    const title = document.createElement("strong");
+    title.textContent = localizeTitle(item);
+    const meta = document.createElement("small");
+    meta.textContent = `${localizeValue(item.subcategory || item.category)} · ${localizeValue(item.education_level)} · ${verifiedDate(item)}`;
+    body.append(title, meta);
+    const score = document.createElement("span");
+    score.className = "recommendation-score";
+    score.textContent = item.quality_score || "--";
+    link.append(body, score);
+    workspaceEls.recommendations.append(link);
+  });
+}
+
+function renderTeacherDashboard() {
+  renderWorkspaceMetrics();
+  renderTeacherRecommendations();
+  if (viewState.active === "dashboard") {
+    window.requestAnimationFrame(renderDashboardCharts);
+  }
+}
+
+function setupWorkspaceNavigation() {
+  document.addEventListener("click", (event) => {
+    const trigger = event.target.closest("[data-open-view]");
+    if (!trigger) return;
+    const view = trigger.dataset.openView;
+    if (!VIEWS.includes(view)) return;
+    setActiveView(view);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
 }
 
 function valueOrPlaceholder(value, placeholder) {
@@ -5045,7 +5714,7 @@ function renderLearningPaths() {
 
 async function initLearningPaths() {
   try {
-    const response = await fetch(DATA_URLS.paths);
+    const response = await fetch(DATA_URLS.paths, { cache: "no-store" });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     pathState.items = await response.json();
     renderLearningPaths();
@@ -5056,7 +5725,7 @@ async function initLearningPaths() {
 }
 
 async function loadData(url) {
-  const response = await fetch(url);
+  const response = await fetch(url, { cache: "no-store" });
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
   return parseCsv(await response.text());
 }
@@ -5076,6 +5745,7 @@ async function initCases() {
     renderCaseStats();
     renderCases();
     renderToolkitSavedCounts();
+    renderTeacherDashboard();
   } catch (error) {
     showLoadError(caseEls, DATA_URLS.cases, error);
   }
@@ -5109,6 +5779,7 @@ async function initResources() {
     renderResourceStats();
     renderResources();
     renderToolkitSavedCounts();
+    renderTeacherDashboard();
   } catch (error) {
     showLoadError(resourceEls, DATA_URLS.resources, error);
   }
@@ -5121,6 +5792,7 @@ async function initPrompts() {
     renderPromptStats();
     renderPrompts();
     renderToolkitSavedCounts();
+    renderTeacherDashboard();
   } catch (error) {
     showLoadError(promptEls, DATA_URLS.prompts, error);
   }
@@ -5130,6 +5802,8 @@ setupLanguageControl();
 refreshLanguage();
 setupViewTabs();
 setupMobileCollapsibleFilters();
+setupWorkspaceNavigation();
+setupCoursePlanner();
 setupToolkit();
 setupCandidateControls();
 initCases();

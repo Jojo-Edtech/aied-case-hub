@@ -9,9 +9,10 @@ const rootFiles = [
   "sitemap.xml",
   "script.js",
   "styles.css",
+  "dashboard-theme.css",
 ];
 
-const rootDirectories = ["cases", "paths", "prompts", "resources"];
+const rootDirectories = ["cases", "paths", "prompts", "resources", "vendor"];
 
 const dataFiles = [
   "candidate_cases.csv",

@@ -24,6 +24,7 @@ const MIME_TYPES = {
   ".png": "image/png",
   ".jpg": "image/jpeg",
   ".jpeg": "image/jpeg",
+  ".woff2": "font/woff2",
 };
 
 function argValue(name, fallback) {
@@ -98,7 +99,7 @@ function expect(condition, message, details = {}) {
 async function waitForData(page) {
   await page.waitForFunction(
     () =>
-      document.querySelectorAll("#cases .case-card").length > 0 &&
+      document.querySelectorAll("#caseCards .case-card").length > 0 &&
       document.querySelector("#caseTabCount")?.textContent?.match(/\d+/),
     { timeout: 15_000 }
   );
@@ -183,8 +184,20 @@ async function ensureFiltersOpen(page, view) {
   }
 }
 
+async function openView(page, view) {
+  const primary = page.locator(`#mainTabs a[data-view="${view}"]`);
+  if (await primary.isVisible()) {
+    await primary.click();
+    return;
+  }
+
+  const compact = page.locator(`.mobile-assistant-link[data-view="${view}"]`);
+  expect(await compact.isVisible(), `No visible navigation control for ${view}`);
+  await compact.click();
+}
+
 async function runScenario(page, round) {
-  const scenario = round % 22;
+  const scenario = round % 24;
 
   if (scenario === 0) {
     await page.locator('#mainTabs a[data-view="cases"]').click();
@@ -195,7 +208,7 @@ async function runScenario(page, round) {
   } else if (scenario === 3) {
     await page.locator('#mainTabs a[data-view="toolkit"]').click();
   } else if (scenario === 4) {
-    await page.locator('#mainTabs a[data-view="assistant"]').click();
+    await openView(page, "assistant");
   } else if (scenario === 5) {
     await page.locator("#languageSelect").selectOption(randomChoice(["zh-Hans", "zh-Hant", "en"], round));
   } else if (scenario === 6) {
@@ -234,7 +247,7 @@ async function runScenario(page, round) {
     await pickSelectOption(page.locator("#promptQualityFilter"), round);
   } else if (scenario === 12) {
     await page.locator('#mainTabs a[data-view="cases"]').click();
-    const detail = page.locator("#cases .detail-link").first();
+    const detail = page.locator("#caseCards .detail-link").first();
     if ((await detail.count()) > 0) {
       await detail.click();
       await page.waitForURL(/\/cases\/case-[^/]+\.html$/);
@@ -245,7 +258,7 @@ async function runScenario(page, round) {
     }
   } else if (scenario === 13) {
     await page.locator('#mainTabs a[data-view="prompts"]').click();
-    const promptDetail = page.locator("#prompts .detail-link").first();
+    const promptDetail = page.locator("#promptCards .detail-link").first();
     if ((await promptDetail.count()) > 0) {
       await promptDetail.click();
       await page.waitForURL(/\/prompts\/prompt-[^/]+\.html$/);
@@ -256,7 +269,7 @@ async function runScenario(page, round) {
     }
   } else if (scenario === 14) {
     await page.locator('#mainTabs a[data-view="resources"]').click();
-    const resourceDetail = page.locator("#resources .detail-link").first();
+    const resourceDetail = page.locator("#resourceCards .detail-link").first();
     if ((await resourceDetail.count()) > 0) {
       await resourceDetail.click();
       await page.waitForURL(/\/resources\/resource-[^/]+\.html$/);
@@ -278,11 +291,11 @@ async function runScenario(page, round) {
     }
   } else if (scenario === 16) {
     await page.locator('#mainTabs a[data-view="cases"]').click();
-    const fav = page.locator("#cases .favorite-button").first();
+    const fav = page.locator("#caseCards .favorite-button").first();
     if ((await fav.count()) > 0) await fav.click();
   } else if (scenario === 17) {
     await page.locator('#mainTabs a[data-view="prompts"]').click();
-    const copy = page.locator("#prompts .copy-button").first();
+    const copy = page.locator("#promptCards .copy-button").first();
     if ((await copy.count()) > 0) await copy.click();
   } else if (scenario === 18) {
     await page.locator('#mainTabs a[data-view="toolkit"]').click();
@@ -296,11 +309,27 @@ async function runScenario(page, round) {
     await page.locator('#mainTabs a[data-view="resources"]').click();
     const next = page.locator("#resourcePagination button").last();
     if ((await next.count()) > 0 && (await next.isEnabled())) await next.click();
-  } else {
+  } else if (scenario === 21) {
     await page.locator('#mainTabs a[data-view="prompts"]').click();
     await ensureFiltersOpen(page, "prompts");
     const reset = page.locator("#promptResetFilters");
     if ((await reset.count()) > 0) await reset.click();
+  } else if (scenario === 22) {
+    await page.locator('#mainTabs a[data-view="dashboard"]').click();
+    await page.locator("#coursePrimarySubject").selectOption("科学");
+    await page.locator("#coursePartnerSubject").selectOption("艺术与设计");
+    await page.locator("#courseLevel").selectOption("中学");
+    await page.locator("#courseDuration").selectOption("2-3 课时");
+    await page.locator("#courseAiRole").selectOption("资料分析助手");
+    await page.locator("#courseTopic").fill(`校园议题 ${round}`);
+    await page.locator("#coursePlanGenerate").click();
+    expect(await page.locator(".course-output-header h4").count() === 1, "Course planner did not generate output");
+    expect(await page.locator("#coursePlanCopy").isEnabled(), "Course planner copy action is disabled after generation");
+  } else {
+    await page.locator('#mainTabs a[data-view="dashboard"]').click();
+    expect(await page.locator("#categoryChart").count() === 1, "Category chart is missing");
+    expect(await page.locator("#levelChart").count() === 1, "Level chart is missing");
+    expect(Number(await page.locator("#workspaceCases").innerText()) > 0, "Dashboard case metric did not load");
   }
 }
 

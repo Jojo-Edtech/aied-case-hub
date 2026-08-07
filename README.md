@@ -6,7 +6,7 @@ AIED Case Hub 是一个面向教师的 AI 教育资料库，部署于 GitHub Pag
 
 ## 当前内容
 
-- 314 个教学案例，覆盖 AI Literacy、AI+STEM、AI+Humanities、AI+Social Sciences、AI for Teaching & Assessment。
+- 300+ 个教学案例，覆盖 AI Literacy、AI+STEM、AI+Humanities、AI+Social Sciences、AI for Teaching & Assessment；准确数量由首页实时读取 CSV。
 - 40 个全球课程、教材、框架、工具包和教师指南。
 - 270 个结构化 Prompt 教学技能，覆盖备课、教材、练习、评价、差异化支持、项目学习和课堂活动。
 - 4 条专题学习路径，把案例、资源和 Prompt 组合成可直接采用的备课路线。
@@ -16,6 +16,8 @@ AIED Case Hub 是一个面向教师的 AI 教育资料库，部署于 GitHub Pag
 
 ## 核心功能
 
+- 首页是教师工作台：教师先选择主学科、融合学科、学段、课时、AI 角色和课程主题，再生成可复制的跨学科课程框架。
+- 工作台图表直接读取案例 CSV，显示案例栏目分布、学段覆盖和最近核验的香港案例，不使用演示数据。
 - 搜索、栏目、学科、学段、地区、来源、语言、AI 方法、资料质量和链接状态筛选。
 - 每条内容显示质量分级、链接核验状态、来源和独立详情链接。
 - 案例详情包含教学目标、课堂流程、学习成效证据、限制条件和可复制工作流。
@@ -23,6 +25,7 @@ AIED Case Hub 是一个面向教师的 AI 教育资料库，部署于 GitHub Pag
 - 每条案例、资源和 Prompt 都有独立静态页，可单独分享、生成页面预览并被搜索引擎索引。
 - 本地收藏、只看收藏、复制内容和 Markdown 备课包导出。收藏仅保存在浏览器 `localStorage`。
 - 教师工具完全在浏览器本地运行，不上传老师输入的内容。
+- 手机端使用固定底部导航、横向概览卡片和可收起筛选/课程结果；核心备课流程在 320px 宽度仍可使用。
 
 独立详情页示例：
 
@@ -116,6 +119,8 @@ Prompt 不再只是单段文字。每条记录包括：
 
 `AI 助手` 选项卡可以嵌入 ModelScope Studio 或 Notebook 上的有限额 RAG 应用。应用代码位于 `modelscope_rag/`，部署说明见该目录的 README。公开地址写入 `data/rag-config.json` 的 `studio_url`。
 
+默认推理模型为 `Qwen/Qwen3-30B-A3B-Instruct-2507`。该模型由 ModelScope 官方模型页标记为支持 API-Inference，采用 30B 总参数、约 3B 激活参数的非思考 MoE 架构，用于这里的短篇中文教学问答比此前 235B 模型更轻量。可通过 Studio 环境变量 `MODELSCOPE_MODEL` 覆盖。
+
 `MODELSCOPE_API_TOKEN`、阿里云 AccessKey、Firecrawl Key 或其他密钥不得写入仓库，只能放在对应平台的 Secrets 或环境变量中。RAG 每日生成上限可通过 `RAG_DAILY_GENERATION_LIMIT` 控制，超出后只返回检索来源，不继续消耗模型额度。
 
 ## 每日自动更新
@@ -200,5 +205,9 @@ AccessKey 只能存放在 GitHub Secrets 或阿里云环境变量，不得写入
 - MIT 代码可在保留版权和许可证声明后复用。
 - CC0 Prompt 可复用；CC BY 和 CC BY-SA 内容需要相应署名，CC BY-SA 还要求相同方式共享。
 - 未声明许可证的代码、Prompt 或资料只作结构研究，不直接复制。
+
+前端将 Chart.js 4.5.1 与 Lucide Static 1.30.0 固定在 `vendor/`，避免 GitHub Pages 运行时依赖第三方 CDN。许可证分别见 `vendor/Chart.js-LICENSE.md` 与 `vendor/Lucide-LICENSE.txt`。
+
+本轮界面设计参考了公开项目管理仪表盘的布局语言，并使用项目自身的教师备课流程、内容与数据重新实现；没有复制参考图中的品牌或素材。项目本地安装了 `anti-ui-slop` 与 `web-design-reviewer` 两个 GitHub Skills，用于后续界面审查。
 
 网站展示的外部资料版权归原作者或机构所有。本站仅提供简介、教学工作流和原始链接。

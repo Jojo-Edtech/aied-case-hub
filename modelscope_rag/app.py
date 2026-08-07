@@ -19,7 +19,7 @@ from urllib.request import Request, urlopen
 
 
 DEFAULT_DATA_BASE_URL = "https://jojo-edtech.github.io/aiedcase/data"
-DEFAULT_MODEL = "Qwen/Qwen3-235B-A22B-Instruct-2507"
+DEFAULT_MODEL = "Qwen/Qwen3-30B-A3B-Instruct-2507"
 DEFAULT_API_BASE = "https://api-inference.modelscope.cn/v1/chat/completions"
 
 DATA_FILES = {
