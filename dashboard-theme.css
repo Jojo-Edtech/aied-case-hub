@@ -1663,6 +1663,10 @@ main {
 }
 
 @media (max-width: 350px) {
+  .nav-tab-title {
+    font-size: 0.58rem;
+  }
+
   .header-inner {
     gap: 6px;
     padding: 9px 8px;
