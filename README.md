@@ -1,8 +1,10 @@
 # AIED Case Hub
 
-AIED Case Hub 是一个面向教师的 AI 教育资料库，部署于 GitHub Pages，并可同步到阿里云 OSS。网站把教学案例、教材资源、Prompt 教学技能、教师工具和专题学习路径放在同一个入口中。
+AIED Case Hub 是一个面向教师的 AI 教育资料库，主站部署于 GitHub Pages，并同步到阿里云 ECS 大陆镜像。网站把教学案例、教材资源、Prompt 教学技能、教师工具和专题学习路径放在同一个入口中。
 
-在线地址：<https://jojo-edtech.github.io/aiedcase/>
+GitHub Pages：<https://jojo-edtech.github.io/aiedcase/>
+
+阿里云 HTTPS 镜像：<https://47.106.124.32/aiedcase/>
 
 ## 当前内容
 
@@ -24,7 +26,8 @@ AIED Case Hub 是一个面向教师的 AI 教育资料库，部署于 GitHub Pag
 - Prompt 采用“教学技能”结构，包含必填变量、可选变量、输出结构、证据等级、限制、后续步骤、核查清单和隐私提醒。
 - 每条案例、资源和 Prompt 都有独立静态页，可单独分享、生成页面预览并被搜索引擎索引。
 - 本地收藏、只看收藏、复制内容和 Markdown 备课包导出。收藏仅保存在浏览器 `localStorage`。
-- 教师工具完全在浏览器本地运行，不上传老师输入的内容。
+- 教师工具分为两类：收藏备课包和课堂 AI 守则在浏览器本地运行；AI 教学材料生成器经阿里云安全代理调用 ModelScope，并提供断网时的本地 Prompt 备用方案。
+- 站内 AI 助手直接检索案例、教材与 Prompt，回答附带原始来源；不再嵌入 ModelScope iframe，也不要求读者登录 ModelScope。
 - 手机端使用固定底部导航、横向概览卡片和可收起筛选/课程结果；核心备课流程在 320px 宽度仍可使用。
 
 独立详情页示例：
@@ -117,11 +120,15 @@ Prompt 不再只是单段文字。每条记录包括：
 
 ## AI 助手与 RAG
 
-`AI 助手` 选项卡可以嵌入 ModelScope Studio 或 Notebook 上的有限额 RAG 应用。应用代码位于 `modelscope_rag/`，部署说明见该目录的 README。公开地址写入 `data/rag-config.json` 的 `studio_url`。
+`AI 助手` 和 `教师工具` 中的 AI 生成器通过同一个轻量 RAG API 工作。浏览器只访问 `data/rag-config.json` 中的 `api_base`，ModelScope 令牌保存在阿里云 ECS 的 `/etc/aiedcase-api.env`，不会发送到浏览器或写入 GitHub。后端只监听本机端口，由 Nginx 通过 HTTPS 代理公开，并限制请求大小、来源域名、单 IP 频率和每日生成额度。
+
+RAG 索引直接读取正式的 `cases.csv`、`resources.csv` 和 `prompts.csv`，当前共检索 627 条内容。站内回答会返回命中的资料标题、类型、标签和原链接；资料不足时会明确说明，而不是编造课堂成效。
 
 默认推理模型为 `Qwen/Qwen3-30B-A3B-Instruct-2507`。该模型由 ModelScope 官方模型页标记为支持 API-Inference，采用 30B 总参数、约 3B 激活参数的非思考 MoE 架构，用于这里的短篇中文教学问答比此前 235B 模型更轻量。可通过 Studio 环境变量 `MODELSCOPE_MODEL` 覆盖。
 
-`MODELSCOPE_API_TOKEN`、阿里云 AccessKey、Firecrawl Key 或其他密钥不得写入仓库，只能放在对应平台的 Secrets 或环境变量中。RAG 每日生成上限可通过 `RAG_DAILY_GENERATION_LIMIT` 控制，超出后只返回检索来源，不继续消耗模型额度。
+`MODELSCOPE_API_TOKEN`、阿里云 AccessKey、Firecrawl Key 或其他密钥不得写入仓库，只能放在对应平台的 Secrets 或服务器环境文件中。RAG 每日生成上限可通过 `RAG_DAILY_GENERATION_LIMIT` 控制，超出后只返回检索来源，不继续消耗模型额度。教师不应在 AI 助手或生成器中输入学生姓名、联系方式、账号、照片或其他可识别个人资料。
+
+后端代码、systemd、Nginx 和短期 IP 证书续签模板位于 `modelscope_rag/`。完整部署与本地测试方式见 [`modelscope_rag/README.md`](modelscope_rag/README.md)。
 
 ## 每日自动更新
 
@@ -197,6 +204,14 @@ ALIYUN_DEPLOY_ENABLED=true
 ```
 
 AccessKey 只能存放在 GitHub Secrets 或阿里云环境变量，不得写入代码、README 或 CSV。中国内地 Bucket 绑定自定义域名以及使用中国内地 CDN 前，需要按实际服务完成 ICP 备案。
+
+## 阿里云 ECS API
+
+当前 RAG API 独立运行在阿里云 ECS 的 `127.0.0.1:8792`，Nginx 对外提供 `/aiedcase-api/`。公网 IP 使用 Let’s Encrypt 短期 IP 证书，并由 `certbot-ip-renew.timer` 每 12 小时检查续签；域名备案完成后可把 `data/rag-config.json` 的 `api_base` 平滑改为 `https://jojoedtech.cloud/aiedcase-api`。
+
+备案期间的阿里云 HTTPS 镜像为 <https://47.106.124.32/aiedcase/>。该入口与 GitHub Pages 使用同一份静态构建，国内读者无需访问 GitHub 才能加载页面数据。
+
+ECS 环境文件权限必须为 `600`，服务使用无登录权限的 `aiedcase` 系统账户。不要把真实环境文件、令牌值或配套证书私钥复制回仓库。
 
 ## 参考与许可证边界
 

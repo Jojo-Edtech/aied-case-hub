@@ -1,0 +1,22 @@
+[Unit]
+Description=AIED Case Hub ModelScope proxy API
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=aiedcase
+Group=aiedcase
+WorkingDirectory=/opt/aiedcase-api
+EnvironmentFile=/etc/aiedcase-api.env
+ExecStart=/usr/bin/python3 /opt/aiedcase-api/modelscope_rag/api_server.py
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/aiedcase-api
+
+[Install]
+WantedBy=multi-user.target

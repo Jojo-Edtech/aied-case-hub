@@ -194,6 +194,7 @@ const TEXT = {
     resourceTypes: "资源类型",
     resourceToolbarAria: "资源检索和筛选",
     resourceSearchPlaceholder: "搜索标题、简介、适用方式、发布机构或地区",
+    moreFilters: "更多筛选",
     audience: "受众",
     resourceType: "资源类型",
     category: "类别",
@@ -210,6 +211,11 @@ const TEXT = {
     promptTaskLauncherAria: "教师任务入口",
     promptTaskLauncherEyebrow: "Teacher Workflows",
     promptTaskLauncherTitle: "我要做什么",
+    promptFinderAria: "AI Prompt 推荐",
+    promptFinderTitle: "用一句话找合适的 Prompt",
+    promptFinderLabel: "描述你的教学任务",
+    promptFinderPlaceholder: "例如：为中二英文议论文设计三档写作支架",
+    promptFinderAction: "让 AI 推荐",
     promptToolbarAria: "Prompt 检索和筛选",
     promptSearchPlaceholder: "搜索学科、用途、Prompt 内容或来源",
     subject: "学科",
@@ -224,6 +230,23 @@ const TEXT = {
     toolkitEyebrow: "Teacher AI Toolkit",
     toolkitTitle: "教师 AI 工具箱",
     toolkitStatusNoApi: "本地生成，不消耗 API",
+    serviceChecking: "正在检查服务",
+    serviceReady: "AI 服务可用",
+    serviceOffline: "AI 服务暂不可用",
+    teacherToolTitle: "AI 教学材料生成器",
+    teacherToolOutputType: "产出类型",
+    teacherToolGenerate: "生成教学材料",
+    addTeachingContext: "补充教学情境",
+    teacherToolMaterialPlaceholder: "可选：粘贴匿名化材料或任务说明",
+    privacyInline: "请勿输入学生姓名、联系方式或其他可识别个人资料。",
+    generating: "正在检索资料并生成...",
+    generatedWithSources: "已根据资料库生成，请核对引用与课堂适用性。",
+    generatedOfflineFallback: "AI 服务暂不可用，已生成可复制的离线 Prompt。",
+    copyResult: "复制结果",
+    refineInChat: "在对话中修改",
+    localToolsAria: "本地教师工具",
+    viewGeneratedList: "查看生成清单",
+    viewGeneratedRules: "查看生成守则",
     toolPromptMakerEyebrow: "Prompt Builder",
     toolPromptMakerTitle: "教学 Prompt 生成器",
     toolTask: "教师任务",
@@ -266,6 +289,20 @@ const TEXT = {
     toolCopySpecial: "复制专项 Prompt",
     assistantAria: "AI 助手",
     assistantEyebrow: "RAG Research Assistant",
+    assistantSuggestionsAria: "建议问题",
+    assistantSuggestionCases: "香港中学案例",
+    assistantSuggestionResources: "AI 素养资源",
+    assistantSuggestionStem: "AI+STEM 备课",
+    assistantChatLogAria: "对话记录",
+    assistantQuestionLabel: "向资料库提问",
+    assistantInputPlaceholder: "输入学科、学段和你想完成的教学任务",
+    assistantSendAria: "发送问题",
+    assistantQuotaPending: "额度读取中",
+    assistantSafetyNote: "AI 结果需由教师核验，请勿输入学生个人资料。",
+    assistantWelcome: "你好，我可以从案例、教材资源和 Prompt 教学技能中帮你找证据并整理备课思路。",
+    assistantThinking: "正在检索资料并生成回答...",
+    assistantError: "AI 服务暂时不可用，请稍后重试。",
+    assistantSources: "参考资料",
     openModelScope: "打开魔搭应用",
     assistantEmptyTitle: "AI 助手待连接",
     assistantEmptyCopy: "魔搭 Studio 应用地址配置后，这里会显示有限额 RAG 问答窗口。",
@@ -492,6 +529,7 @@ const TEXT = {
     resourceTypes: "Resource types",
     resourceToolbarAria: "Resource search and filters",
     resourceSearchPlaceholder: "Search titles, summaries, use cases, publishers or regions",
+    moreFilters: "More filters",
     audience: "Audience",
     resourceType: "Resource type",
     category: "Category",
@@ -508,6 +546,11 @@ const TEXT = {
     promptTaskLauncherAria: "Teacher task entry",
     promptTaskLauncherEyebrow: "Teacher Workflows",
     promptTaskLauncherTitle: "What do you want to make?",
+    promptFinderAria: "AI prompt recommendation",
+    promptFinderTitle: "Find the right prompt in one sentence",
+    promptFinderLabel: "Describe your teaching task",
+    promptFinderPlaceholder: "e.g. design three writing scaffolds for a Year 8 argument",
+    promptFinderAction: "Ask AI",
     promptToolbarAria: "Prompt search and filters",
     promptSearchPlaceholder: "Search subjects, uses, prompt text or sources",
     subject: "Subject",
@@ -522,6 +565,23 @@ const TEXT = {
     toolkitEyebrow: "Teacher AI Toolkit",
     toolkitTitle: "Teacher AI Toolkit",
     toolkitStatusNoApi: "Generated locally, no API needed",
+    serviceChecking: "Checking service",
+    serviceReady: "AI service ready",
+    serviceOffline: "AI service unavailable",
+    teacherToolTitle: "AI teaching material generator",
+    teacherToolOutputType: "Output type",
+    teacherToolGenerate: "Generate teaching material",
+    addTeachingContext: "Add teaching context",
+    teacherToolMaterialPlaceholder: "Optional: paste anonymized material or a task brief",
+    privacyInline: "Do not enter student names, contact details or other identifiable personal data.",
+    generating: "Retrieving sources and generating...",
+    generatedWithSources: "Generated from the library. Check the citations and classroom fit.",
+    generatedOfflineFallback: "The AI service is unavailable. A copy-ready offline prompt was generated instead.",
+    copyResult: "Copy result",
+    refineInChat: "Refine in chat",
+    localToolsAria: "Local teacher tools",
+    viewGeneratedList: "View generated list",
+    viewGeneratedRules: "View generated rules",
     toolPromptMakerEyebrow: "Prompt Builder",
     toolPromptMakerTitle: "Teaching Prompt Generator",
     toolTask: "Teacher task",
@@ -564,6 +624,20 @@ const TEXT = {
     toolCopySpecial: "Copy specialized prompt",
     assistantAria: "AI assistant",
     assistantEyebrow: "RAG Research Assistant",
+    assistantSuggestionsAria: "Suggested questions",
+    assistantSuggestionCases: "Hong Kong secondary cases",
+    assistantSuggestionResources: "AI literacy resources",
+    assistantSuggestionStem: "Plan an AI+STEM lesson",
+    assistantChatLogAria: "Conversation",
+    assistantQuestionLabel: "Ask the library",
+    assistantInputPlaceholder: "Enter the subject, level and teaching task",
+    assistantSendAria: "Send question",
+    assistantQuotaPending: "Loading quota",
+    assistantSafetyNote: "Teachers should verify AI output. Do not enter student personal data.",
+    assistantWelcome: "Hello. I can retrieve evidence from teaching cases, resources and prompt skills, then help you plan.",
+    assistantThinking: "Retrieving sources and generating an answer...",
+    assistantError: "The AI service is temporarily unavailable. Please try again later.",
+    assistantSources: "Sources",
     openModelScope: "Open ModelScope app",
     assistantEmptyTitle: "AI Assistant not connected",
     assistantEmptyCopy: "After a ModelScope Studio app URL is configured, the limited-quota RAG chat window will appear here.",
@@ -758,6 +832,8 @@ const VALUE_EN = {
   写家校沟通: "Family messages",
   找教学案例: "Find cases",
   找教材资源: "Find resources",
+  完整教案: "Full lesson plan",
+  分层材料: "Differentiated materials",
   通用备课: "General lesson planning",
   通用单元设计: "General unit design",
   通用课堂活动: "General classroom activity",
@@ -2946,6 +3022,17 @@ const TOOL_TASK_OPTIONS = [
   "学生支持",
 ];
 
+const TEACHER_TOOL_OUTPUT_OPTIONS = [
+  "完整教案",
+  "课堂活动",
+  "学习单/教材",
+  "评价量规",
+  "分层材料",
+  "课堂提问",
+  "退出卡/小测",
+  "家校沟通",
+];
+
 const TOOL_LANGUAGE_OPTIONS = ["中文", "英文", "双语"];
 const AGREEMENT_ALLOWED_OPTIONS = ["保守使用", "开放使用"];
 const AGREEMENT_ASSESSMENT_OPTIONS = ["只作过程支持", "可计入过程证据", "不计入成绩"];
@@ -3066,9 +3153,17 @@ const favoriteState = {
 };
 
 const assistantState = {
-  studioUrl: "",
+  apiBase: "",
   hasConfigError: false,
-  frameLoaded: false,
+  serviceReady: false,
+  busy: false,
+  history: [],
+  pendingQuestion: "",
+};
+
+const toolkitState = {
+  busy: false,
+  latestAnswer: "",
 };
 
 const viewElements = {
@@ -3167,6 +3262,8 @@ const resourceEls = {
   resultsTitle: document.querySelector("#resourceResultsTitle"),
   resultsMeta: document.querySelector("#resourceResultsMeta"),
   pagination: document.querySelector("#resourcePagination"),
+  advanced: document.querySelector("#resourceAdvancedFilters"),
+  advancedCount: document.querySelector("#resourceAdvancedCount"),
 };
 
 const promptEls = {
@@ -3195,6 +3292,10 @@ const promptEls = {
   resultsTitle: document.querySelector("#promptResultsTitle"),
   resultsMeta: document.querySelector("#promptResultsMeta"),
   pagination: document.querySelector("#promptPagination"),
+  advanced: document.querySelector("#promptAdvancedFilters"),
+  advancedCount: document.querySelector("#promptAdvancedCount"),
+  finderForm: document.querySelector("#promptFinderForm"),
+  finderInput: document.querySelector("#promptFinderInput"),
 };
 
 const pathEls = {
@@ -3203,26 +3304,35 @@ const pathEls = {
 };
 
 const assistantEls = {
-  frameWrap: document.querySelector("#assistantFrameWrap"),
-  frame: document.querySelector("#assistantFrame"),
-  empty: document.querySelector("#assistantEmptyState"),
-  emptyTitle: document.querySelector("#assistantEmptyTitle"),
-  emptyCopy: document.querySelector("#assistantEmptyCopy"),
-  directLink: document.querySelector("#assistantDirectLink"),
+  serviceStatus: document.querySelector("#assistantServiceStatus"),
+  serviceLabel: document.querySelector("#assistantServiceLabel"),
+  chatLog: document.querySelector("#assistantChatLog"),
+  form: document.querySelector("#assistantForm"),
+  input: document.querySelector("#assistantInput"),
+  send: document.querySelector("#assistantSend"),
+  quota: document.querySelector("#assistantQuota"),
+  suggestions: [...document.querySelectorAll("[data-assistant-question]")],
 };
 
 const toolkitEls = {
-  task: document.querySelector("#toolTask"),
-  subject: document.querySelector("#toolSubject"),
-  level: document.querySelector("#toolLevel"),
-  topic: document.querySelector("#toolTopic"),
-  duration: document.querySelector("#toolDuration"),
-  language: document.querySelector("#toolLanguage"),
-  aiTool: document.querySelector("#toolAiTool"),
-  needs: document.querySelector("#toolStudentNeeds"),
-  generatePrompt: document.querySelector("#toolGeneratePrompt"),
-  copyPrompt: document.querySelector("#toolCopyPrompt"),
-  promptOutput: document.querySelector("#toolPromptOutput"),
+  serviceStatus: document.querySelector("#toolkitServiceStatus"),
+  form: document.querySelector("#teacherToolForm"),
+  outputType: document.querySelector("#teacherToolOutputType"),
+  subject: document.querySelector("#teacherToolSubject"),
+  level: document.querySelector("#teacherToolLevel"),
+  topic: document.querySelector("#teacherToolTopic"),
+  duration: document.querySelector("#teacherToolDuration"),
+  language: document.querySelector("#teacherToolLanguage"),
+  studentContext: document.querySelector("#teacherToolStudentContext"),
+  sourceMaterial: document.querySelector("#teacherToolSourceMaterial"),
+  constraints: document.querySelector("#teacherToolConstraints"),
+  generate: document.querySelector("#teacherToolGenerate"),
+  requestStatus: document.querySelector("#teacherToolRequestStatus"),
+  outputWrap: document.querySelector("#teacherToolOutputWrap"),
+  output: document.querySelector("#teacherToolOutput"),
+  sources: document.querySelector("#teacherToolSources"),
+  copy: document.querySelector("#teacherToolCopy"),
+  refine: document.querySelector("#teacherToolRefine"),
   savedCasesCount: document.querySelector("#savedCasesCount"),
   savedResourcesCount: document.querySelector("#savedResourcesCount"),
   savedPromptsCount: document.querySelector("#savedPromptsCount"),
@@ -3236,15 +3346,6 @@ const toolkitEls = {
   generateAgreement: document.querySelector("#toolGenerateAgreement"),
   copyAgreement: document.querySelector("#toolCopyAgreement"),
   agreementOutput: document.querySelector("#agreementOutput"),
-  specialType: document.querySelector("#specialToolType"),
-  specialSubject: document.querySelector("#specialSubject"),
-  specialLevel: document.querySelector("#specialLevel"),
-  specialGoal: document.querySelector("#specialGoal"),
-  specialMaterial: document.querySelector("#specialMaterial"),
-  specialConstraints: document.querySelector("#specialConstraints"),
-  generateSpecial: document.querySelector("#toolGenerateSpecial"),
-  copySpecial: document.querySelector("#toolCopySpecial"),
-  specialOutput: document.querySelector("#specialOutput"),
 };
 
 function initialLanguage() {
@@ -3339,12 +3440,11 @@ function renderSortOptions() {
 }
 
 function renderToolkitOptions() {
-  fillOptions(toolkitEls.task, TOOL_TASK_OPTIONS);
+  fillOptions(toolkitEls.outputType, TEACHER_TOOL_OUTPUT_OPTIONS);
   fillOptions(toolkitEls.language, TOOL_LANGUAGE_OPTIONS);
   fillOptions(toolkitEls.agreementAllowed, AGREEMENT_ALLOWED_OPTIONS);
   fillOptions(toolkitEls.agreementAssessment, AGREEMENT_ASSESSMENT_OPTIONS);
   fillOptions(toolkitEls.agreementPrivacy, AGREEMENT_PRIVACY_OPTIONS);
-  fillOptions(toolkitEls.specialType, SPECIAL_TOOL_OPTIONS);
 }
 
 function refreshLanguage() {
@@ -3355,10 +3455,8 @@ function refreshLanguage() {
   populateCourseControls();
   renderPromptShortcuts();
   renderToolkitSavedCounts();
-  renderTeacherPrompt();
   renderSavedPack();
   renderAgreement();
-  renderSpecialistPrompt();
   renderCandidateNotice();
   renderLearningPaths();
   if (caseState.items.length > 0) {
@@ -3380,7 +3478,8 @@ function refreshLanguage() {
     renderCoursePlan();
   }
   renderTeacherDashboard();
-  renderAssistant(assistantState.studioUrl);
+  renderAssistantServiceState();
+  renderAssistantWelcome();
 }
 
 function setupLanguageControl() {
@@ -3707,7 +3806,8 @@ function setActiveView(view, updateHash = true) {
     panel.hidden = panel.dataset.viewPanel !== nextView;
   });
   if (nextView === "assistant") {
-    mountAssistantFrame();
+    renderAssistantWelcome();
+    window.requestAnimationFrame(() => assistantEls.input?.focus());
   }
   if (nextView === "dashboard") {
     renderTeacherDashboard();
@@ -3717,50 +3817,184 @@ function setActiveView(view, updateHash = true) {
   }
 }
 
-function showAssistantEmpty(title, copy) {
-  assistantEls.frameWrap.hidden = true;
-  assistantEls.frame.removeAttribute("src");
-  assistantState.frameLoaded = false;
-  assistantEls.empty.hidden = false;
-  assistantEls.emptyTitle.textContent = title;
-  assistantEls.emptyCopy.textContent = copy;
-  assistantEls.directLink.hidden = true;
-  viewElements.assistantTabStatus.textContent = t("assistantStatusPending");
+function renderAssistantServiceState() {
+  const ready = assistantState.serviceReady && !assistantState.hasConfigError;
+  const checking = !assistantState.apiBase && !assistantState.hasConfigError;
+  const label = checking ? t("serviceChecking") : ready ? t("serviceReady") : t("serviceOffline");
+  [assistantEls.serviceStatus, toolkitEls.serviceStatus].forEach((element) => {
+    if (!element) return;
+    element.classList.toggle("is-ready", ready);
+    element.classList.toggle("is-offline", !ready && !checking);
+    const text = element.querySelector("span:last-child");
+    if (text) text.textContent = label;
+  });
+  if (assistantEls.serviceLabel) assistantEls.serviceLabel.textContent = label;
+  viewElements.assistantTabStatus.textContent = ready
+    ? t("assistantStatusConnected")
+    : t("assistantStatusPending");
 }
 
-function renderAssistant(studioUrl) {
-  if (assistantState.hasConfigError) {
-    showAssistantEmpty(t("assistantLoadErrorTitle"), t("assistantLoadErrorCopy", { url: RAG_CONFIG_URL }));
-    return;
+function safeExternalUrl(value) {
+  try {
+    const url = new URL(value);
+    return ["http:", "https:"].includes(url.protocol) ? url.href : "";
+  } catch {
+    return "";
   }
-
-  const url = (studioUrl || "").trim();
-  if (!url) {
-    showAssistantEmpty(t("assistantEmptyTitle"), t("assistantEmptyCopy"));
-    return;
-  }
-
-  assistantState.studioUrl = url;
-  if (viewState.active === "assistant") {
-    mountAssistantFrame();
-  } else {
-    assistantEls.frameWrap.hidden = true;
-    assistantEls.frame.removeAttribute("src");
-    assistantState.frameLoaded = false;
-  }
-  assistantEls.empty.hidden = true;
-  assistantEls.directLink.href = url;
-  assistantEls.directLink.hidden = false;
-  viewElements.assistantTabStatus.textContent = t("assistantStatusConnected");
 }
 
-function mountAssistantFrame() {
-  if (!assistantState.studioUrl || assistantState.hasConfigError) return;
-  if (!assistantState.frameLoaded) {
-    assistantEls.frame.src = assistantState.studioUrl;
-    assistantState.frameLoaded = true;
+function renderSourceList(container, sources = []) {
+  if (!container) return;
+  container.innerHTML = "";
+  const validSources = sources.filter((source) => safeExternalUrl(source.url));
+  container.hidden = validSources.length === 0;
+  if (validSources.length === 0) return;
+
+  const heading = document.createElement("h4");
+  heading.textContent = t("assistantSources");
+  const list = document.createElement("ol");
+  validSources.slice(0, 8).forEach((source) => {
+    const item = document.createElement("li");
+    const link = document.createElement("a");
+    link.href = safeExternalUrl(source.url);
+    link.target = "_blank";
+    link.rel = "noreferrer";
+    link.textContent = source.title || source.kind || t("sourceLink");
+    const meta = document.createElement("span");
+    meta.textContent = [source.kind, source.meta].filter(Boolean).join(" · ");
+    item.append(link, meta);
+    list.append(item);
+  });
+  container.append(heading, list);
+}
+
+function appendAssistantMessage(role, text, sources = [], pending = false) {
+  if (!assistantEls.chatLog) return null;
+  const message = document.createElement("article");
+  message.className = `chat-message chat-message-${role}${pending ? " is-pending" : ""}`;
+  const avatar = document.createElement("span");
+  avatar.className = "chat-avatar";
+  const icon = document.createElement("i");
+  icon.className = role === "user" ? "icon-user" : "icon-bot";
+  icon.setAttribute("aria-hidden", "true");
+  avatar.append(icon);
+  const body = document.createElement("div");
+  body.className = "chat-message-body";
+  const copy = document.createElement("p");
+  copy.textContent = text;
+  body.append(copy);
+  if (sources.length) {
+    const sourceContainer = document.createElement("div");
+    sourceContainer.className = "answer-sources";
+    renderSourceList(sourceContainer, sources);
+    body.append(sourceContainer);
   }
-  assistantEls.frameWrap.hidden = false;
+  message.append(avatar, body);
+  assistantEls.chatLog.append(message);
+  assistantEls.chatLog.scrollTop = assistantEls.chatLog.scrollHeight;
+  return message;
+}
+
+function renderAssistantWelcome() {
+  if (!assistantEls.chatLog) return;
+  if (assistantState.history.length === 0 && assistantEls.chatLog.children.length === 1) {
+    const copy = assistantEls.chatLog.querySelector(".chat-message-assistant p");
+    if (copy) copy.textContent = t("assistantWelcome");
+    return;
+  }
+  if (assistantEls.chatLog.children.length > 0) return;
+  appendAssistantMessage("assistant", t("assistantWelcome"));
+}
+
+async function postRagApi(path, payload) {
+  if (!assistantState.apiBase) throw new Error("API not configured");
+  const response = await fetch(`${assistantState.apiBase.replace(/\/$/, "")}${path}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  let data = {};
+  try {
+    data = await response.json();
+  } catch {
+    data = {};
+  }
+  if (!response.ok && !data.answer) throw new Error(`HTTP ${response.status}`);
+  return data;
+}
+
+async function askAssistant(question) {
+  const normalized = String(question || "").trim();
+  if (!normalized || assistantState.busy) return;
+  renderAssistantWelcome();
+  appendAssistantMessage("user", normalized);
+  const requestHistory = assistantState.history.slice(-6);
+  assistantState.history.push({ role: "user", content: normalized });
+  assistantState.busy = true;
+  assistantEls.send.disabled = true;
+  const pending = appendAssistantMessage("assistant", t("assistantThinking"), [], true);
+
+  try {
+    const result = await postRagApi("/chat", {
+      question: normalized,
+      history: requestHistory,
+      language: languageState.current,
+      top_k: 6,
+    });
+    pending?.remove();
+    const answer = result.answer || t("assistantError");
+    appendAssistantMessage("assistant", answer, result.sources || []);
+    assistantState.history.push({ role: "assistant", content: answer });
+    if (assistantEls.quota && result.quota) assistantEls.quota.textContent = result.quota;
+  } catch {
+    pending?.remove();
+    appendAssistantMessage("assistant", t("assistantError"));
+  } finally {
+    assistantState.busy = false;
+    assistantEls.send.disabled = false;
+    assistantEls.input?.focus();
+  }
+}
+
+function queueAssistantQuestion(question) {
+  const normalized = String(question || "").trim();
+  if (!normalized) return;
+  setActiveView("assistant");
+  assistantState.pendingQuestion = normalized;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  window.requestAnimationFrame(() => {
+    const pending = assistantState.pendingQuestion;
+    assistantState.pendingQuestion = "";
+    askAssistant(pending);
+  });
+}
+
+function setupAssistant() {
+  assistantEls.form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const question = assistantEls.input.value;
+    assistantEls.input.value = "";
+    askAssistant(question);
+  });
+  assistantEls.input?.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      assistantEls.form?.requestSubmit();
+    }
+  });
+  assistantEls.suggestions.forEach((button) => {
+    button.addEventListener("click", () => askAssistant(button.dataset.assistantQuestion));
+  });
+  promptEls.finderForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const brief = promptEls.finderInput.value.trim();
+    if (!brief) {
+      promptEls.finderInput.focus();
+      return;
+    }
+    queueAssistantQuestion(`请根据资料库为以下教学任务推荐 3 个最合适的 Prompt，并说明如何改写：${brief}`);
+  });
+  renderAssistantWelcome();
 }
 
 async function initAssistant() {
@@ -3768,12 +4002,22 @@ async function initAssistant() {
     const response = await fetch(RAG_CONFIG_URL, { cache: "no-store" });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const config = await response.json();
+    assistantState.apiBase = String(config.api_base || "").trim();
+    if (!assistantState.apiBase) throw new Error("Missing API base");
     assistantState.hasConfigError = false;
-    renderAssistant(config.studio_url);
-  } catch (error) {
+
+    const healthResponse = await fetch(`${assistantState.apiBase.replace(/\/$/, "")}/health`, {
+      cache: "no-store",
+      signal: AbortSignal.timeout(8000),
+    });
+    const health = healthResponse.ok ? await healthResponse.json() : {};
+    assistantState.serviceReady = Boolean(health.ok && health.generation_configured);
+    if (assistantEls.quota && health.quota) assistantEls.quota.textContent = health.quota;
+  } catch {
     assistantState.hasConfigError = true;
-    showAssistantEmpty(t("assistantLoadErrorTitle"), t("assistantLoadErrorCopy", { url: RAG_CONFIG_URL }));
+    assistantState.serviceReady = false;
   }
+  renderAssistantServiceState();
 }
 
 function setupViewTabs() {
@@ -4543,28 +4787,113 @@ function setupDynamicCopy(button, output, defaultLabelKey) {
   });
 }
 
+function teacherToolLanguageCode(value) {
+  if (value === "英文") return "en";
+  if (value === "双语") return languageState.current === "en" ? "en" : "zh-Hans";
+  return languageState.current === "zh-Hant" ? "zh-Hant" : "zh-Hans";
+}
+
+function teacherToolPayload() {
+  return {
+    output_type: toolkitEls.outputType?.value || "完整教案",
+    subject: toolkitEls.subject?.value.trim() || "",
+    level: toolkitEls.level?.value.trim() || "",
+    topic: toolkitEls.topic?.value.trim() || "",
+    duration: toolkitEls.duration?.value.trim() || "",
+    student_context: toolkitEls.studentContext?.value.trim() || "",
+    language: teacherToolLanguageCode(toolkitEls.language?.value),
+    constraints: toolkitEls.constraints?.value.trim() || "",
+    source_material: toolkitEls.sourceMaterial?.value.trim() || "",
+  };
+}
+
+function buildOfflineTeacherPrompt(payload) {
+  return localizeText(
+    [
+      "你是一名有经验的一线教师和课程设计师。请根据以下教学简报生成可以直接编辑的课堂材料。",
+      "",
+      `产出类型：${payload.output_type}`,
+      `学科：${payload.subject}`,
+      `学段：${payload.level}`,
+      `主题：${payload.topic}`,
+      `课堂时间：${payload.duration || "一节课"}`,
+      `学生情况：${payload.student_context || "学生水平存在差异"}`,
+      `约束条件：${payload.constraints || "步骤清晰，不直接替学生完成任务"}`,
+      payload.source_material ? `原始材料：\n${payload.source_material}` : "",
+      "",
+      "请输出：学习目标、所需材料、分钟级课堂流程、学习证据、差异化支持、AI 使用边界和教师课后检查清单。",
+      "涉及事实时请标明需要教师进一步核验的内容；不得编造学习成效；不得处理可识别的学生个人资料。",
+    ]
+      .filter(Boolean)
+      .join("\n")
+  );
+}
+
+function showTeacherToolResult(answer, sources = [], statusText = "") {
+  toolkitState.latestAnswer = answer;
+  toolkitEls.output.textContent = answer;
+  toolkitEls.outputWrap.hidden = false;
+  renderSourceList(toolkitEls.sources, sources);
+  toolkitEls.requestStatus.textContent = statusText;
+  toolkitEls.outputWrap.scrollIntoView({ block: "nearest", behavior: "smooth" });
+}
+
+async function generateTeacherTool() {
+  if (toolkitState.busy) return;
+  const payload = teacherToolPayload();
+  if (!payload.subject || !payload.level || !payload.topic) {
+    toolkitEls.form?.reportValidity();
+    return;
+  }
+
+  toolkitState.busy = true;
+  toolkitEls.generate.disabled = true;
+  toolkitEls.requestStatus.textContent = t("generating");
+  try {
+    const result = await postRagApi("/teacher-tool", payload);
+    if (!result.ok || !result.answer) throw new Error(result.answer || "Generation failed");
+    showTeacherToolResult(result.answer, result.sources || [], t("generatedWithSources"));
+    if (assistantEls.quota && result.quota) assistantEls.quota.textContent = result.quota;
+    assistantState.serviceReady = true;
+    renderAssistantServiceState();
+  } catch {
+    showTeacherToolResult(buildOfflineTeacherPrompt(payload), [], t("generatedOfflineFallback"));
+  } finally {
+    toolkitState.busy = false;
+    toolkitEls.generate.disabled = false;
+  }
+}
+
 function setupToolkit() {
   renderToolkitOptions();
-  renderTeacherPrompt();
   renderSavedPack();
   renderAgreement();
-  renderSpecialistPrompt();
-
-  [
-    toolkitEls.task,
-    toolkitEls.subject,
-    toolkitEls.level,
-    toolkitEls.topic,
-    toolkitEls.duration,
-    toolkitEls.language,
-    toolkitEls.aiTool,
-    toolkitEls.needs,
-  ].forEach((element) => {
-    element?.addEventListener("input", renderTeacherPrompt);
-    element?.addEventListener("change", renderTeacherPrompt);
+  toolkitEls.form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    generateTeacherTool();
   });
-  toolkitEls.generatePrompt?.addEventListener("click", renderTeacherPrompt);
-  toolkitEls.exportSaved?.addEventListener("click", renderSavedPack);
+  toolkitEls.copy?.addEventListener("click", async () => {
+    const defaultLabel = t("copyResult");
+    try {
+      await navigator.clipboard.writeText(toolkitState.latestAnswer || "");
+      toolkitEls.copy.querySelector("span").textContent = t("copied");
+    } catch {
+      toolkitEls.copy.querySelector("span").textContent = t("copyFailed");
+    }
+    window.setTimeout(() => {
+      toolkitEls.copy.querySelector("span").textContent = defaultLabel;
+    }, 1600);
+  });
+  toolkitEls.refine?.addEventListener("click", () => {
+    const excerpt = (toolkitState.latestAnswer || "").slice(0, 1800);
+    if (!excerpt) return;
+    queueAssistantQuestion(`请帮助我修改下面这份教学材料。先指出最需要改进的三点，再给出修订版：\n\n${excerpt}`);
+  });
+  toolkitEls.exportSaved?.addEventListener("click", () => {
+    renderSavedPack();
+    const details = toolkitEls.savedOutput?.closest("details");
+    if (details) details.open = true;
+  });
   [
     toolkitEls.agreementLevel,
     toolkitEls.agreementAllowed,
@@ -4574,23 +4903,13 @@ function setupToolkit() {
     element?.addEventListener("input", renderAgreement);
     element?.addEventListener("change", renderAgreement);
   });
-  toolkitEls.generateAgreement?.addEventListener("click", renderAgreement);
-  [
-    toolkitEls.specialType,
-    toolkitEls.specialSubject,
-    toolkitEls.specialLevel,
-    toolkitEls.specialGoal,
-    toolkitEls.specialMaterial,
-    toolkitEls.specialConstraints,
-  ].forEach((element) => {
-    element?.addEventListener("input", renderSpecialistPrompt);
-    element?.addEventListener("change", renderSpecialistPrompt);
+  toolkitEls.generateAgreement?.addEventListener("click", () => {
+    renderAgreement();
+    const details = toolkitEls.agreementOutput?.closest("details");
+    if (details) details.open = true;
   });
-  toolkitEls.generateSpecial?.addEventListener("click", renderSpecialistPrompt);
-  setupDynamicCopy(toolkitEls.copyPrompt, toolkitEls.promptOutput, "copyPrompt");
   setupDynamicCopy(toolkitEls.copySaved, toolkitEls.savedOutput, "toolCopySaved");
   setupDynamicCopy(toolkitEls.copyAgreement, toolkitEls.agreementOutput, "toolCopyAgreement");
-  setupDynamicCopy(toolkitEls.copySpecial, toolkitEls.specialOutput, "toolCopySpecial");
 }
 
 function resetPromptFilters(overrides = {}) {
@@ -5346,6 +5665,29 @@ function renderResources() {
           shown: items.length,
           total: resourceState.items.length,
         });
+  updateResourceAdvancedCount();
+}
+
+function setAdvancedFilterCount(element, count) {
+  if (!element) return;
+  element.textContent = String(count);
+  element.hidden = count === 0;
+}
+
+function updateResourceAdvancedCount() {
+  const values = [
+    resourceState.task,
+    resourceState.audience,
+    resourceState.category,
+    resourceState.language,
+    resourceState.accessType,
+    resourceState.quality,
+    resourceState.linkStatus,
+  ];
+  const count = values.filter((value) => value !== "全部").length +
+    Number(resourceState.favoritesOnly) +
+    Number(resourceState.sort !== "quality-desc");
+  setAdvancedFilterCount(resourceEls.advancedCount, count);
 }
 
 function populateResourceControls() {
@@ -5618,6 +5960,25 @@ function renderPrompts() {
           shown: items.length,
           total: promptState.items.length,
         });
+  updatePromptAdvancedCount();
+}
+
+function updatePromptAdvancedCount() {
+  const values = [
+    promptState.task,
+    promptState.promptType,
+    promptState.skillDomain,
+    promptState.evidenceStrength,
+    promptState.category,
+    promptState.audience,
+    promptState.outputFormat,
+    promptState.quality,
+    promptState.linkStatus,
+  ];
+  const count = values.filter((value) => value !== "全部").length +
+    Number(promptState.favoritesOnly) +
+    Number(promptState.sort !== "quality-desc");
+  setAdvancedFilterCount(promptEls.advancedCount, count);
 }
 
 function populatePromptControls() {
@@ -5805,6 +6166,7 @@ setupMobileCollapsibleFilters();
 setupWorkspaceNavigation();
 setupCoursePlanner();
 setupToolkit();
+setupAssistant();
 setupCandidateControls();
 initCases();
 initCandidates();

@@ -48,6 +48,16 @@ function safePath(requestUrl) {
 
 function createStaticServer() {
   const server = createServer(async (request, response) => {
+    const requestUrl = new URL(request.url || "/", "http://localhost");
+    if (requestUrl.pathname === "/data/rag-config.json") {
+      response.writeHead(200, {
+        "content-type": "application/json; charset=utf-8",
+        "cache-control": "no-store",
+      });
+      response.end(JSON.stringify({ status: "offline_test" }));
+      return;
+    }
+
     const filePath = safePath(request.url || "/");
     if (!filePath || !existsSync(filePath)) {
       response.writeHead(404, { "content-type": "text/plain; charset=utf-8" });
@@ -185,8 +195,15 @@ async function ensureFiltersOpen(page, view) {
   if ((await detail.count()) === 0) return;
   const isOpen = await detail.evaluate((element) => element.open);
   if (!isOpen) {
-    await detail.locator("summary").click();
+    await detail.locator(":scope > summary").click();
   }
+}
+
+async function ensureAdvancedFiltersOpen(page, selector) {
+  const detail = page.locator(selector);
+  if ((await detail.count()) === 0) return;
+  const isOpen = await detail.evaluate((element) => element.open);
+  if (!isOpen) await detail.locator("summary").click();
 }
 
 async function openView(page, view) {
@@ -238,6 +255,7 @@ async function runScenario(page, round) {
   } else if (scenario === 10) {
     await page.locator('#mainTabs a[data-view="resources"]').click();
     await ensureFiltersOpen(page, "resources");
+    await ensureAdvancedFiltersOpen(page, "#resourceAdvancedFilters");
     await pickSelectOption(page.locator("#resourceRegionFilter"), round);
     await pickSelectOption(page.locator("#resourceTypeFilter"), round);
     await pickSelectOption(page.locator("#resourceQualityFilter"), round);
@@ -245,6 +263,7 @@ async function runScenario(page, round) {
   } else if (scenario === 11) {
     await page.locator('#mainTabs a[data-view="prompts"]').click();
     await ensureFiltersOpen(page, "prompts");
+    await ensureAdvancedFiltersOpen(page, "#promptAdvancedFilters");
     await pickSelectOption(page.locator("#promptSubjectFilter"), round);
     await pickSelectOption(page.locator("#promptTypeFilter"), round);
     await pickSelectOption(page.locator("#promptDomainFilter"), round);
@@ -300,8 +319,9 @@ async function runScenario(page, round) {
     if ((await copy.count()) > 0) await copy.click();
   } else if (scenario === 18) {
     await page.locator('#mainTabs a[data-view="toolkit"]').click();
-    await page.locator("#toolTopic").fill(`测试主题 ${round}`);
-    await page.locator("#toolGeneratePrompt").click();
+    await page.locator("#teacherToolTopic").fill(`测试主题 ${round}`);
+    await page.locator("#teacherToolGenerate").click();
+    await page.locator("#teacherToolOutputWrap:not([hidden])").waitFor();
   } else if (scenario === 19) {
     await page.locator('#mainTabs a[data-view="cases"]').click();
     const next = page.locator("#casePagination button").last();
@@ -313,6 +333,7 @@ async function runScenario(page, round) {
   } else if (scenario === 21) {
     await page.locator('#mainTabs a[data-view="prompts"]').click();
     await ensureFiltersOpen(page, "prompts");
+    await ensureAdvancedFiltersOpen(page, "#promptAdvancedFilters");
     const reset = page.locator("#promptResetFilters");
     if ((await reset.count()) > 0) await reset.click();
   } else if (scenario === 22) {

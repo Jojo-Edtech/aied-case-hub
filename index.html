@@ -11,7 +11,7 @@
     <link rel="icon" href="data:,">
     <link rel="stylesheet" href="vendor/lucide-font/lucide.css">
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="dashboard-theme.css?v=20260808-1">
+    <link rel="stylesheet" href="dashboard-theme.css?v=20260808-2">
     <!-- Pages refresh marker for the embedded English analytics demo: DeepSeek integration. -->
   </head>
   <body>
@@ -457,7 +457,7 @@
               <span class="filter-state filter-state-open" data-i18n="filterCollapse">收起筛选</span>
             </summary>
             <div class="filter-content">
-              <div class="controls controls-resources">
+              <div class="controls filter-primary controls-resources-primary">
                 <label class="field field-wide" for="resourceSearchInput">
                   <span data-i18n="keyword">关键词</span>
                   <input id="resourceSearchInput" type="search" placeholder="搜索标题、简介、适用方式、发布机构或地区" data-i18n-placeholder="resourceSearchPlaceholder">
@@ -468,72 +468,74 @@
                   <select id="resourceRegionFilter"></select>
                 </label>
 
-                <label class="field" for="resourceTaskFilter">
-                  <span data-i18n="teacherTask">教师任务</span>
-                  <select id="resourceTaskFilter"></select>
-                </label>
-
                 <label class="field" for="resourceLevelFilter">
                   <span data-i18n="educationLevel">学段</span>
                   <select id="resourceLevelFilter"></select>
-                </label>
-
-                <label class="field" for="resourceAudienceFilter">
-                  <span data-i18n="audience">受众</span>
-                  <select id="resourceAudienceFilter"></select>
                 </label>
 
                 <label class="field" for="resourceTypeFilter">
                   <span data-i18n="resourceType">资源类型</span>
                   <select id="resourceTypeFilter"></select>
                 </label>
-
-                <label class="field" for="resourceCategoryFilter">
-                  <span data-i18n="category">类别</span>
-                  <select id="resourceCategoryFilter"></select>
-                </label>
-
-                <label class="field" for="resourceLanguageFilter">
-                  <span data-i18n="language">语言</span>
-                  <select id="resourceLanguageFilter"></select>
-                </label>
-
-                <label class="field" for="resourceAccessFilter">
-                  <span data-i18n="accessType">访问方式</span>
-                  <select id="resourceAccessFilter"></select>
-                </label>
-
-                <label class="field" for="resourceQualityFilter">
-                  <span data-i18n="quality">资料质量</span>
-                  <select id="resourceQualityFilter"></select>
-                </label>
-
-                <label class="field" for="resourceLinkFilter">
-                  <span data-i18n="linkStatus">链接状态</span>
-                  <select id="resourceLinkFilter"></select>
-                </label>
-
-                <label class="field" for="resourceSortSelect">
-                  <span data-i18n="sort">排序</span>
-                  <select id="resourceSortSelect">
-                    <option value="title-asc">标题：A-Z</option>
-                    <option value="region-asc">地区：A-Z</option>
-                    <option value="date-desc">发布日期：新到旧</option>
-                    <option value="date-asc">发布日期：旧到新</option>
-                    <option value="publisher-asc">发布机构：A-Z</option>
-                  </select>
-                </label>
-
-                <label class="field checkbox-field" for="favoriteResourcesOnly">
-                  <span data-i18n="favorites">收藏</span>
-                  <span class="toggle-field">
-                    <input id="favoriteResourcesOnly" type="checkbox">
-                    <span data-i18n="favoritesOnly">只看收藏</span>
-                  </span>
-                </label>
-
-                <button class="button button-secondary" id="resourceResetFilters" type="button" data-i18n="reset">重置</button>
               </div>
+
+              <details class="advanced-filters" id="resourceAdvancedFilters">
+                <summary>
+                  <span><i class="icon-sliders-horizontal" aria-hidden="true"></i><span data-i18n="moreFilters">更多筛选</span></span>
+                  <span class="advanced-filter-count" id="resourceAdvancedCount" hidden>0</span>
+                </summary>
+                <div class="controls controls-advanced">
+                  <label class="field" for="resourceTaskFilter">
+                    <span data-i18n="teacherTask">教师任务</span>
+                    <select id="resourceTaskFilter"></select>
+                  </label>
+
+                  <label class="field" for="resourceAudienceFilter">
+                    <span data-i18n="audience">受众</span>
+                    <select id="resourceAudienceFilter"></select>
+                  </label>
+
+                  <label class="field" for="resourceCategoryFilter">
+                    <span data-i18n="category">类别</span>
+                    <select id="resourceCategoryFilter"></select>
+                  </label>
+
+                  <label class="field" for="resourceLanguageFilter">
+                    <span data-i18n="language">语言</span>
+                    <select id="resourceLanguageFilter"></select>
+                  </label>
+
+                  <label class="field" for="resourceAccessFilter">
+                    <span data-i18n="accessType">访问方式</span>
+                    <select id="resourceAccessFilter"></select>
+                  </label>
+
+                  <label class="field" for="resourceQualityFilter">
+                    <span data-i18n="quality">资料质量</span>
+                    <select id="resourceQualityFilter"></select>
+                  </label>
+
+                  <label class="field" for="resourceLinkFilter">
+                    <span data-i18n="linkStatus">链接状态</span>
+                    <select id="resourceLinkFilter"></select>
+                  </label>
+
+                  <label class="field" for="resourceSortSelect">
+                    <span data-i18n="sort">排序</span>
+                    <select id="resourceSortSelect"></select>
+                  </label>
+
+                  <label class="field checkbox-field" for="favoriteResourcesOnly">
+                    <span data-i18n="favorites">收藏</span>
+                    <span class="toggle-field">
+                      <input id="favoriteResourcesOnly" type="checkbox">
+                      <span data-i18n="favoritesOnly">只看收藏</span>
+                    </span>
+                  </label>
+
+                  <button class="button button-secondary" id="resourceResetFilters" type="button" data-i18n="reset">重置</button>
+                </div>
+              </details>
             </div>
           </details>
         </section>
@@ -580,7 +582,25 @@
           </section>
         </details>
 
-        <section class="task-launcher" aria-label="教师任务入口" data-i18n-aria-label="promptTaskLauncherAria">
+        <section class="ai-finder" aria-label="AI Prompt 推荐" data-i18n-aria-label="promptFinderAria">
+          <div class="ai-finder-heading">
+            <span class="ai-finder-icon" aria-hidden="true"><i class="icon-sparkles"></i></span>
+            <div>
+              <p class="eyebrow">Prompt Finder</p>
+              <h2 data-i18n="promptFinderTitle">用一句话找合适的 Prompt</h2>
+            </div>
+          </div>
+          <form class="ai-finder-form" id="promptFinderForm">
+            <label class="sr-only" for="promptFinderInput" data-i18n="promptFinderLabel">描述你的教学任务</label>
+            <input id="promptFinderInput" type="text" maxlength="280" placeholder="例如：为中二英文议论文设计三档写作支架" data-i18n-placeholder="promptFinderPlaceholder">
+            <button class="button button-primary" type="submit">
+              <i class="icon-sparkles" aria-hidden="true"></i>
+              <span data-i18n="promptFinderAction">让 AI 推荐</span>
+            </button>
+          </form>
+        </section>
+
+        <section class="task-launcher task-launcher-compact" aria-label="教师任务入口" data-i18n-aria-label="promptTaskLauncherAria">
           <div>
             <p class="eyebrow" data-i18n="promptTaskLauncherEyebrow">Teacher Workflows</p>
             <h2 data-i18n="promptTaskLauncherTitle">我要做什么</h2>
@@ -596,7 +616,7 @@
               <span class="filter-state filter-state-open" data-i18n="filterCollapse">收起筛选</span>
             </summary>
             <div class="filter-content">
-              <div class="controls controls-prompts">
+              <div class="controls filter-primary controls-prompts-primary">
                 <label class="field field-wide" for="promptSearchInput">
                   <span data-i18n="keyword">关键词</span>
                   <input id="promptSearchInput" type="search" placeholder="搜索学科、用途、Prompt 内容或来源" data-i18n-placeholder="promptSearchPlaceholder">
@@ -607,75 +627,79 @@
                   <select id="promptSubjectFilter"></select>
                 </label>
 
-                <label class="field" for="promptTaskFilter">
-                  <span data-i18n="teacherTask">教师任务</span>
-                  <select id="promptTaskFilter"></select>
-                </label>
-
                 <label class="field" for="promptLevelFilter">
                   <span data-i18n="educationLevel">学段</span>
                   <select id="promptLevelFilter"></select>
                 </label>
-
-                <label class="field" for="promptTypeFilter">
-                  <span data-i18n="promptType">Prompt 类型</span>
-                  <select id="promptTypeFilter"></select>
-                </label>
-
-                <label class="field" for="promptDomainFilter">
-                  <span data-i18n="skillDomain">技能领域</span>
-                  <select id="promptDomainFilter"></select>
-                </label>
-
-                <label class="field" for="promptEvidenceFilter">
-                  <span data-i18n="evidenceStrength">证据等级</span>
-                  <select id="promptEvidenceFilter"></select>
-                </label>
-
-                <label class="field" for="promptCategoryFilter">
-                  <span data-i18n="category">类别</span>
-                  <select id="promptCategoryFilter"></select>
-                </label>
-
-                <label class="field" for="promptAudienceFilter">
-                  <span data-i18n="audience">受众</span>
-                  <select id="promptAudienceFilter"></select>
-                </label>
-
-                <label class="field" for="promptOutputFilter">
-                  <span data-i18n="outputFormat">输出格式</span>
-                  <select id="promptOutputFilter"></select>
-                </label>
-
-                <label class="field" for="promptQualityFilter">
-                  <span data-i18n="quality">资料质量</span>
-                  <select id="promptQualityFilter"></select>
-                </label>
-
-                <label class="field" for="promptLinkFilter">
-                  <span data-i18n="linkStatus">链接状态</span>
-                  <select id="promptLinkFilter"></select>
-                </label>
-
-                <label class="field" for="promptSortSelect">
-                  <span data-i18n="sort">排序</span>
-                  <select id="promptSortSelect">
-                    <option value="subject-asc">学科：A-Z</option>
-                    <option value="type-asc">类型：A-Z</option>
-                    <option value="title-asc">标题：A-Z</option>
-                  </select>
-                </label>
-
-                <label class="field checkbox-field" for="favoritePromptsOnly">
-                  <span data-i18n="favorites">收藏</span>
-                  <span class="toggle-field">
-                    <input id="favoritePromptsOnly" type="checkbox">
-                    <span data-i18n="favoritesOnly">只看收藏</span>
-                  </span>
-                </label>
-
-                <button class="button button-secondary" id="promptResetFilters" type="button" data-i18n="reset">重置</button>
               </div>
+
+              <details class="advanced-filters" id="promptAdvancedFilters">
+                <summary>
+                  <span><i class="icon-sliders-horizontal" aria-hidden="true"></i><span data-i18n="moreFilters">更多筛选</span></span>
+                  <span class="advanced-filter-count" id="promptAdvancedCount" hidden>0</span>
+                </summary>
+                <div class="controls controls-advanced">
+                  <label class="field" for="promptTaskFilter">
+                    <span data-i18n="teacherTask">教师任务</span>
+                    <select id="promptTaskFilter"></select>
+                  </label>
+
+                  <label class="field" for="promptTypeFilter">
+                    <span data-i18n="promptType">Prompt 类型</span>
+                    <select id="promptTypeFilter"></select>
+                  </label>
+
+                  <label class="field" for="promptDomainFilter">
+                    <span data-i18n="skillDomain">技能领域</span>
+                    <select id="promptDomainFilter"></select>
+                  </label>
+
+                  <label class="field" for="promptEvidenceFilter">
+                    <span data-i18n="evidenceStrength">证据等级</span>
+                    <select id="promptEvidenceFilter"></select>
+                  </label>
+
+                  <label class="field" for="promptCategoryFilter">
+                    <span data-i18n="category">类别</span>
+                    <select id="promptCategoryFilter"></select>
+                  </label>
+
+                  <label class="field" for="promptAudienceFilter">
+                    <span data-i18n="audience">受众</span>
+                    <select id="promptAudienceFilter"></select>
+                  </label>
+
+                  <label class="field" for="promptOutputFilter">
+                    <span data-i18n="outputFormat">输出格式</span>
+                    <select id="promptOutputFilter"></select>
+                  </label>
+
+                  <label class="field" for="promptQualityFilter">
+                    <span data-i18n="quality">资料质量</span>
+                    <select id="promptQualityFilter"></select>
+                  </label>
+
+                  <label class="field" for="promptLinkFilter">
+                    <span data-i18n="linkStatus">链接状态</span>
+                    <select id="promptLinkFilter"></select>
+                  </label>
+
+                  <label class="field" for="promptSortSelect">
+                    <span data-i18n="sort">排序</span>
+                    <select id="promptSortSelect"></select>
+                  </label>
+
+                  <label class="field checkbox-field" for="favoritePromptsOnly">
+                    <span data-i18n="favorites">收藏</span>
+                    <span class="toggle-field">
+                      <input id="favoritePromptsOnly" type="checkbox">
+                      <span data-i18n="favoritesOnly">只看收藏</span>
+                    </span>
+                  </label>
+
+                  <button class="button button-secondary" id="promptResetFilters" type="button" data-i18n="reset">重置</button>
+                </div>
+              </details>
             </div>
           </details>
         </section>
@@ -702,160 +726,157 @@
               <p class="eyebrow" data-i18n="toolkitEyebrow">Teacher AI Toolkit</p>
               <h2 data-i18n="toolkitTitle">教师 AI 工具箱</h2>
             </div>
-            <span class="toolkit-status" data-i18n="toolkitStatusNoApi">本地生成，不消耗 API</span>
+            <span class="toolkit-status service-status" id="toolkitServiceStatus">
+              <span class="service-dot" aria-hidden="true"></span>
+              <span data-i18n="serviceChecking">正在检查服务</span>
+            </span>
           </div>
 
-          <div class="toolkit-grid">
-            <article class="tool-card">
+          <div class="toolkit-layout">
+            <article class="tool-card tool-card-primary">
               <div class="tool-card-header">
                 <div>
-                  <p class="eyebrow" data-i18n="toolPromptMakerEyebrow">Prompt Builder</p>
-                  <h3 data-i18n="toolPromptMakerTitle">教学 Prompt 生成器</h3>
+                  <p class="eyebrow">AI Teaching Copilot</p>
+                  <h3 data-i18n="teacherToolTitle">AI 教学材料生成器</h3>
                 </div>
               </div>
-              <div class="tool-form">
+
+              <form class="tool-form teacher-tool-form" id="teacherToolForm">
                 <label>
-                  <span data-i18n="toolTask">教师任务</span>
-                  <select id="toolTask"></select>
+                  <span data-i18n="teacherToolOutputType">产出类型</span>
+                  <select id="teacherToolOutputType"></select>
                 </label>
                 <label>
                   <span data-i18n="toolSubjectInput">学科</span>
-                  <input id="toolSubject" type="text" value="英语">
+                  <input id="teacherToolSubject" type="text" value="英语" required>
                 </label>
                 <label>
                   <span data-i18n="toolLevelInput">学段</span>
-                  <input id="toolLevel" type="text" value="中学">
+                  <input id="teacherToolLevel" type="text" value="中学" required>
                 </label>
                 <label>
                   <span data-i18n="toolTopicInput">主题</span>
-                  <input id="toolTopic" type="text" placeholder="例如：二次函数、英文议论文、生态系统" data-i18n-placeholder="toolTopicPlaceholder">
+                  <input id="teacherToolTopic" type="text" placeholder="例如：二次函数、英文议论文、生态系统" data-i18n-placeholder="toolTopicPlaceholder" required>
                 </label>
-                <label>
-                  <span data-i18n="toolDuration">课堂时间</span>
-                  <input id="toolDuration" type="text" value="40 分钟">
-                </label>
-                <label>
-                  <span data-i18n="toolOutputLanguage">输出语言</span>
-                  <select id="toolLanguage"></select>
-                </label>
-                <label>
-                  <span data-i18n="toolAiTool">AI 工具</span>
-                  <input id="toolAiTool" type="text" value="通用生成式 AI">
-                </label>
-                <label class="tool-form-wide">
-                  <span data-i18n="toolStudentNeeds">学生情况</span>
-                  <textarea id="toolStudentNeeds" rows="3" placeholder="例如：基础差异大、需要双语支持、班上有高能力学生" data-i18n-placeholder="toolNeedsPlaceholder"></textarea>
-                </label>
-                <button class="button button-primary tool-form-wide" id="toolGeneratePrompt" type="button" data-i18n="toolGenerate">生成</button>
-              </div>
-              <div class="tool-output">
+
+                <details class="tool-advanced tool-form-wide">
+                  <summary>
+                    <span><i class="icon-settings-2" aria-hidden="true"></i><span data-i18n="addTeachingContext">补充教学情境</span></span>
+                  </summary>
+                  <div class="tool-advanced-grid">
+                    <label>
+                      <span data-i18n="toolDuration">课堂时间</span>
+                      <input id="teacherToolDuration" type="text" value="40 分钟">
+                    </label>
+                    <label>
+                      <span data-i18n="toolOutputLanguage">输出语言</span>
+                      <select id="teacherToolLanguage"></select>
+                    </label>
+                    <label class="tool-form-wide">
+                      <span data-i18n="toolStudentNeeds">学生情况</span>
+                      <textarea id="teacherToolStudentContext" rows="2" placeholder="例如：基础差异大、需要双语支持" data-i18n-placeholder="toolNeedsPlaceholder"></textarea>
+                    </label>
+                    <label class="tool-form-wide">
+                      <span data-i18n="toolSpecialistMaterial">原始材料 / 学生作品</span>
+                      <textarea id="teacherToolSourceMaterial" rows="3" placeholder="可选：粘贴匿名化材料或任务说明" data-i18n-placeholder="teacherToolMaterialPlaceholder"></textarea>
+                    </label>
+                    <label class="tool-form-wide">
+                      <span data-i18n="toolSpecialistConstraints">约束条件</span>
+                      <textarea id="teacherToolConstraints" rows="2" placeholder="例如：三档难度、不要直接给答案" data-i18n-placeholder="toolSpecialistConstraintsPlaceholder"></textarea>
+                    </label>
+                  </div>
+                </details>
+
+                <button class="button button-primary tool-form-wide" id="teacherToolGenerate" type="submit">
+                  <i class="icon-sparkles" aria-hidden="true"></i>
+                  <span data-i18n="teacherToolGenerate">生成教学材料</span>
+                </button>
+              </form>
+
+              <p class="privacy-inline"><i class="icon-shield-check" aria-hidden="true"></i><span data-i18n="privacyInline">请勿输入学生姓名、联系方式或其他可识别个人资料。</span></p>
+              <p class="tool-request-status" id="teacherToolRequestStatus" aria-live="polite"></p>
+
+              <div class="tool-output teacher-tool-output" id="teacherToolOutputWrap" hidden>
                 <div class="workflow-header">
                   <h4 data-i18n="toolOutputTitle">可复制结果</h4>
-                  <button class="copy-button" id="toolCopyPrompt" type="button" data-i18n="copyPrompt">复制 Prompt</button>
+                  <div class="output-actions">
+                    <button class="copy-button" id="teacherToolCopy" type="button"><i class="icon-copy" aria-hidden="true"></i><span data-i18n="copyResult">复制结果</span></button>
+                    <button class="copy-button" id="teacherToolRefine" type="button"><i class="icon-message-square" aria-hidden="true"></i><span data-i18n="refineInChat">在对话中修改</span></button>
+                  </div>
                 </div>
-                <pre id="toolPromptOutput"></pre>
+                <pre id="teacherToolOutput"></pre>
+                <div class="answer-sources" id="teacherToolSources" hidden></div>
               </div>
             </article>
 
-            <article class="tool-card">
-              <div class="tool-card-header">
-                <div>
-                  <p class="eyebrow" data-i18n="toolSavedPackEyebrow">Lesson Pack</p>
-                  <h3 data-i18n="toolSavedPackTitle">收藏备课包导出</h3>
+            <aside class="toolkit-secondary" aria-label="本地教师工具" data-i18n-aria-label="localToolsAria">
+              <details class="tool-card tool-card-compact local-tool-details" data-mobile-collapsible>
+                <summary class="tool-card-header">
+                  <div>
+                    <p class="eyebrow" data-i18n="toolSavedPackEyebrow">Lesson Pack</p>
+                    <h3 data-i18n="toolSavedPackTitle">收藏备课包导出</h3>
+                  </div>
+                </summary>
+                <div class="local-tool-content">
+                  <div class="saved-pack-stats">
+                    <span><strong id="savedCasesCount">0</strong><span data-i18n="toolSavedCases">案例</span></span>
+                    <span><strong id="savedResourcesCount">0</strong><span data-i18n="toolSavedResources">资源</span></span>
+                    <span><strong id="savedPromptsCount">0</strong><span data-i18n="toolSavedPrompts">Prompt</span></span>
+                  </div>
+                  <button class="button button-secondary" id="toolExportSaved" type="button" data-i18n="toolExportSaved">生成收藏清单</button>
+                  <details class="compact-output">
+                    <summary data-i18n="viewGeneratedList">查看生成清单</summary>
+                    <div class="tool-output">
+                      <div class="workflow-header">
+                        <h4 data-i18n="toolOutputTitle">可复制结果</h4>
+                        <button class="copy-button" id="toolCopySaved" type="button" data-i18n="toolCopySaved">复制清单</button>
+                      </div>
+                      <pre id="savedPackOutput"></pre>
+                    </div>
+                  </details>
                 </div>
-              </div>
-              <div class="saved-pack-stats">
-                <span><strong id="savedCasesCount">0</strong><span data-i18n="toolSavedCases">案例</span></span>
-                <span><strong id="savedResourcesCount">0</strong><span data-i18n="toolSavedResources">资源</span></span>
-                <span><strong id="savedPromptsCount">0</strong><span data-i18n="toolSavedPrompts">Prompt</span></span>
-              </div>
-              <button class="button button-secondary" id="toolExportSaved" type="button" data-i18n="toolExportSaved">生成收藏清单</button>
-              <div class="tool-output">
-                <div class="workflow-header">
-                  <h4 data-i18n="toolOutputTitle">可复制结果</h4>
-                  <button class="copy-button" id="toolCopySaved" type="button" data-i18n="toolCopySaved">复制清单</button>
-                </div>
-                <pre id="savedPackOutput"></pre>
-              </div>
-            </article>
+              </details>
 
-            <article class="tool-card">
-              <div class="tool-card-header">
-                <div>
-                  <p class="eyebrow" data-i18n="toolAgreementEyebrow">AI Rules</p>
-                  <h3 data-i18n="toolAgreementTitle">课堂 AI 使用守则</h3>
+              <details class="tool-card tool-card-compact local-tool-details" data-mobile-collapsible>
+                <summary class="tool-card-header">
+                  <div>
+                    <p class="eyebrow" data-i18n="toolAgreementEyebrow">AI Rules</p>
+                    <h3 data-i18n="toolAgreementTitle">课堂 AI 使用守则</h3>
+                  </div>
+                </summary>
+                <div class="local-tool-content">
+                  <div class="tool-form compact-form">
+                    <label>
+                      <span data-i18n="toolLevelInput">学段</span>
+                      <input id="agreementLevel" type="text" value="中学">
+                    </label>
+                    <label>
+                      <span data-i18n="toolAllowedUse">允许用途</span>
+                      <select id="agreementAllowed"></select>
+                    </label>
+                    <label>
+                      <span data-i18n="toolAssessmentRule">评价规则</span>
+                      <select id="agreementAssessment"></select>
+                    </label>
+                    <label>
+                      <span data-i18n="toolPrivacyRule">隐私规则</span>
+                      <select id="agreementPrivacy"></select>
+                    </label>
+                    <button class="button button-secondary tool-form-wide" id="toolGenerateAgreement" type="button" data-i18n="toolGenerateAgreement">生成守则</button>
+                  </div>
+                  <details class="compact-output">
+                    <summary data-i18n="viewGeneratedRules">查看生成守则</summary>
+                    <div class="tool-output">
+                      <div class="workflow-header">
+                        <h4 data-i18n="toolOutputTitle">可复制结果</h4>
+                        <button class="copy-button" id="toolCopyAgreement" type="button" data-i18n="toolCopyAgreement">复制守则</button>
+                      </div>
+                      <pre id="agreementOutput"></pre>
+                    </div>
+                  </details>
                 </div>
-              </div>
-              <div class="tool-form">
-                <label>
-                  <span data-i18n="toolLevelInput">学段</span>
-                  <input id="agreementLevel" type="text" value="中学">
-                </label>
-                <label>
-                  <span data-i18n="toolAllowedUse">允许用途</span>
-                  <select id="agreementAllowed"></select>
-                </label>
-                <label>
-                  <span data-i18n="toolAssessmentRule">评价规则</span>
-                  <select id="agreementAssessment"></select>
-                </label>
-                <label>
-                  <span data-i18n="toolPrivacyRule">隐私规则</span>
-                  <select id="agreementPrivacy"></select>
-                </label>
-                <button class="button button-primary tool-form-wide" id="toolGenerateAgreement" type="button" data-i18n="toolGenerateAgreement">生成守则</button>
-              </div>
-              <div class="tool-output">
-                <div class="workflow-header">
-                  <h4 data-i18n="toolOutputTitle">可复制结果</h4>
-                  <button class="copy-button" id="toolCopyAgreement" type="button" data-i18n="toolCopyAgreement">复制守则</button>
-                </div>
-                <pre id="agreementOutput"></pre>
-              </div>
-            </article>
-
-            <article class="tool-card">
-              <div class="tool-card-header">
-                <div>
-                  <p class="eyebrow" data-i18n="toolSpecialistEyebrow">Quick Tools</p>
-                  <h3 data-i18n="toolSpecialistTitle">专项模板生成器</h3>
-                </div>
-              </div>
-              <div class="tool-form">
-                <label>
-                  <span data-i18n="toolSpecialistType">专项任务</span>
-                  <select id="specialToolType"></select>
-                </label>
-                <label>
-                  <span data-i18n="toolSubjectInput">学科</span>
-                  <input id="specialSubject" type="text" value="英语">
-                </label>
-                <label>
-                  <span data-i18n="toolLevelInput">学段</span>
-                  <input id="specialLevel" type="text" value="中学">
-                </label>
-                <label>
-                  <span data-i18n="toolSpecialistGoal">学习目标</span>
-                  <input id="specialGoal" type="text" placeholder="例如：能用证据支持观点" data-i18n-placeholder="toolSpecialistGoalPlaceholder">
-                </label>
-                <label class="tool-form-wide">
-                  <span data-i18n="toolSpecialistMaterial">原始材料 / 学生作品</span>
-                  <textarea id="specialMaterial" rows="3" placeholder="粘贴课文、题目、学生作品片段或任务说明" data-i18n-placeholder="toolSpecialistMaterialPlaceholder"></textarea>
-                </label>
-                <label class="tool-form-wide">
-                  <span data-i18n="toolSpecialistConstraints">约束条件</span>
-                  <textarea id="specialConstraints" rows="2" placeholder="例如：语气鼓励、三档难度、不要直接给答案" data-i18n-placeholder="toolSpecialistConstraintsPlaceholder"></textarea>
-                </label>
-                <button class="button button-primary tool-form-wide" id="toolGenerateSpecial" type="button" data-i18n="toolGenerateSpecial">生成专项 Prompt</button>
-              </div>
-              <div class="tool-output">
-                <div class="workflow-header">
-                  <h4 data-i18n="toolOutputTitle">可复制结果</h4>
-                  <button class="copy-button" id="toolCopySpecial" type="button" data-i18n="toolCopySpecial">复制专项 Prompt</button>
-                </div>
-                <pre id="specialOutput"></pre>
-              </div>
-            </article>
+              </details>
+            </aside>
           </div>
         </section>
       </section>
@@ -867,26 +888,33 @@
               <p class="eyebrow" data-i18n="assistantEyebrow">RAG Research Assistant</p>
               <h2>AIED Case Hub AI 助手</h2>
             </div>
-            <a class="button button-primary" id="assistantDirectLink" href="#" target="_blank" rel="noreferrer" hidden>
-              <span data-i18n="openModelScope">打开魔搭应用</span>
-            </a>
+            <span class="service-status" id="assistantServiceStatus">
+              <span class="service-dot" aria-hidden="true"></span>
+              <span id="assistantServiceLabel" data-i18n="serviceChecking">正在检查服务</span>
+            </span>
           </div>
 
-          <div class="assistant-frame-wrap" id="assistantFrameWrap" hidden>
-            <iframe
-              id="assistantFrame"
-              title="AIED Case Hub AI 助手"
-              loading="lazy"
-              referrerpolicy="no-referrer"
-              sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-downloads"
-              allow="clipboard-write; accelerometer 'none'; gyroscope 'none'"
-            ></iframe>
-          </div>
+          <div class="assistant-workspace">
+            <div class="assistant-suggestions" aria-label="建议问题" data-i18n-aria-label="assistantSuggestionsAria">
+              <button type="button" data-assistant-question="香港中学有哪些可直接参考的 AI 教育案例？" data-i18n="assistantSuggestionCases">香港中学案例</button>
+              <button type="button" data-assistant-question="请推荐一套适合中学教师的 AI 素养课程资源。" data-i18n="assistantSuggestionResources">AI 素养资源</button>
+              <button type="button" data-assistant-question="我想设计一节 AI+STEM 探究课，请给出案例、资源和 Prompt。" data-i18n="assistantSuggestionStem">AI+STEM 备课</button>
+            </div>
 
-          <section class="empty-state assistant-empty" id="assistantEmptyState">
-            <h2 id="assistantEmptyTitle" data-i18n="assistantEmptyTitle">AI 助手待连接</h2>
-            <p id="assistantEmptyCopy" data-i18n="assistantEmptyCopy">魔搭 Studio 应用地址配置后，这里会显示有限额 RAG 问答窗口。</p>
-          </section>
+            <div class="chat-log" id="assistantChatLog" role="log" aria-live="polite" aria-label="对话记录" data-i18n-aria-label="assistantChatLogAria"></div>
+
+            <form class="chat-composer" id="assistantForm">
+              <label class="sr-only" for="assistantInput" data-i18n="assistantQuestionLabel">向资料库提问</label>
+              <textarea id="assistantInput" rows="2" maxlength="360" placeholder="输入学科、学段和你想完成的教学任务" data-i18n-placeholder="assistantInputPlaceholder"></textarea>
+              <button class="button button-primary" id="assistantSend" type="submit" aria-label="发送问题" data-i18n-aria-label="assistantSendAria">
+                <i class="icon-arrow-up" aria-hidden="true"></i>
+              </button>
+            </form>
+            <div class="assistant-footnote">
+              <span id="assistantQuota" data-i18n="assistantQuotaPending">额度读取中</span>
+              <span data-i18n="assistantSafetyNote">AI 结果需由教师核验，请勿输入学生个人资料。</span>
+            </div>
+          </div>
         </section>
       </section>
     </main>
@@ -897,6 +925,6 @@
 
     <!-- Pages refresh: English analytics rubric stress demo 2026-07-05 -->
     <script src="vendor/chart.umd.min.js?v=4.5.1"></script>
-    <script src="script.js?v=20260808-2"></script>
+    <script src="script.js?v=20260808-3"></script>
   </body>
 </html>

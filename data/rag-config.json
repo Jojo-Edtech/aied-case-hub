@@ -1,5 +1,6 @@
 {
+  "api_base": "https://47.106.124.32/aiedcase-api",
   "studio_url": "https://modelscope.cn/studios/JoJoAI4all/aied-case-hub-rag",
-  "status": "published",
-  "updated": "2026-06-13"
+  "status": "ready",
+  "updated": "2026-08-08"
 }

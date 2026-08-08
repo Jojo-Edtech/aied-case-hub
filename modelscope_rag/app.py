@@ -8,12 +8,13 @@ import os
 import re
 import sys
 import tempfile
+import threading
 import time
 from collections import Counter
 from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
-from typing import Iterable
+from typing import Any, Iterable
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
@@ -259,6 +260,7 @@ class RagIndex:
 
 _INDEX: RagIndex | None = None
 _INDEX_ERROR: str | None = None
+_QUOTA_LOCK = threading.Lock()
 
 
 def get_index(refresh: bool = False) -> RagIndex:
@@ -304,6 +306,20 @@ def sources_markdown(results: list[tuple[Document, float]]) -> str:
     return "\n".join(lines) if lines else "未找到可引用来源。"
 
 
+def source_records(results: list[tuple[Document, float]]) -> list[dict[str, str | float]]:
+    return [
+        {
+            "id": doc.doc_id,
+            "kind": doc.kind,
+            "title": doc.title,
+            "url": doc.source_url,
+            "meta": doc.meta,
+            "score": round(score, 2),
+        }
+        for doc, score in results
+    ]
+
+
 def quota_label() -> str:
     if DAILY_GENERATION_LIMIT <= 0:
         return "生成回答：不限额"
@@ -322,51 +338,56 @@ def read_quota_state() -> dict[str, int | str]:
 
 
 def claim_generation_quota() -> tuple[bool, str]:
-    if DAILY_GENERATION_LIMIT <= 0:
-        return True, "生成回答：不限额"
+    with _QUOTA_LOCK:
+        if DAILY_GENERATION_LIMIT <= 0:
+            return True, "生成回答：不限额"
 
-    today = date.today().isoformat()
-    state = read_quota_state()
-    if state.get("date") != today:
-        state = {"date": today, "used": 0}
+        today = date.today().isoformat()
+        state = read_quota_state()
+        if state.get("date") != today:
+            state = {"date": today, "used": 0}
 
-    used = int(state.get("used", 0))
-    if used >= DAILY_GENERATION_LIMIT:
-        return False, f"今日公开试用额度已用完（{DAILY_GENERATION_LIMIT}/{DAILY_GENERATION_LIMIT}）。"
+        used = int(state.get("used", 0))
+        if used >= DAILY_GENERATION_LIMIT:
+            return False, f"今日公开试用额度已用完（{DAILY_GENERATION_LIMIT}/{DAILY_GENERATION_LIMIT}）。"
 
-    state["used"] = used + 1
-    try:
-        QUOTA_STATE_FILE.write_text(json.dumps(state, ensure_ascii=False), encoding="utf-8")
-    except OSError:
-        return False, "额度状态文件暂时不可写。"
+        state["used"] = used + 1
+        try:
+            QUOTA_STATE_FILE.write_text(json.dumps(state, ensure_ascii=False), encoding="utf-8")
+        except OSError:
+            return False, "额度状态文件暂时不可写。"
 
-    remaining = max(0, DAILY_GENERATION_LIMIT - int(state["used"]))
-    return True, f"今日生成额度：{remaining}/{DAILY_GENERATION_LIMIT}"
+        remaining = max(0, DAILY_GENERATION_LIMIT - int(state["used"]))
+        return True, f"今日生成额度：{remaining}/{DAILY_GENERATION_LIMIT}"
 
 
-def call_modelscope(question: str, results: list[tuple[Document, float]]) -> tuple[str | None, str | None]:
+def language_instruction(language: str) -> str:
+    return {
+        "en": "Answer in English.",
+        "zh-Hant": "使用繁體中文回答。",
+        "zh-Hans": "使用简体中文回答。",
+    }.get(language, "使用简体中文回答。")
+
+
+def model_generation_configured() -> bool:
+    return bool(os.getenv("MODELSCOPE_API_TOKEN") or os.getenv("MODELSCOPE_TOKEN"))
+
+
+def call_modelscope_messages(
+    messages: list[dict[str, str]],
+    *,
+    temperature: float = 0.2,
+    max_tokens: int = 1100,
+) -> tuple[str | None, str | None]:
     token = os.getenv("MODELSCOPE_API_TOKEN") or os.getenv("MODELSCOPE_TOKEN")
     if not token:
-        return None, "未配置 MODELSCOPE_API_TOKEN。"
+        return None, "生成服务尚未配置。"
 
     payload = {
         "model": os.getenv("MODELSCOPE_MODEL", DEFAULT_MODEL),
-        "messages": [
-            {
-                "role": "system",
-                "content": (
-                    "你是 AIED Case Hub 的研究助手。只能根据给定资料回答。"
-                    "如果资料不足，必须说“当前资料库没有足够依据”。"
-                    "用简体中文回答，结构清晰，关键结论后使用 [1] 这样的引用编号。"
-                ),
-            },
-            {
-                "role": "user",
-                "content": f"用户问题：{question}\n\n资料：\n{context_for(results)}",
-            },
-        ],
-        "temperature": float(os.getenv("MODELSCOPE_TEMPERATURE", "0.2")),
-        "max_tokens": int(os.getenv("MODELSCOPE_MAX_TOKENS", "900")),
+        "messages": messages,
+        "temperature": temperature,
+        "max_tokens": max_tokens,
         "stream": False,
     }
 
@@ -376,7 +397,7 @@ def call_modelscope(question: str, results: list[tuple[Document, float]]) -> tup
         headers={
             "Authorization": f"Bearer {token}",
             "Content-Type": "application/json",
-            "User-Agent": "aiedcase-rag/0.1",
+            "User-Agent": "aiedcase-rag/0.2",
         },
         method="POST",
     )
@@ -385,53 +406,255 @@ def call_modelscope(question: str, results: list[tuple[Document, float]]) -> tup
         with urlopen(request, timeout=MODEL_TIMEOUT_SEC) as response:
             data = json.loads(response.read().decode("utf-8"))
     except HTTPError as error:
-        return None, f"魔搭 API 返回 HTTP {error.code}。"
+        return None, f"生成服务返回 HTTP {error.code}。"
     except (OSError, URLError, json.JSONDecodeError) as error:
-        return None, f"魔搭 API 暂时不可用：{type(error).__name__}。"
+        return None, f"生成服务暂时不可用：{type(error).__name__}。"
 
     try:
         return data["choices"][0]["message"]["content"].strip(), None
     except (KeyError, IndexError, TypeError):
-        return None, "魔搭 API 返回格式无法解析。"
+        return None, "生成服务返回格式无法解析。"
+
+
+def call_modelscope(
+    question: str,
+    results: list[tuple[Document, float]],
+    *,
+    history: list[dict[str, str]] | None = None,
+    language: str = "zh-Hans",
+) -> tuple[str | None, str | None]:
+    safe_history = []
+    for item in (history or [])[-6:]:
+        role = item.get("role")
+        content = normalize_spaces(item.get("content", ""))[:700]
+        if role in {"user", "assistant"} and content:
+            safe_history.append({"role": role, "content": content})
+
+    messages = [
+        {
+            "role": "system",
+            "content": (
+                "你是 AIED Case Hub 的教师研究助手。只能根据当前提供的资料回答，"
+                "不可编造来源、学习成效或课堂事实。资料不足时明确说明。"
+                "回答应直接、可执行，并在关键结论后使用 [1] 这样的引用编号。"
+                f"{language_instruction(language)}"
+            ),
+        },
+        *safe_history,
+        {
+            "role": "user",
+            "content": f"当前问题：{question}\n\n可用资料：\n{context_for(results)}",
+        },
+    ]
+    return call_modelscope_messages(
+        messages,
+        temperature=float(os.getenv("MODELSCOPE_TEMPERATURE", "0.2")),
+        max_tokens=int(os.getenv("MODELSCOPE_MAX_TOKENS", "1100")),
+    )
+
+
+def answer_chat(
+    question: str,
+    *,
+    history: list[dict[str, str]] | None = None,
+    top_k: int = DEFAULT_TOP_K,
+    language: str = "zh-Hans",
+) -> dict[str, Any]:
+    question = normalize_spaces(question)
+    if not question:
+        return {"ok": False, "status": "invalid", "answer": "请输入一个问题。", "sources": []}
+    if len(question) > MAX_QUESTION_CHARS:
+        return {
+            "ok": False,
+            "status": "invalid",
+            "answer": f"问题太长，请控制在 {MAX_QUESTION_CHARS} 个字符以内。",
+            "sources": [],
+        }
+
+    try:
+        results = get_index().search(question, top_k)
+    except RuntimeError as error:
+        return {"ok": False, "status": "data_error", "answer": str(error), "sources": []}
+
+    sources = source_records(results)
+    if not results or results[0][1] < 0.2:
+        return {
+            "ok": True,
+            "status": "no_evidence",
+            "answer": "当前资料库没有足够依据。请补充学科、学段、地区或想完成的教学任务。",
+            "sources": sources,
+            "quota": quota_label(),
+        }
+
+    if not model_generation_configured():
+        return {
+            "ok": False,
+            "status": "service_error",
+            "answer": "我找到了相关资料，但生成服务尚未配置。",
+            "sources": sources,
+            "quota": quota_label(),
+        }
+
+    allowed, quota_message = claim_generation_quota()
+    if not allowed:
+        return {
+            "ok": True,
+            "status": "quota_exhausted",
+            "answer": f"{quota_message}\n\n已为你保留最相关的资料来源，可先查看引用。",
+            "sources": sources,
+            "quota": quota_message,
+        }
+
+    answer, error = call_modelscope(
+        question,
+        results,
+        history=history,
+        language=language,
+    )
+    if answer:
+        return {
+            "ok": True,
+            "status": "generated",
+            "answer": answer,
+            "sources": sources,
+            "quota": quota_message,
+        }
+
+    return {
+        "ok": False,
+        "status": "service_error",
+        "answer": f"我找到了相关资料，但生成服务暂时不可用。{error or ''}",
+        "sources": sources,
+        "quota": quota_message,
+    }
+
+
+def generate_teacher_tool(payload: dict[str, Any]) -> dict[str, Any]:
+    fields = {
+        key: normalize_spaces(str(payload.get(key, "")))
+        for key in [
+            "output_type",
+            "subject",
+            "level",
+            "topic",
+            "duration",
+            "student_context",
+            "language",
+            "constraints",
+            "source_material",
+        ]
+    }
+    missing = [key for key in ["output_type", "subject", "level", "topic"] if not fields[key]]
+    if missing:
+        return {
+            "ok": False,
+            "status": "invalid",
+            "answer": "请先填写产出类型、学科、学段和教学主题。",
+            "sources": [],
+        }
+    if any(len(value) > 3000 for value in fields.values()):
+        return {
+            "ok": False,
+            "status": "invalid",
+            "answer": "单项输入过长，请缩短材料或约束条件后重试。",
+            "sources": [],
+        }
+
+    retrieval_query = " ".join(
+        part for part in [fields["subject"], fields["level"], fields["topic"], fields["output_type"]] if part
+    )
+    try:
+        results = get_index().search(retrieval_query, DEFAULT_TOP_K)
+    except RuntimeError as error:
+        return {"ok": False, "status": "data_error", "answer": str(error), "sources": []}
+
+    if not model_generation_configured():
+        return {
+            "ok": False,
+            "status": "service_error",
+            "answer": "生成服务尚未配置。",
+            "sources": source_records(results),
+            "quota": quota_label(),
+        }
+
+    allowed, quota_message = claim_generation_quota()
+    if not allowed:
+        return {
+            "ok": False,
+            "status": "quota_exhausted",
+            "answer": quota_message,
+            "sources": source_records(results),
+            "quota": quota_message,
+        }
+
+    requested_language = fields["language"] or "zh-Hans"
+    user_brief = compact(
+        [
+            f"产出类型：{fields['output_type']}",
+            f"学科：{fields['subject']}",
+            f"学段：{fields['level']}",
+            f"主题：{fields['topic']}",
+            f"课堂时间：{fields['duration']}" if fields["duration"] else "",
+            f"学生情况：{fields['student_context']}" if fields["student_context"] else "",
+            f"约束条件：{fields['constraints']}" if fields["constraints"] else "",
+            f"原始材料：{fields['source_material']}" if fields["source_material"] else "",
+        ]
+    )
+    messages = [
+        {
+            "role": "system",
+            "content": (
+                "你是服务香港教师的课程设计助手。根据教师简报和检索资料生成可直接编辑的课堂材料。"
+                "输出必须包含：1. 学习目标；2. 所需材料；3. 分钟级课堂流程；4. 学习证据或评价方式；"
+                "5. 差异化支持；6. AI 使用边界、事实核查和隐私提醒；7. 教师课后检查清单。"
+                "不得虚构引用或声称未经资料支持的学习成效；使用资料时以 [1] 编号。"
+                f"{language_instruction(requested_language)}"
+            ),
+        },
+        {
+            "role": "user",
+            "content": f"教师简报：\n{user_brief}\n\n可用资料：\n{context_for(results)}",
+        },
+    ]
+    answer, error = call_modelscope_messages(messages, temperature=0.25, max_tokens=1600)
+    if answer:
+        return {
+            "ok": True,
+            "status": "generated",
+            "answer": answer,
+            "sources": source_records(results),
+            "quota": quota_message,
+        }
+    return {
+        "ok": False,
+        "status": "service_error",
+        "answer": f"生成服务暂时不可用。{error or ''}",
+        "sources": source_records(results),
+        "quota": quota_message,
+    }
 
 
 def answer_question(question: str, top_k: int = DEFAULT_TOP_K) -> tuple[str, str]:
-    question = normalize_spaces(question)
-    if not question:
-        return "请输入一个研究问题。", ""
-    if len(question) > MAX_QUESTION_CHARS:
-        return f"问题太长，请控制在 {MAX_QUESTION_CHARS} 个字符以内。", ""
-
-    try:
-        index = get_index()
-    except RuntimeError as error:
-        return str(error), ""
-
-    results = index.search(question, top_k)
-    if not results or results[0][1] < 0.2:
-        return "当前资料库没有足够依据。", sources_markdown(results)
-
-    if os.getenv("MODELSCOPE_API_TOKEN") or os.getenv("MODELSCOPE_TOKEN"):
-        allowed, quota_message = claim_generation_quota()
-        if not allowed:
-            fallback = (
-                f"{quota_message}\n\n"
-                "我先不调用魔搭模型，以避免继续消耗免费额度。下面是当前检索到的相关来源。"
-            )
-            return fallback, sources_markdown(results)
-    else:
-        quota_message = quota_label()
-
-    answer, error = call_modelscope(question, results)
-    if answer:
-        return f"{answer}\n\n---\n{quota_message}", sources_markdown(results)
-
-    fallback = (
-        "我找到了相关资料，但生成服务暂时不可用。"
-        f"{error or ''}\n\n"
-        "你可以先查看右侧引用来源；恢复魔搭模型调用后，这里会生成完整回答。"
-    )
-    return fallback, sources_markdown(results)
+    result = answer_chat(question, top_k=top_k)
+    answer = result.get("answer", "")
+    quota = result.get("quota", "")
+    if quota:
+        answer = f"{answer}\n\n---\n{quota}"
+    sources = [
+        (
+            make_document(
+                str(source.get("id", "")),
+                str(source.get("kind", "")),
+                str(source.get("title", "")),
+                "",
+                str(source.get("url", "")),
+                str(source.get("meta", "")),
+            ),
+            float(source.get("score", 0)),
+        )
+        for source in result.get("sources", [])
+    ]
+    return answer, sources_markdown(sources)
 
 
 def build_demo():

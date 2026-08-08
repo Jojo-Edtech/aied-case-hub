@@ -1,0 +1,8 @@
+[Unit]
+Description=Renew the short-lived AIED Case Hub IP certificate
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/opt/certbot-ip/venv/bin/certbot renew --quiet --deploy-hook "/usr/bin/systemctl reload nginx"

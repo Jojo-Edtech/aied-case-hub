@@ -1,0 +1,11 @@
+[Unit]
+Description=Check the AIED Case Hub IP certificate twice daily
+
+[Timer]
+OnBootSec=30min
+OnUnitActiveSec=12h
+RandomizedDelaySec=30min
+Persistent=true
+
+[Install]
+WantedBy=timers.target
