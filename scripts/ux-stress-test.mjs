@@ -105,6 +105,11 @@ async function waitForData(page) {
   );
 }
 
+async function returnToHub(page) {
+  await page.goBack({ waitUntil: "commit", timeout: 15_000 });
+  await waitForData(page);
+}
+
 async function pageMetrics(page) {
   return page.evaluate(() => {
     const body = document.body;
@@ -253,8 +258,7 @@ async function runScenario(page, round) {
       await page.waitForURL(/\/cases\/case-[^/]+\.html$/);
       await page.locator(".standalone-detail-card h1").waitFor();
       expect(await page.locator("[data-copy-value]").count() > 0, "Case detail page has no share control");
-      await page.goBack();
-      await waitForData(page);
+      await returnToHub(page);
     }
   } else if (scenario === 13) {
     await page.locator('#mainTabs a[data-view="prompts"]').click();
@@ -264,8 +268,7 @@ async function runScenario(page, round) {
       await page.waitForURL(/\/prompts\/prompt-[^/]+\.html$/);
       await page.locator(".copy-detail-section pre").waitFor();
       expect(await page.locator(".standalone-section-grid").count() > 0, "Prompt detail page has no skill structure");
-      await page.goBack();
-      await waitForData(page);
+      await returnToHub(page);
     }
   } else if (scenario === 14) {
     await page.locator('#mainTabs a[data-view="resources"]').click();
@@ -275,8 +278,7 @@ async function runScenario(page, round) {
       await page.waitForURL(/\/resources\/resource-[^/]+\.html$/);
       await page.locator(".standalone-detail-card h1").waitFor();
       expect(await page.locator(".detail-footer-actions").count() > 0, "Resource detail page has no source actions");
-      await page.goBack();
-      await waitForData(page);
+      await returnToHub(page);
     }
   } else if (scenario === 15) {
     await page.locator('#mainTabs a[data-view="cases"]').click();
@@ -286,8 +288,7 @@ async function runScenario(page, round) {
       await page.waitForURL(/\/paths\/[^/]+\.html$/);
       await page.locator(".path-step-list").waitFor();
       expect(await page.locator(".path-step").count() >= 2, "Learning pathway has fewer than two steps");
-      await page.goBack();
-      await waitForData(page);
+      await returnToHub(page);
     }
   } else if (scenario === 16) {
     await page.locator('#mainTabs a[data-view="cases"]').click();
