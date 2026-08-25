@@ -1,290 +1,192 @@
 {
-  "run_date": "2026-08-25",
+  "run_date": "2026-08-26",
   "checked_urls": 120,
-  "total_urls": 334,
+  "total_urls": 335,
   "counts": {
-    "blocked": 23,
-    "error": 12,
-    "ok": 81,
+    "blocked": 37,
+    "error": 11,
+    "ok": 70,
     "broken": 1,
-    "redirected": 3
+    "redirected": 1
   },
   "results": [
     {
-      "url": "https://ai.ctl.columbia.edu/explore/prompts",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://ai.ufl.edu/teaching-with-ai/k-12-ai-education-program",
+      "url": "https://arxiv.org/abs/2410.03525",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://ai4k12.org/",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://ai4k12.org/ai-for-education",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://ai4k12.org/analog-inspiration",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://ai4k12.org/craft-classroom-ready-resources-about-ai-for-teaching",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://ai4k12.org/genai-chatbot-prompt-library-for-educators",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://ai4k12.org/gridworld-reinforcement-learning",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://ai4k12.org/presidential-artificial-intelligence-challenge",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://ai4k12.org/resources/list-of-resources",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://ai4k12.org/teaching-ai-starting-in-prek-2-vicky-sedgwick",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://ai4k12.org/the-learners-apprentice-ai-and-the-amplification-of-human-creativity",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://ai4k12.org/the-power-and-limits-of-artificial-intelligence",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://ai4k12.org/the-rise-of-ai",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://aiforeducation.io/ai-resources-main",
+      "url": "https://arxiv.org/abs/2412.11300",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://aiforeducation.io/ai-resources/state-ai-guidance",
+      "url": "https://arxiv.org/abs/2412.11911",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://aiforeducation.io/blog/abc7-promptathon-with-dwight-school",
+      "url": "https://arxiv.org/abs/2412.12107",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://aiforeducation.io/blog/ai-literacy-project-showcase",
+      "url": "https://arxiv.org/abs/2412.13514",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://aiforeducation.io/blog/new-student-resource-release",
+      "url": "https://arxiv.org/abs/2412.14732",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://aiforeducation.io/blog/where-does-ai-literacy-fit",
+      "url": "https://arxiv.org/abs/2412.17243",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://aiforeducation.io/prompt-library",
+      "url": "https://arxiv.org/abs/2501.06527",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://aitsl.edu.au/tools-resources/resource/the-australian-framework-for-generative-artificial-intelligence-%28ai%29-in-schools",
-      "link_status": "redirected",
-      "http_status": 200,
-      "redirect_url": "https://aitsl.edu.au/tools-resources/resource/the-australian-framework-for-generative-artificial-intelligence-(ai)-in-schools",
-      "verified": true
-    },
-    {
-      "url": "https://androidcentral.com/apps-software/ai/google-ai-quests-treks-a-literacy-path-students-and-educators",
+      "url": "https://arxiv.org/abs/2503.00079",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://applieddigitalskills.withgoogle.com/en/ai",
-      "link_status": "redirected",
-      "http_status": 200,
-      "redirect_url": "https://edu.exceedlms.com/student/catalog/list?category_ids=10934-for-students-applied-digital-skills",
-      "verified": true
-    },
-    {
-      "url": "https://arxiv.org/abs/2208.12637",
+      "url": "https://arxiv.org/abs/2503.22967",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://arxiv.org/abs/2304.11276",
+      "url": "https://arxiv.org/abs/2504.05449",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://arxiv.org/abs/2305.01185",
+      "url": "https://arxiv.org/abs/2507.00456",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://arxiv.org/abs/2308.04309",
+      "url": "https://arxiv.org/abs/2507.17230",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://arxiv.org/abs/2309.12337",
+      "url": "https://arxiv.org/abs/2510.00793",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://arxiv.org/abs/2312.04839",
+      "url": "https://arxiv.org/abs/2510.19866",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://arxiv.org/abs/2402.04975",
+      "url": "https://arxiv.org/abs/2511.14318",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://arxiv.org/abs/2404.03486",
+      "url": "https://arxiv.org/abs/2601.01227",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://arxiv.org/abs/2405.01561",
+      "url": "https://arxiv.org/abs/2601.01234",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://arxiv.org/abs/2407.00305",
+      "url": "https://arxiv.org/abs/2602.16307",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://arxiv.org/abs/2407.11983",
+      "url": "https://arxiv.org/abs/2602.16890",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://arxiv.org/abs/2409.05176",
+      "url": "https://arxiv.org/abs/2603.06659",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://arxiv.org/abs/2409.06721",
+      "url": "https://arxiv.org/abs/2603.22672",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://arxiv.org/abs/2409.10552",
+      "url": "https://arxiv.org/abs/2603.28679",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://arxiv.org/abs/2410.01695",
+      "url": "https://arxiv.org/abs/2604.01396",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://arxiv.org/abs/2410.03017",
+      "url": "https://arxiv.org/abs/2605.17055",
+      "link_status": "ok",
+      "http_status": 206,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://australiancurriculum.edu.au/curriculum-information/understand-this-curriculum-connection/artificial-intelligence",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
@@ -331,6 +233,104 @@
       "http_status": 403,
       "redirect_url": "",
       "verified": false
+    },
+    {
+      "url": "https://blog.google/innovation-and-ai/technology/ai/google-ai-updates-june-2026",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://blog.google/innovation-and-ai/technology/ai/university-waterloo-labs",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://blog.google/products-and-platforms/products/education/ai-educator-series",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://blog.google/products-and-platforms/products/education/catholic-school-ai-literacy",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://blog.google/products-and-platforms/products/education/collection-iste-june-2026",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://blog.google/products-and-platforms/products/education/future-learning-ai-era",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://blog.google/products-and-platforms/products/education/google-ai-accelerator",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://blog.google/products-and-platforms/products/education/higher-education-gemini-notebooklm",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://blog.google/products-and-platforms/products/education/iste-2026-educator-updates",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://blog.google/products-and-platforms/products/education/iste-students-2026",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://blog.google/products-and-platforms/products/education/measuring-the-impact-of-ai-on-teaching-and-learning",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://blog.google/products-and-platforms/products/education/nyc-ai-summit",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://businessinsider.com/ai-is-handing-control-of-knowledge-to-big-tech-professor-2025-10",
+      "link_status": "ok",
+      "http_status": 206,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://businessinsider.com/teacher-ai-chatgpt-classroom-cheating-essays-2024-11",
+      "link_status": "ok",
+      "http_status": 206,
+      "redirect_url": "",
+      "verified": true
     },
     {
       "url": "https://edu.cn/xxh/focus/zc/202505/t20250513_2667990.shtml",
@@ -477,6 +477,13 @@
       "verified": false
     },
     {
+      "url": "https://eschoolnews.com/digital-learning/2026/08/25/beyond-spotting-deepfakes-teaching-multilingual-learners-to-interrogate-ai",
+      "link_status": "ok",
+      "http_status": 206,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
       "url": "https://gz.gov.cn/zwfw/zxfw/jyfw7/content/post_10264203.html",
       "link_status": "error",
       "http_status": "",
@@ -485,114 +492,65 @@
       "error": "fetch failed"
     },
     {
-      "url": "https://hk01.com/%E4%B8%AD%E5%B0%8F%E5%AD%B8%E6%A0%A1%E5%9C%92/884367/chatgpt%E9%87%9D%E5%B0%8D%E4%B8%AD%E8%8B%B1%E6%96%87%E5%AD%B8%E7%BF%92%E9%9B%A3%E9%BB%9E-%E4%BD%99%E6%8C%AF%E5%BC%B7%E7%B4%80%E5%BF%B5%E4%B8%AD%E5%AD%B8%E8%A9%A6%E7%94%A8%E6%8F%92%E4%BB%B6%E6%92%B0%E6%B8%AF%E5%BC%8F%E5%85%A7%E5%AE%B9",
+      "url": "https://insidehighered.com/news/tech-innovation/artificial-intelligence/2026/08/05/ai-detectors-are-out-new-approaches-are",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://hk01.com/%E6%95%99%E8%82%B2%E7%99%BC%E5%B1%95/60314378/%E9%A6%99%E6%B8%AF01-ai%E6%95%99%E8%82%B2%E7%9B%9B%E6%9C%83%E6%8E%A2%E8%A8%8E%E6%95%99%E5%AD%B8%E6%96%B0%E8%B6%A8%E5%8B%A2-%E5%AD%B8%E7%94%9F%E6%8C%91%E6%88%B0ai%E8%A7%A3%E6%B1%BA%E7%8F%BE%E5%AF%A6%E9%9B%A3%E9%A1%8C",
+      "url": "https://insidehighered.com/opinion/columns/editors-note/2026/07/30/lawsuit-tests-what-universities-are-owed-ai-research",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://hk01.com/%E6%95%99%E8%82%B2%E7%99%BC%E5%B1%95/60314379/ai-x-steam-01-%E8%B3%87%E6%B7%B1%E6%95%99%E5%B8%AB%E5%88%86%E4%BA%ABai%E7%94%9F%E6%88%90%E6%95%99%E5%AD%B8app-%E8%B7%A8%E5%AD%B8%E7%A7%91%E8%9E%8D%E5%85%A5%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD",
+      "url": "https://insidehighered.com/opinion/columns/learning-innovation/2026/07/21/3-questions-collage-ais-carin-nuernberg",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://hk01.com/%E6%95%99%E8%82%B2%E7%99%BC%E5%B1%95/60314384/ai-x-steam-01-%E6%96%B0%E6%B2%B9%E5%A4%A9%E6%8E%A8%E7%A8%8B%E5%BC%8F%E5%8A%A9%E9%95%B7%E8%80%85%E5%9B%9E%E6%94%B6%E9%9B%9C%E7%89%A9-%E7%A4%BE%E5%8D%80%E9%97%9C%E6%87%B7%E8%B3%BD%E9%81%93%E5%A5%AA%E5%86%A0",
+      "url": "https://insidehighered.com/opinion/columns/learning-innovation/2026/08/11/3-ai-related-questions-notre-dames-sonia-howell",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://hk01.com/%E6%95%99%E8%82%B2%E7%99%BC%E5%B1%95/60314385/ai-x-steam-01-%E5%A5%B3%E6%8B%94%E6%8E%A8%E5%A4%A5%E4%BC%B4%E8%81%8A%E5%A4%A9%E7%A8%8B%E5%BC%8F-%E5%A5%AA%E7%A4%BE%E5%8D%80%E9%97%9C%E6%87%B7%E8%B3%BD%E9%81%93%E4%B8%AD%E5%AD%B8%E7%B5%84%E5%86%A0%E8%BB%8D",
+      "url": "https://insidehighered.com/opinion/columns/online-trending-now/2026/07/15/what-if-us-government-owned-stock-ai-companies",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://hk01.com/%E6%95%99%E8%82%B2%E7%99%BC%E5%B1%95/60314387/ai-x-steam-01-%E8%81%96%E4%BF%9D%E7%BE%85%E7%94%B7%E5%A5%B3%E4%B8%AD%E5%AD%B8%E6%86%91ai%E5%BB%9A%E9%A4%98%E8%AD%98%E5%88%A5%E7%B3%BB%E7%B5%B1%E5%A5%AA%E8%AD%9A%E4%BB%94%E8%B3%BD%E9%81%93%E5%86%A0%E8%BB%8D",
+      "url": "https://insidehighered.com/opinion/views/2026/07/30/law-schools-are-asking-wrong-question-about-ai-opinion",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://hk01.com/%E6%95%99%E8%82%B2%E7%99%BC%E5%B1%95/60314388/ai-x-steam-01-%E6%B8%AF%E5%A4%A7%E5%90%8C%E5%AD%B8%E6%9C%83%E6%9B%B8%E9%99%A2%E9%87%8D%E6%85%B6%E7%81%AB%E9%8D%8B%E9%81%8A%E6%88%B2%E5%A5%AAre-learn%E8%B3%BD%E9%81%93%E5%86%A0%E8%BB%8D",
-      "link_status": "ok",
-      "http_status": 206,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://hk01.com/%E6%95%99%E8%82%B2%E7%99%BC%E5%B1%95/60314389/ai-steam-01-%E6%95%99%E5%B8%AB%E5%8D%93%E8%B6%8A-ai-%E6%87%89%E7%94%A8%E7%8D%8E-%E5%A6%99%E6%B3%95%E5%AF%BA%E5%8A%89%E9%87%91%E9%BE%8D%E4%B8%AD%E5%AD%B8%E6%95%99%E6%A1%88%E7%A8%B1%E5%86%A0",
-      "link_status": "ok",
-      "http_status": 206,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://houstonchronicle.com/news/houston-texas/education/hisd/article/hisd-ai-prof-jim-inc-19958093.php",
+      "url": "https://khanacademy.org/college-careers-more/ai-for-education/x68ea37461197a514%3Aai-our-lives",
       "link_status": "ok",
       "http_status": 200,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://insidehighered.com/news/faculty/learning-assessment/2026/07/08/brown-professor-suspects-most-his-class-used-ai-cheat",
+      "url": "https://learn.microsoft.com/en-us/training/educator-center/topics/ai-for-education",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://insidehighered.com/news/faculty/teaching/2026/08/20/ai-requirements-and-courses-colleges-eye-ai-fluency",
+      "url": "https://learningro.com/",
       "link_status": "ok",
-      "http_status": 206,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://insidehighered.com/news/quick-takes/2026/08/06/key-podcast-how-ai-can-help-researchers-fail",
-      "link_status": "ok",
-      "http_status": 206,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://insidehighered.com/news/student-success/college-experience/2026/06/30/inside-universitys-ai-kitchen",
-      "link_status": "ok",
-      "http_status": 206,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://insidehighered.com/news/students/financial-aid/2026/07/23/financial-aid-offices-contend-ai-written-appeals",
-      "link_status": "ok",
-      "http_status": 206,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://insidehighered.com/news/tech-innovation/artificial-intelligence/2026/07/14/ai-proof-lawyers-some-law-schools-restrict",
-      "link_status": "ok",
-      "http_status": 206,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://insidehighered.com/opinion/columns/confessions-community-college-dean/2026/08/24/ai-literacy",
-      "link_status": "ok",
-      "http_status": 206,
+      "http_status": 200,
       "redirect_url": "",
       "verified": true
     },
@@ -605,6 +563,27 @@
       "error": "fetch failed"
     },
     {
+      "url": "https://microsoft.com/en-us/corporate-responsibility/digital-skills/ai-skills-for-educators",
+      "link_status": "ok",
+      "http_status": 206,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://microsoft.com/en-us/education/blog/2025/12/unlock-ai-learning-with-hour-of-ai-for-computer-science-education-week",
+      "link_status": "ok",
+      "http_status": 206,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://microsoft.com/en-us/education/blog/2026/01/introducing-microsoft-innovations-and-programs-to-support-ai-powered-teaching-and-learning",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
       "url": "https://microsoft.com/en-us/education/blog/2026/02/safer-internet-day-2026-helping-students-become-ai%e2%80%91aware-safe-and-smart-online",
       "link_status": "broken",
       "http_status": 404,
@@ -612,7 +591,7 @@
       "verified": false
     },
     {
-      "url": "https://microsoft.com/en-us/education/blog/2026/08/built-for-the-complexity-of-education-ai-that-understands-your-institution",
+      "url": "https://microsoft.com/en-us/education/blog/2026/04/whats-new-in-the-microsoft-education-ai-toolkit",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
@@ -627,129 +606,44 @@
       "error": "fetch failed"
     },
     {
-      "url": "https://s39613.pcdn.co/articles/teaching-with-technology-articles/from-doodles-to-discussion-boards-how-ai-image-combine-can-turn-your-childs-art-into-a-pedagogical-powerhouse",
+      "url": "https://s39613.pcdn.co/articles/effective-teaching-strategies/5-ways-to-verify-student-learning-in-the-age-of-ai",
       "link_status": "redirected",
       "http_status": 200,
-      "redirect_url": "https://facultyfocus.com/articles/teaching-with-technology-articles/from-doodles-to-discussion-boards-how-ai-image-combine-can-turn-your-childs-art-into-a-pedagogical-powerhouse",
+      "redirect_url": "https://facultyfocus.com/articles/effective-teaching-strategies/5-ways-to-verify-student-learning-in-the-age-of-ai",
       "verified": true
     },
     {
       "url": "https://smartedu.cn/",
-      "link_status": "error",
-      "http_status": "",
+      "link_status": "ok",
+      "http_status": 206,
       "redirect_url": "",
-      "verified": false,
-      "error": "fetch failed"
+      "verified": true
     },
     {
-      "url": "https://the74million.org/article/student-journalists-ai-is-changing-our-work-and-not-for-the-better",
+      "url": "https://techlearning.com/learning/classroom-tools/8-of-the-best-ai-teaching-tools",
+      "link_status": "ok",
+      "http_status": 206,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://techlearning.com/technology/ai/assessment-after-ai-designing-student-work-to-show-real-thinking",
+      "link_status": "ok",
+      "http_status": 206,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://techlearning.com/technology/ai/best-ai-powered-tutors-for-education",
+      "link_status": "ok",
+      "http_status": 206,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://the74million.org/article/amid-the-emerging-ai-economy-we-need-a-skilled-trades-pipeline-in-high-school",
       "link_status": "ok",
       "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://the74million.org/article/the-schools-turning-to-ai-to-rate-students-beyond-a-f-grades",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://the74million.org/article/what-ai-earbuds-cant-replace-the-value-of-learning-another-language",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://the74million.org/zero2eight/dana-suskind-on-how-to-protect-childhood-in-the-age-of-ai",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://theguardian.com/australia-news/2025/aug/29/university-nsw-generative-ai-art-course-students-push-to-abolish-rejected",
-      "link_status": "ok",
-      "http_status": 206,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://theguardian.com/education/article/2024/aug/28/make-ai-tools-to-reduce-teacher-workloads-tech-companies-urged",
-      "link_status": "ok",
-      "http_status": 206,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://theguardian.com/education/ng-interactive/2026/mar/03/cheating-machine-or-powerful-assistant-the-ai-anxieties-of-a-trainee-teacher",
-      "link_status": "ok",
-      "http_status": 206,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://theguardian.com/technology/2020/mar/19/can-computers-ever-replace-the-classroom",
-      "link_status": "ok",
-      "http_status": 206,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://theguardian.com/technology/2024/dec/15/i-received-a-first-but-it-felt-tainted-and-undeserved-inside-the-university-ai-cheating-crisis",
-      "link_status": "ok",
-      "http_status": 206,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://theguardian.com/technology/2024/oct/05/chatgpt-has-become-the-best-teammate-to-these-sydney-university-students-but-is-there-a-limit",
-      "link_status": "ok",
-      "http_status": 206,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://theguardian.com/technology/2025/oct/18/san-francisco-ai-alpha-school-tech",
-      "link_status": "ok",
-      "http_status": 206,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://timesofindia.indiatimes.com/city/mangaluru/ai-teacher-robot-rolls-into-udupi-govt-school/articleshow/130197051.cms",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://unesco.org/en/articles/ai-competency-framework-students",
-      "link_status": "ok",
-      "http_status": 206,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://unesco.org/en/articles/ai-competency-framework-teachers",
-      "link_status": "ok",
-      "http_status": 206,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://unesco.org/en/articles/guidance-generative-ai-education-and-research",
-      "link_status": "ok",
-      "http_status": 206,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://unesco.org/en/articles/k-12-ai-curricula-mapping-government-endorsed-ai-curricula",
-      "link_status": "ok",
-      "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
@@ -786,41 +680,6 @@
       "error": "timeout"
     },
     {
-      "url": "https://web.edcity.hk/zh-hant/aied/home",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://wired.com/story/gauth-ai-math-homework-app",
-      "link_status": "ok",
-      "http_status": 206,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://wired.com/story/teachers-are-going-all-in-on-generative-ai",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://wired.com/story/teens-generative-ai-use-schools-parents",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://wired.com/story/what-aspects-of-teaching-should-remain-human",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
       "url": "https://wsj.com/tech/ai/ai-is-teaching-the-next-generation-of-m-b-a-s-the-classic-case-study-a4eb4227",
       "link_status": "blocked",
       "http_status": 401,
@@ -828,35 +687,175 @@
       "verified": false
     },
     {
-      "url": "https://youtube.com/shorts/53f3OboVbkM",
+      "url": "https://youtube.com/shorts/42Oy8eFrtAU",
       "link_status": "ok",
       "http_status": 200,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://youtube.com/shorts/8wSRjh1aR5c",
+      "url": "https://youtube.com/shorts/LlDclw6WtC0",
       "link_status": "ok",
       "http_status": 200,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://youtube.com/shorts/9DbXw69zDvs",
+      "url": "https://youtube.com/shorts/oS11brDVPcs",
       "link_status": "ok",
       "http_status": 200,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://youtube.com/shorts/hHOVT8Ud2zY",
+      "url": "https://youtube.com/shorts/q65D_nLAU7s",
       "link_status": "ok",
       "http_status": 200,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://youtube.com/shorts/kEopqUNbBbY",
+      "url": "https://youtube.com/shorts/tKiFBDVsjxA",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://youtube.com/shorts/zdlrfgXYtz8",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://youtube.com/shorts/ZdzrSzEXizk",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://youtube.com/watch?v=8n4oUB1-YCE",
+      "link_status": "blocked",
+      "http_status": 429,
+      "redirect_url": "https://google.com/sorry/index?continue=https%3A%2F%2Fyoutube.com%2Fwatch%3Fv%3D8n4oUB1-YCE&q=EgQUUS93GPyyuNQGIjAhKg-3Wviz3SYVzeqH7SNyMe1Df15tWKKRXmS1QVSqoSJl1e1gqhI59pt-_0DqgXcyAnJSWgFD",
+      "verified": false
+    },
+    {
+      "url": "https://youtube.com/watch?v=8y_wcf8XrmQ",
+      "link_status": "blocked",
+      "http_status": 429,
+      "redirect_url": "https://google.com/sorry/index?continue=https%3A%2F%2Fyoutube.com%2Fwatch%3Fv%3D8y_wcf8XrmQ&q=EgQUUS93GPyyuNQGIjArh34-0XRwGaOXMRBGKzMUrb9a2e9ZBhTq_4si-aShJiiciHb_8KllV2pD6Wg7fzEyAnJSWgFD",
+      "verified": false
+    },
+    {
+      "url": "https://youtube.com/watch?v=cNnbbPD6dos",
+      "link_status": "blocked",
+      "http_status": 429,
+      "redirect_url": "https://google.com/sorry/index?continue=https%3A%2F%2Fyoutube.com%2Fwatch%3Fv%3DcNnbbPD6dos&q=EgQUUS93GPyyuNQGIjBcKNbSOhpbBhqPUyaLt0FFKUeA3694oFEUxM-eBq45upDT4WNReyHfME-uBgti_3gyAnJSWgFD",
+      "verified": false
+    },
+    {
+      "url": "https://youtube.com/watch?v=DItoBftt3JI",
+      "link_status": "blocked",
+      "http_status": 429,
+      "redirect_url": "https://google.com/sorry/index?continue=https%3A%2F%2Fyoutube.com%2Fwatch%3Fv%3DDItoBftt3JI&q=EgQUUS93GPyyuNQGIjBk0H-ZkyQ-ZOWtuhTkPz6dvhPMHGU0MIotqAa8iKC_gJb6LCyC0uqHlzjUzezCl94yAnJSWgFD",
+      "verified": false
+    },
+    {
+      "url": "https://youtube.com/watch?v=g9-v4jLTzY0",
+      "link_status": "blocked",
+      "http_status": 429,
+      "redirect_url": "https://google.com/sorry/index?continue=https%3A%2F%2Fyoutube.com%2Fwatch%3Fv%3Dg9-v4jLTzY0&q=EgQUUS93GP2yuNQGIjBQ2VY-G_6bgCOijTOG-_wOGpyjV0rwknkROiBVLrEVplTy31nUoCnTCnb_fOmwSBsyAnJSWgFD",
+      "verified": false
+    },
+    {
+      "url": "https://youtube.com/watch?v=k2cAm1PfuTU",
+      "link_status": "blocked",
+      "http_status": 429,
+      "redirect_url": "https://google.com/sorry/index?continue=https%3A%2F%2Fyoutube.com%2Fwatch%3Fv%3Dk2cAm1PfuTU&q=EgQUUS93GP2yuNQGIjBV5rWeRyZ48HTDR4oLoqgP07TQwdpp2Hu1OhxFHKZe4E16Al1-1isW57yXCEdsETAyAnJSWgFD",
+      "verified": false
+    },
+    {
+      "url": "https://youtube.com/watch?v=mQYb02h3Sjo",
+      "link_status": "blocked",
+      "http_status": 429,
+      "redirect_url": "https://google.com/sorry/index?continue=https%3A%2F%2Fyoutube.com%2Fwatch%3Fv%3DmQYb02h3Sjo&q=EgQUUS93GP2yuNQGIjB-1YunCyKwCMEIIMfxIHzeTMcsLcNp_ikvDCjiE1PU_Z9ngAPR-PpPK0r0SMIfre0yAnJSWgFD",
+      "verified": false
+    },
+    {
+      "url": "https://youtube.com/watch?v=Q8wl2YDlJVQ",
+      "link_status": "blocked",
+      "http_status": 429,
+      "redirect_url": "https://google.com/sorry/index?continue=https%3A%2F%2Fyoutube.com%2Fwatch%3Fv%3DQ8wl2YDlJVQ&q=EgQUUS93GP2yuNQGIjAbpVLO2yOVqnOeyxVEZHiPxhSnupCzSo9e-Zs5IAbnBqRcaRKWd4ubt3olGHP5NM8yAnJSWgFD",
+      "verified": false
+    },
+    {
+      "url": "https://youtube.com/watch?v=QluNMHOMzgU",
+      "link_status": "blocked",
+      "http_status": 429,
+      "redirect_url": "https://google.com/sorry/index?continue=https%3A%2F%2Fyoutube.com%2Fwatch%3Fv%3DQluNMHOMzgU&q=EgQUUS93GP2yuNQGIjC7JQ5EPza6L0Y-_1lDRdavqtVuiroFhvwOodpAjsrp6mQEZNX8xug9H4Gjjrn8d2EyAnJSWgFD",
+      "verified": false
+    },
+    {
+      "url": "https://youtube.com/watch?v=R5tJ9w01zA8",
+      "link_status": "blocked",
+      "http_status": 429,
+      "redirect_url": "https://google.com/sorry/index?continue=https%3A%2F%2Fyoutube.com%2Fwatch%3Fv%3DR5tJ9w01zA8&q=EgQUUS93GP2yuNQGIjAkP5vf2zUYhhWXJPn-3asmMcTK9tcGy-lxY9rRnl-n9ectgbveW3rn6sVjzqvrXiIyAnJSWgFD",
+      "verified": false
+    },
+    {
+      "url": "https://youtube.com/watch?v=rfImrGsMsX0",
+      "link_status": "blocked",
+      "http_status": 429,
+      "redirect_url": "https://google.com/sorry/index?continue=https%3A%2F%2Fyoutube.com%2Fwatch%3Fv%3DrfImrGsMsX0&q=EgQUUS93GP2yuNQGIjABPBtJaA7P1i0OiZQ9qBV7yEC2uMdVjhE8_Cx4HVdpVMwcVcDXOPJ8nxnovjPm8mUyAnJSWgFD",
+      "verified": false
+    },
+    {
+      "url": "https://youtube.com/watch?v=SAIHzkVz_tg",
+      "link_status": "blocked",
+      "http_status": 429,
+      "redirect_url": "https://google.com/sorry/index?continue=https%3A%2F%2Fyoutube.com%2Fwatch%3Fv%3DSAIHzkVz_tg&q=EgQUUS93GP2yuNQGIjB5j1NrRV0J166M_rtD2Ob94PpR0GnR6TxfwVbq4KnyAor-mA4CaIeUzeB0dtXIc6syAnJSWgFD",
+      "verified": false
+    },
+    {
+      "url": "https://youtube.com/watch?v=tck_1l_yqxA",
+      "link_status": "blocked",
+      "http_status": 429,
+      "redirect_url": "https://google.com/sorry/index?continue=https%3A%2F%2Fyoutube.com%2Fwatch%3Fv%3Dtck_1l_yqxA&q=EgQUUS93GP2yuNQGIjDuPUMIbApWTJXFPNB9ECdLjmSdFwT3-T_AwuXbxyTyK1pjgKuozs7XiOeeooYYtdkyAnJSWgFD",
+      "verified": false
+    },
+    {
+      "url": "https://youtube.com/watch?v=tjLBKX_7irw",
+      "link_status": "blocked",
+      "http_status": 429,
+      "redirect_url": "https://google.com/sorry/index?continue=https%3A%2F%2Fyoutube.com%2Fwatch%3Fv%3DtjLBKX_7irw&q=EgQUUS93GP2yuNQGIjA-MSjxraShUoo41CDEgOSVuRn8lgxn35MXZmSoj5v6O5jd2Vj17JTTeid9xDAgwkYyAnJSWgFD",
+      "verified": false
+    },
+    {
+      "url": "https://zh.wikipedia.org/wiki/%E4%BC%AF%E7%89%B9%E5%88%A9%E4%B8%AD%E5%AD%B8",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://zh.wikipedia.org/wiki/%E4%BD%9B%E6%95%99%E8%91%89%E7%B4%80%E5%8D%97%E7%B4%80%E5%BF%B5%E4%B8%AD%E5%AD%B8",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://zh.wikipedia.org/wiki/%E8%97%A5%E5%80%8D%E5%AE%89%E5%BF%83%E7%88%AD%E8%AD%B0",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://zh.wikipedia.org/wiki/HKGAI_V1",
       "link_status": "ok",
       "http_status": 200,
       "redirect_url": "",
