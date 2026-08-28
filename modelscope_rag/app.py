@@ -16,7 +16,8 @@ from datetime import date
 from pathlib import Path
 from typing import Any, Iterable
 from urllib.error import HTTPError, URLError
-from urllib.request import Request, urlopen
+from urllib.parse import urlparse
+from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 
 DEFAULT_DATA_BASE_URL = "https://jojo-edtech.github.io/aiedcase/data"
@@ -33,10 +34,20 @@ MAX_QUESTION_CHARS = int(os.getenv("RAG_MAX_QUESTION_CHARS", "360"))
 DEFAULT_TOP_K = int(os.getenv("RAG_TOP_K", "6"))
 MAX_CONTEXT_CHARS = int(os.getenv("RAG_MAX_CONTEXT_CHARS", "9000"))
 MODEL_TIMEOUT_SEC = int(os.getenv("MODELSCOPE_TIMEOUT_SEC", "60"))
+MAX_DATA_RESPONSE_BYTES = int(os.getenv("RAG_MAX_DATA_RESPONSE_BYTES", str(8 * 1024 * 1024)))
+MAX_MODEL_RESPONSE_BYTES = int(os.getenv("MODELSCOPE_MAX_RESPONSE_BYTES", str(4 * 1024 * 1024)))
 DAILY_GENERATION_LIMIT = int(os.getenv("RAG_DAILY_GENERATION_LIMIT", "50"))
 QUOTA_STATE_FILE = Path(
     os.getenv("RAG_QUOTA_STATE_FILE", str(Path(tempfile.gettempdir()) / "aied_case_hub_rag_quota.json"))
 )
+
+
+class NoRedirectHandler(HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return None
+
+
+NO_REDIRECT_OPENER = build_opener(NoRedirectHandler())
 
 
 @dataclass
@@ -68,6 +79,10 @@ def normalize_spaces(text: str) -> str:
     return re.sub(r"\s+", " ", text or "").strip()
 
 
+def normalize_user_text(value: Any) -> str:
+    return normalize_spaces(value) if isinstance(value, str) else ""
+
+
 def tokenize(text: str) -> list[str]:
     lowered = (text or "").lower()
     tokens = re.findall(r"[a-z0-9][a-z0-9_+.-]*", lowered)
@@ -81,8 +96,70 @@ def tokenize(text: str) -> list[str]:
 
 def data_url(base_url: str, filename: str) -> str:
     if base_url.startswith(("http://", "https://")):
-        return f"{base_url.rstrip('/')}/{filename}"
+        return f"{validate_remote_data_base(base_url)}/{filename}"
     return str(Path(base_url).expanduser().resolve() / filename)
+
+
+def validate_remote_data_base(value: str) -> str:
+    candidate = str(value or "").strip()
+    parsed = urlparse(candidate)
+    try:
+        port = parsed.port
+    except ValueError as error:
+        raise ValueError("RAG_DATA_BASE_URL has an invalid port.") from error
+    if (
+        parsed.scheme != "https"
+        or not parsed.hostname
+        or parsed.username
+        or parsed.password
+        or port not in {None, 443}
+        or parsed.params
+        or parsed.query
+        or parsed.fragment
+    ):
+        raise ValueError("Remote RAG_DATA_BASE_URL must be a plain HTTPS base URL.")
+    return candidate.rstrip("/")
+
+
+def validate_modelscope_api_url(value: str) -> str:
+    candidate = str(value or "").strip()
+    parsed = urlparse(candidate)
+    try:
+        port = parsed.port
+    except ValueError as error:
+        raise ValueError("MODELSCOPE_API_BASE has an invalid port.") from error
+    if (
+        parsed.scheme != "https"
+        or parsed.hostname != "api-inference.modelscope.cn"
+        or parsed.username
+        or parsed.password
+        or port not in {None, 443}
+        or parsed.path.rstrip("/") != "/v1/chat/completions"
+        or parsed.params
+        or parsed.query
+        or parsed.fragment
+    ):
+        raise ValueError("MODELSCOPE_API_BASE must be the official HTTPS chat-completions endpoint.")
+    return DEFAULT_API_BASE
+
+
+def read_limited_response(response, max_bytes: int) -> bytes:
+    if max_bytes <= 0:
+        raise ValueError("Response byte limit must be positive.")
+    declared = response.headers.get("Content-Length")
+    if declared:
+        try:
+            declared_bytes = int(declared)
+        except ValueError as error:
+            raise ValueError("Response has an invalid Content-Length header.") from error
+        if declared_bytes < 0:
+            raise ValueError("Response has an invalid Content-Length header.")
+        if declared_bytes > max_bytes:
+            raise ValueError(f"Response exceeds {max_bytes} bytes.")
+    payload = response.read(max_bytes + 1)
+    if len(payload) > max_bytes:
+        raise ValueError(f"Response exceeds {max_bytes} bytes.")
+    return payload
 
 
 def read_text(source: str) -> str:
@@ -91,8 +168,10 @@ def read_text(source: str) -> str:
         last_error: Exception | None = None
         for attempt in range(3):
             try:
-                with urlopen(request, timeout=25) as response:
-                    return response.read().decode("utf-8-sig")
+                with NO_REDIRECT_OPENER.open(request, timeout=25) as response:
+                    return read_limited_response(response, MAX_DATA_RESPONSE_BYTES).decode("utf-8-sig")
+            except ValueError:
+                raise
             except (OSError, HTTPError, URLError) as error:
                 last_error = error
                 time.sleep(1.5 * (attempt + 1))
@@ -273,7 +352,7 @@ def get_index(refresh: bool = False) -> RagIndex:
         _INDEX = RagIndex(build_documents(base_url))
         _INDEX_ERROR = None
         return _INDEX
-    except (OSError, HTTPError, URLError, csv.Error) as error:
+    except (OSError, HTTPError, URLError, ValueError, csv.Error) as error:
         _INDEX_ERROR = f"{type(error).__name__}: {error}"
         raise RuntimeError(f"无法读取知识库数据：{_INDEX_ERROR}") from error
 
@@ -391,8 +470,13 @@ def call_modelscope_messages(
         "stream": False,
     }
 
+    try:
+        api_url = validate_modelscope_api_url(os.getenv("MODELSCOPE_API_BASE", DEFAULT_API_BASE))
+    except ValueError:
+        return None, "生成服务地址配置无效。"
+
     request = Request(
-        os.getenv("MODELSCOPE_API_BASE", DEFAULT_API_BASE),
+        api_url,
         data=json.dumps(payload, ensure_ascii=False).encode("utf-8"),
         headers={
             "Authorization": f"Bearer {token}",
@@ -403,11 +487,11 @@ def call_modelscope_messages(
     )
 
     try:
-        with urlopen(request, timeout=MODEL_TIMEOUT_SEC) as response:
-            data = json.loads(response.read().decode("utf-8"))
+        with NO_REDIRECT_OPENER.open(request, timeout=MODEL_TIMEOUT_SEC) as response:
+            data = json.loads(read_limited_response(response, MAX_MODEL_RESPONSE_BYTES).decode("utf-8"))
     except HTTPError as error:
         return None, f"生成服务返回 HTTP {error.code}。"
-    except (OSError, URLError, json.JSONDecodeError) as error:
+    except (OSError, URLError, ValueError, json.JSONDecodeError) as error:
         return None, f"生成服务暂时不可用：{type(error).__name__}。"
 
     try:
@@ -425,8 +509,10 @@ def call_modelscope(
 ) -> tuple[str | None, str | None]:
     safe_history = []
     for item in (history or [])[-6:]:
+        if not isinstance(item, dict):
+            continue
         role = item.get("role")
-        content = normalize_spaces(item.get("content", ""))[:700]
+        content = normalize_user_text(item.get("content", ""))[:700]
         if role in {"user", "assistant"} and content:
             safe_history.append({"role": role, "content": content})
 
@@ -531,7 +617,7 @@ def answer_chat(
 
 def generate_teacher_tool(payload: dict[str, Any]) -> dict[str, Any]:
     fields = {
-        key: normalize_spaces(str(payload.get(key, "")))
+        key: normalize_user_text(payload.get(key, ""))
         for key in [
             "output_type",
             "subject",

@@ -7,6 +7,7 @@ import time
 from collections import defaultdict, deque
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from ipaddress import ip_address
 from typing import Any
 from urllib.parse import urlparse
 
@@ -20,6 +21,7 @@ HOST = os.getenv("AIEDCASE_API_HOST", "127.0.0.1")
 PORT = int(os.getenv("AIEDCASE_API_PORT", "8792"))
 MAX_BODY_BYTES = int(os.getenv("AIEDCASE_MAX_BODY_BYTES", "65536"))
 REQUESTS_PER_HOUR = int(os.getenv("AIEDCASE_REQUESTS_PER_HOUR", "24"))
+MAX_TRACKED_CLIENTS = int(os.getenv("AIEDCASE_MAX_TRACKED_CLIENTS", "10000"))
 
 
 def normalize_allowed_origin(value: str) -> str | None:
@@ -27,11 +29,39 @@ def normalize_allowed_origin(value: str) -> str | None:
     if not candidate or "\r" in candidate or "\n" in candidate:
         return None
     parsed = urlparse(candidate)
-    if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+    try:
+        port = parsed.port
+    except ValueError:
+        return None
+    if (
+        parsed.scheme not in {"http", "https"}
+        or not parsed.hostname
+        or parsed.username
+        or parsed.password
+        or port not in {None, 80, 443, 4173, 4175}
+    ):
         return None
     if parsed.path not in {"", "/"} or parsed.params or parsed.query or parsed.fragment:
         return None
     return f"{parsed.scheme}://{parsed.netloc}"
+
+
+def normalize_client_key(peer: str, real_ip: str = "", forwarded_for: str = "") -> str:
+    try:
+        peer_address = ip_address(peer.strip())
+    except ValueError:
+        return "unknown"
+    if not peer_address.is_loopback:
+        return peer_address.compressed
+
+    candidates = [real_ip.strip()]
+    candidates.extend(part.strip() for part in reversed(forwarded_for.split(",")) if part.strip())
+    for candidate in candidates:
+        try:
+            return ip_address(candidate).compressed
+        except ValueError:
+            continue
+    return peer_address.compressed
 
 
 ALLOWED_ORIGINS = {
@@ -45,16 +75,27 @@ ALLOWED_ORIGINS = {
 
 
 class SlidingWindowLimiter:
-    def __init__(self, limit: int, window_seconds: int = 3600) -> None:
+    def __init__(self, limit: int, window_seconds: int = 3600, max_clients: int = 10000) -> None:
         self.limit = max(1, limit)
         self.window_seconds = max(60, window_seconds)
+        self.max_clients = max(100, max_clients)
         self.events: dict[str, deque[float]] = defaultdict(deque)
         self.lock = threading.Lock()
+        self.last_cleanup = 0.0
 
     def allow(self, key: str) -> tuple[bool, int]:
         now = time.monotonic()
         cutoff = now - self.window_seconds
         with self.lock:
+            if now - self.last_cleanup >= 60 or len(self.events) >= self.max_clients:
+                for existing_key, existing_bucket in list(self.events.items()):
+                    while existing_bucket and existing_bucket[0] < cutoff:
+                        existing_bucket.popleft()
+                    if not existing_bucket:
+                        self.events.pop(existing_key, None)
+                self.last_cleanup = now
+            if key not in self.events and len(self.events) >= self.max_clients:
+                key = "__overflow__"
             bucket = self.events[key]
             while bucket and bucket[0] < cutoff:
                 bucket.popleft()
@@ -65,11 +106,12 @@ class SlidingWindowLimiter:
             return True, 0
 
 
-LIMITER = SlidingWindowLimiter(REQUESTS_PER_HOUR)
+LIMITER = SlidingWindowLimiter(REQUESTS_PER_HOUR, max_clients=MAX_TRACKED_CLIENTS)
 
 
 class ApiHandler(BaseHTTPRequestHandler):
-    server_version = "AIEDCaseAPI/0.2"
+    server_version = "AIEDCaseAPI"
+    sys_version = ""
 
     def log_message(self, format: str, *args: Any) -> None:
         # Never log request bodies or authorization data.
@@ -86,8 +128,11 @@ class ApiHandler(BaseHTTPRequestHandler):
         return not self.origin() or self.allowed_origin() is not None
 
     def client_key(self) -> str:
-        forwarded = self.headers.get("X-Forwarded-For", "").split(",", 1)[0].strip()
-        return forwarded or self.client_address[0]
+        return normalize_client_key(
+            self.client_address[0],
+            self.headers.get("X-Real-IP", ""),
+            self.headers.get("X-Forwarded-For", ""),
+        )
 
     def api_path(self) -> str:
         path = urlparse(self.path).path.rstrip("/") or "/"
@@ -97,6 +142,14 @@ class ApiHandler(BaseHTTPRequestHandler):
         if path.startswith(f"{prefix}/"):
             return path[len(prefix) :]
         return path
+
+    def send_security_headers(self) -> None:
+        self.send_header("Cache-Control", "no-store")
+        self.send_header("Content-Security-Policy", "default-src 'none'; frame-ancestors 'none'")
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("X-Frame-Options", "DENY")
+        self.send_header("Referrer-Policy", "no-referrer")
+        self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
 
     def send_json(
         self,
@@ -109,10 +162,7 @@ class ApiHandler(BaseHTTPRequestHandler):
         self.send_response(status)
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Content-Length", str(len(encoded)))
-        self.send_header("Cache-Control", "no-store")
-        self.send_header("X-Content-Type-Options", "nosniff")
-        self.send_header("Referrer-Policy", "no-referrer")
-        self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
+        self.send_security_headers()
         allowed_origin = self.allowed_origin()
         if allowed_origin is not None:
             self.send_header("Access-Control-Allow-Origin", allowed_origin)
@@ -131,6 +181,7 @@ class ApiHandler(BaseHTTPRequestHandler):
         if allowed_origin is not None:
             self.send_header("Access-Control-Allow-Origin", allowed_origin)
             self.send_header("Vary", "Origin")
+        self.send_security_headers()
         self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
         self.send_header("Access-Control-Max-Age", "600")
@@ -160,6 +211,12 @@ class ApiHandler(BaseHTTPRequestHandler):
         )
 
     def read_payload(self) -> dict[str, Any] | None:
+        if self.headers.get_content_type() != "application/json":
+            self.send_json(
+                HTTPStatus.UNSUPPORTED_MEDIA_TYPE,
+                {"ok": False, "status": "invalid", "answer": "请求必须使用 application/json。"},
+            )
+            return None
         try:
             length = int(self.headers.get("Content-Length", "0"))
         except ValueError:
@@ -214,22 +271,30 @@ class ApiHandler(BaseHTTPRequestHandler):
         if payload is None:
             return
 
-        if path == "/chat":
-            history = payload.get("history", [])
-            if not isinstance(history, list):
-                history = []
-            try:
-                top_k = max(3, min(10, int(payload.get("top_k", 6) or 6)))
-            except (TypeError, ValueError):
-                top_k = 6
-            result = answer_chat(
-                str(payload.get("question", "")),
-                history=history,
-                top_k=top_k,
-                language=str(payload.get("language", "zh-Hans")),
+        try:
+            if path == "/chat":
+                history = payload.get("history", [])
+                if not isinstance(history, list):
+                    history = []
+                try:
+                    top_k = max(3, min(10, int(payload.get("top_k", 6) or 6)))
+                except (TypeError, ValueError):
+                    top_k = 6
+                result = answer_chat(
+                    str(payload.get("question", "")),
+                    history=history,
+                    top_k=top_k,
+                    language=str(payload.get("language", "zh-Hans")),
+                )
+            else:
+                result = generate_teacher_tool(payload)
+        except Exception as error:
+            self.log_error("request failed: %s", type(error).__name__)
+            self.send_json(
+                HTTPStatus.SERVICE_UNAVAILABLE,
+                {"ok": False, "status": "service_error", "answer": "服务暂时不可用。", "sources": []},
             )
-        else:
-            result = generate_teacher_tool(payload)
+            return
 
         status = HTTPStatus.OK
         if result.get("status") == "invalid":
