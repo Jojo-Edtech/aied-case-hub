@@ -1,6 +1,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { CASE_FIELDS, PROMPT_FIELDS, RESOURCE_FIELDS, parseCsv, toCsv } from './csv-utils.mjs';
 import { canonicalizeUrl } from './data-quality.mjs';
+import { requestPublicUrlStatus } from './network-security.mjs';
 
 const timeoutMs = Number(process.env.LINK_CHECK_TIMEOUT_MS || 12000);
 const concurrency = Math.max(1, Number(process.env.LINK_CHECK_CONCURRENCY || 6));
@@ -88,22 +89,17 @@ async function checkUrl(url) {
 }
 
 async function requestUrl(url) {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
-    const response = await fetch(url, {
-      method: 'GET',
-      redirect: 'follow',
-      signal: controller.signal,
+    const response = await requestPublicUrlStatus(url, {
+      timeoutMs,
       headers: {
         'user-agent': 'AIED Case Hub link verifier (+https://github.com/Jojo-Edtech/aiedcase)',
         accept: 'text/html,application/xhtml+xml,application/pdf,text/plain;q=0.8,*/*;q=0.5',
         range: 'bytes=0-2047',
       },
     });
-    response.body?.cancel().catch(() => {});
-    const status = response.status;
-    const finalUrl = canonicalizeUrl(response.url || url);
+    const status = response.statusCode;
+    const finalUrl = canonicalizeUrl(response.finalUrl || url);
     const redirected = finalUrl !== canonicalizeUrl(url);
 
     if (status >= 200 && status < 400) {
@@ -129,10 +125,8 @@ async function requestUrl(url) {
       http_status: '',
       redirect_url: '',
       verified: false,
-      error: error.name === 'AbortError' ? 'timeout' : String(error.message || error),
+      error: ['AbortError', 'TimeoutError'].includes(error.name) ? 'timeout' : String(error.message || error),
     };
-  } finally {
-    clearTimeout(timer);
   }
 }
 
