@@ -109,6 +109,26 @@ jobs:
             fi
           done
 
+          if [[ ! "$ALIYUN_OSS_ENDPOINT" =~ ^https://[a-z0-9.-]+\.aliyuncs\.com$ ]]; then
+            echo "::error::ALIYUN_OSS_ENDPOINT must be a plain HTTPS aliyuncs.com endpoint."
+            exit 1
+          fi
+
+          if [[ ! "$ALIYUN_OSS_BUCKET" =~ ^[a-z0-9][a-z0-9-]{1,61}[a-z0-9]$ ]]; then
+            echo "::error::ALIYUN_OSS_BUCKET has an invalid OSS bucket name."
+            exit 1
+          fi
+
+          if [ -n "$ALIYUN_OSS_REGION" ] && [[ ! "$ALIYUN_OSS_REGION" =~ ^[a-z0-9-]+$ ]]; then
+            echo "::error::ALIYUN_OSS_REGION has an invalid region ID."
+            exit 1
+          fi
+
+          if [[ "$ALIYUN_OSS_PREFIX" == *$'\n'* || "$ALIYUN_OSS_PREFIX" == *$'\r'* || "$ALIYUN_OSS_PREFIX" == *\\* || "$ALIYUN_OSS_PREFIX" == *'..'* ]]; then
+            echo "::error::ALIYUN_OSS_PREFIX contains an unsafe path sequence."
+            exit 1
+          fi
+
           endpoint_host="${ALIYUN_OSS_ENDPOINT#*://}"
           endpoint_host="${endpoint_host%%/*}"
           region="${ALIYUN_OSS_REGION:-${endpoint_host#oss-}}"
