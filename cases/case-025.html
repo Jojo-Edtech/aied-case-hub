@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src &#39;self&#39;; base-uri &#39;self&#39;; object-src &#39;none&#39;; form-action &#39;self&#39;; script-src &#39;self&#39; &#39;sha256-tIlw4CPHhiC6/6gJaolLNy2xIdJ1hwlOGFwLbkP6rww=&#39; &#39;sha256-49xxVcsvjGd/NvPMkoQCeRpw+7QdAgCTVO66s79tBlM=&#39;; style-src &#39;self&#39; &#39;unsafe-inline&#39;; img-src &#39;self&#39; data: blob: https:; font-src &#39;self&#39; data:; connect-src &#39;self&#39; https:; media-src &#39;self&#39; data: blob: https:; worker-src &#39;self&#39; blob:; frame-src &#39;none&#39;; manifest-src &#39;self&#39;; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>佛教叶纪南纪念中学：引入中大智为未来AI课程 | AIED Case Hub</title>
   <meta name="description" content="学校作为中大赛马会智为未来计划成员，引入人工智能课程，让学生把科技知识用于真实任务。">
   <meta property="og:type" content="article">
@@ -39,16 +41,14 @@
     <div class="detail-actions detail-footer-actions"><a class="button button-primary" href="https://zh.wikipedia.org/wiki/%E4%BD%9B%E6%95%99%E8%91%89%E7%B4%80%E5%8D%97%E7%B4%80%E5%BF%B5%E4%B8%AD%E5%AD%B8" target="_blank" rel="noreferrer">查看原始来源</a>
     <button class="button button-secondary" data-copy-value="https://jojo-edtech.github.io/aiedcase/cases/case-025.html">复制本页链接</button></div></article></main>
   <footer class="detail-site-footer"><a href="../index.html">返回资料库</a><span>内容以原始来源为准</span></footer>
-  <script>
-    document.addEventListener('click', async (event) => {
-      const button = event.target.closest('[data-copy-value], [data-copy-target]');
-      if (!button) return;
-      const value = button.dataset.copyValue || document.querySelector(button.dataset.copyTarget)?.textContent || '';
-      await navigator.clipboard.writeText(value);
-      const previous = button.textContent;
-      button.textContent = '已复制';
-      setTimeout(() => { button.textContent = previous; }, 1400);
-    });
-  </script>
+  <script>document.addEventListener('click', async (event) => {
+  const button = event.target.closest('[data-copy-value], [data-copy-target]');
+  if (!button) return;
+  const value = button.dataset.copyValue || document.querySelector(button.dataset.copyTarget)?.textContent || '';
+  await navigator.clipboard.writeText(value);
+  const previous = button.textContent;
+  button.textContent = '已复制';
+  setTimeout(() => { button.textContent = previous; }, 1400);
+});</script>
 </body>
 </html>

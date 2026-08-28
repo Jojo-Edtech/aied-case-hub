@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src &#39;self&#39;; base-uri &#39;self&#39;; object-src &#39;none&#39;; form-action &#39;self&#39;; script-src &#39;self&#39; &#39;sha256-P1aIlxOBY2RVBWyTlTirvM0Y+L2JPBv6t5STAVIMGnI=&#39; &#39;sha256-49xxVcsvjGd/NvPMkoQCeRpw+7QdAgCTVO66s79tBlM=&#39;; style-src &#39;self&#39; &#39;unsafe-inline&#39;; img-src &#39;self&#39; data: blob: https:; font-src &#39;self&#39; data:; connect-src &#39;self&#39; https:; media-src &#39;self&#39; data: blob: https:; worker-src &#39;self&#39; blob:; frame-src &#39;none&#39;; manifest-src &#39;self&#39;; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>学生 GenAI 素养自评清单：设定目标并追踪 AI 使用习惯 | AIED Case Hub</title>
   <meta name="description" content="AI for Education 发布面向学生的 GenAI 素养资源，包含日常练习计划和可编辑 Google Form，可用于课堂讨论、小组活动、师生会议或学生独立反思，帮助学生设定目标并追踪 AI literacy 发展。">
   <meta property="og:type" content="article">
@@ -40,16 +42,14 @@
     <div class="detail-actions detail-footer-actions"><a class="button button-primary" href="https://www.aiforeducation.io/blog/new-student-resource-release" target="_blank" rel="noreferrer">查看原始来源</a>
     <button class="button button-secondary" data-copy-value="https://jojo-edtech.github.io/aiedcase/cases/case-155.html">复制本页链接</button></div></article></main>
   <footer class="detail-site-footer"><a href="../index.html">返回资料库</a><span>内容以原始来源为准</span></footer>
-  <script>
-    document.addEventListener('click', async (event) => {
-      const button = event.target.closest('[data-copy-value], [data-copy-target]');
-      if (!button) return;
-      const value = button.dataset.copyValue || document.querySelector(button.dataset.copyTarget)?.textContent || '';
-      await navigator.clipboard.writeText(value);
-      const previous = button.textContent;
-      button.textContent = '已复制';
-      setTimeout(() => { button.textContent = previous; }, 1400);
-    });
-  </script>
+  <script>document.addEventListener('click', async (event) => {
+  const button = event.target.closest('[data-copy-value], [data-copy-target]');
+  if (!button) return;
+  const value = button.dataset.copyValue || document.querySelector(button.dataset.copyTarget)?.textContent || '';
+  await navigator.clipboard.writeText(value);
+  const previous = button.textContent;
+  button.textContent = '已复制';
+  setTimeout(() => { button.textContent = previous; }, 1400);
+});</script>
 </body>
 </html>

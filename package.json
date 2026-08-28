@@ -9,7 +9,7 @@
     "check:links": "node scripts/check-links.mjs",
     "expand:prompts": "node scripts/expand-prompt-skills.mjs",
     "migrate:data": "node scripts/enrich-data-schema.mjs",
-    "test:quality": "node scripts/test-data-quality.mjs && node scripts/test-html-text.mjs",
+    "test:quality": "node scripts/test-data-quality.mjs && node scripts/test-html-text.mjs && node scripts/test-static-csp.mjs",
     "update:candidates": "node scripts/collect-candidate-cases.mjs",
     "test:ux": "node scripts/ux-stress-test.mjs --rounds=500",
     "validate:data": "node scripts/validate-data.mjs"

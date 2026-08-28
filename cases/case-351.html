@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src &#39;self&#39;; base-uri &#39;self&#39;; object-src &#39;none&#39;; form-action &#39;self&#39;; script-src &#39;self&#39; &#39;sha256-FC/OSxHRKUkf9XmyDtDjO6LisEz6rhLtL8QF6giA0tw=&#39; &#39;sha256-49xxVcsvjGd/NvPMkoQCeRpw+7QdAgCTVO66s79tBlM=&#39;; style-src &#39;self&#39; &#39;unsafe-inline&#39;; img-src &#39;self&#39; data: blob: https:; font-src &#39;self&#39; data:; connect-src &#39;self&#39; https:; media-src &#39;self&#39; data: blob: https:; worker-src &#39;self&#39; blob:; frame-src &#39;none&#39;; manifest-src &#39;self&#39;; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>PowerPoint’s Speaker Coach Is A Harsh But Mostly Helpful AI Mentor | AIED Case Hub</title>
   <meta name="description" content="自动收录：I was not prepared for just how much I would hate using Speaker Coach, but that doesn’t mean it wasn’t helpful. The AI-powered speaking coach and presentation mentor built int">
   <meta property="og:type" content="article">
@@ -33,16 +35,14 @@
     <div class="detail-actions detail-footer-actions"><a class="button button-primary" href="https://techlearning.com/technology/ai/powerpoints-speaker-coach-is-a-harsh-but-mostly-helpful-ai-mentor" target="_blank" rel="noreferrer">查看原始来源</a>
     <button class="button button-secondary" data-copy-value="https://jojo-edtech.github.io/aiedcase/cases/case-351.html">复制本页链接</button></div></article></main>
   <footer class="detail-site-footer"><a href="../index.html">返回资料库</a><span>内容以原始来源为准</span></footer>
-  <script>
-    document.addEventListener('click', async (event) => {
-      const button = event.target.closest('[data-copy-value], [data-copy-target]');
-      if (!button) return;
-      const value = button.dataset.copyValue || document.querySelector(button.dataset.copyTarget)?.textContent || '';
-      await navigator.clipboard.writeText(value);
-      const previous = button.textContent;
-      button.textContent = '已复制';
-      setTimeout(() => { button.textContent = previous; }, 1400);
-    });
-  </script>
+  <script>document.addEventListener('click', async (event) => {
+  const button = event.target.closest('[data-copy-value], [data-copy-target]');
+  if (!button) return;
+  const value = button.dataset.copyValue || document.querySelector(button.dataset.copyTarget)?.textContent || '';
+  await navigator.clipboard.writeText(value);
+  const previous = button.textContent;
+  button.textContent = '已复制';
+  setTimeout(() => { button.textContent = previous; }, 1400);
+});</script>
 </body>
 </html>

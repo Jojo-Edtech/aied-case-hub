@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src &#39;self&#39;; base-uri &#39;self&#39;; object-src &#39;none&#39;; form-action &#39;self&#39;; script-src &#39;self&#39; &#39;sha256-lS1K2myY0QsByACwK9JV+PF1OZGTnb76lacow5Fk9Dc=&#39; &#39;sha256-49xxVcsvjGd/NvPMkoQCeRpw+7QdAgCTVO66s79tBlM=&#39;; style-src &#39;self&#39; &#39;unsafe-inline&#39;; img-src &#39;self&#39; data: blob: https:; font-src &#39;self&#39; data:; connect-src &#39;self&#39; https:; media-src &#39;self&#39; data: blob: https:; worker-src &#39;self&#39; blob:; frame-src &#39;none&#39;; manifest-src &#39;self&#39;; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>Safer Internet Day 2026：帮助学生成为安全、清醒的 AI 使用者 | AIED Case Hub</title>
   <meta name="description" content="Microsoft Education 围绕 Safer Internet Day 提供 AI-aware 学习方向，强调学生需要识别 AI 生成内容、操纵性互动、错误信息、个人数据与数字身份风险。适合在数字公民、班会或 AI literacy 课程中设计“安全使用 AI”课堂活动。">
   <meta property="og:type" content="article">
@@ -40,16 +42,14 @@
     <div class="detail-actions detail-footer-actions"><a class="button button-primary" href="https://www.microsoft.com/en-us/education/blog/2026/02/safer-internet-day-2026-helping-students-become-ai%e2%80%91aware-safe-and-smart-online/" target="_blank" rel="noreferrer">查看原始来源</a>
     <button class="button button-secondary" data-copy-value="https://jojo-edtech.github.io/aiedcase/cases/case-148.html">复制本页链接</button></div></article></main>
   <footer class="detail-site-footer"><a href="../index.html">返回资料库</a><span>内容以原始来源为准</span></footer>
-  <script>
-    document.addEventListener('click', async (event) => {
-      const button = event.target.closest('[data-copy-value], [data-copy-target]');
-      if (!button) return;
-      const value = button.dataset.copyValue || document.querySelector(button.dataset.copyTarget)?.textContent || '';
-      await navigator.clipboard.writeText(value);
-      const previous = button.textContent;
-      button.textContent = '已复制';
-      setTimeout(() => { button.textContent = previous; }, 1400);
-    });
-  </script>
+  <script>document.addEventListener('click', async (event) => {
+  const button = event.target.closest('[data-copy-value], [data-copy-target]');
+  if (!button) return;
+  const value = button.dataset.copyValue || document.querySelector(button.dataset.copyTarget)?.textContent || '';
+  await navigator.clipboard.writeText(value);
+  const previous = button.textContent;
+  button.textContent = '已复制';
+  setTimeout(() => { button.textContent = previous; }, 1400);
+});</script>
 </body>
 </html>

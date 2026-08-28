@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src &#39;self&#39;; base-uri &#39;self&#39;; object-src &#39;none&#39;; form-action &#39;self&#39;; script-src &#39;self&#39; &#39;sha256-3Mbi3XqBvu1rQoqav1ujJgHhVAq0ZFGO25Lmh7LtTaM=&#39; &#39;sha256-49xxVcsvjGd/NvPMkoQCeRpw+7QdAgCTVO66s79tBlM=&#39;; style-src &#39;self&#39; &#39;unsafe-inline&#39;; img-src &#39;self&#39; data: blob: https:; font-src &#39;self&#39; data:; connect-src &#39;self&#39; https:; media-src &#39;self&#39; data: blob: https:; worker-src &#39;self&#39; blob:; frame-src &#39;none&#39;; manifest-src &#39;self&#39;; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>Microsoft AI 教学创新项目：把教师培训、工具与课堂支持连成流程 | AIED Case Hub</title>
   <meta name="description" content="Microsoft Education 汇总面向教育系统的 AI-powered teaching and learning 项目，包括教师 AI 培训、面向课堂的学习工具、可访问内容生成和教育领导者资源。可作为学校从“单个工具试用”过渡到“教师培训+课堂试点+风险复盘”的实施案例。">
   <meta property="og:type" content="article">
@@ -40,16 +42,14 @@
     <div class="detail-actions detail-footer-actions"><a class="button button-primary" href="https://www.microsoft.com/en-us/education/blog/2026/01/introducing-microsoft-innovations-and-programs-to-support-ai-powered-teaching-and-learning/" target="_blank" rel="noreferrer">查看原始来源</a>
     <button class="button button-secondary" data-copy-value="https://jojo-edtech.github.io/aiedcase/cases/case-149.html">复制本页链接</button></div></article></main>
   <footer class="detail-site-footer"><a href="../index.html">返回资料库</a><span>内容以原始来源为准</span></footer>
-  <script>
-    document.addEventListener('click', async (event) => {
-      const button = event.target.closest('[data-copy-value], [data-copy-target]');
-      if (!button) return;
-      const value = button.dataset.copyValue || document.querySelector(button.dataset.copyTarget)?.textContent || '';
-      await navigator.clipboard.writeText(value);
-      const previous = button.textContent;
-      button.textContent = '已复制';
-      setTimeout(() => { button.textContent = previous; }, 1400);
-    });
-  </script>
+  <script>document.addEventListener('click', async (event) => {
+  const button = event.target.closest('[data-copy-value], [data-copy-target]');
+  if (!button) return;
+  const value = button.dataset.copyValue || document.querySelector(button.dataset.copyTarget)?.textContent || '';
+  await navigator.clipboard.writeText(value);
+  const previous = button.textContent;
+  button.textContent = '已复制';
+  setTimeout(() => { button.textContent = previous; }, 1400);
+});</script>
 </body>
 </html>

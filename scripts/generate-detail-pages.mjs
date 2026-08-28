@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { parseCsv } from './csv-utils.mjs';
 
@@ -171,11 +172,26 @@ function pageTemplate({ title, description, url, typeLabel, body }) {
     inLanguage: 'zh-CN',
     educationalUse: typeLabel,
   }).replace(/</g, '\\u003c');
+  const copyScript = `document.addEventListener('click', async (event) => {
+  const button = event.target.closest('[data-copy-value], [data-copy-target]');
+  if (!button) return;
+  const value = button.dataset.copyValue || document.querySelector(button.dataset.copyTarget)?.textContent || '';
+  await navigator.clipboard.writeText(value);
+  const previous = button.textContent;
+  button.textContent = '已复制';
+  setTimeout(() => { button.textContent = previous; }, 1400);
+});`;
+  const inlineHashes = [jsonLd, copyScript]
+    .map((value) => `'sha256-${createHash('sha256').update(value).digest('base64')}'`)
+    .join(' ');
+  const csp = `default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'; script-src 'self' ${inlineHashes}; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self' https:; media-src 'self' data: blob: https:; worker-src 'self' blob:; frame-src 'none'; manifest-src 'self'; upgrade-insecure-requests`;
   return `<!doctype html>
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="${escapeAttribute(csp)}">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>${safeTitle} | AIED Case Hub</title>
   <meta name="description" content="${safeDescription}">
   <meta property="og:type" content="article">
@@ -191,17 +207,7 @@ function pageTemplate({ title, description, url, typeLabel, body }) {
   <header class="detail-site-header"><a href="../index.html">AIED Case Hub</a><span>${escapeHtml(typeLabel)}</span></header>
   <main class="standalone-detail-main"><article class="standalone-detail-card">${body}</article></main>
   <footer class="detail-site-footer"><a href="../index.html">返回资料库</a><span>内容以原始来源为准</span></footer>
-  <script>
-    document.addEventListener('click', async (event) => {
-      const button = event.target.closest('[data-copy-value], [data-copy-target]');
-      if (!button) return;
-      const value = button.dataset.copyValue || document.querySelector(button.dataset.copyTarget)?.textContent || '';
-      await navigator.clipboard.writeText(value);
-      const previous = button.textContent;
-      button.textContent = '已复制';
-      setTimeout(() => { button.textContent = previous; }, 1400);
-    });
-  </script>
+  <script>${copyScript}</script>
 </body>
 </html>`;
 }

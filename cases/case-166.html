@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src &#39;self&#39;; base-uri &#39;self&#39;; object-src &#39;none&#39;; form-action &#39;self&#39;; script-src &#39;self&#39; &#39;sha256-W8i+/MK8ttH6XDrKWbuR2lghWuMm7MZBT4DXxVaG3ss=&#39; &#39;sha256-49xxVcsvjGd/NvPMkoQCeRpw+7QdAgCTVO66s79tBlM=&#39;; style-src &#39;self&#39; &#39;unsafe-inline&#39;; img-src &#39;self&#39; data: blob: https:; font-src &#39;self&#39; data:; connect-src &#39;self&#39; https:; media-src &#39;self&#39; data: blob: https:; worker-src &#39;self&#39; blob:; frame-src &#39;none&#39;; manifest-src &#39;self&#39;; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>港大同学会书院：用 AI 辅助开发重庆火锅与磁器口学习游戏 | AIED Case Hub</title>
   <meta name="description" content="香港01报道港大同学会书院学生以重庆火锅制作和磁器口寻宝为主题设计学习游戏。学生用 AI 协助生成素材和构思，但也强调需要人工核查文化与历史事实，适合用作 AI 辅助创作和事实核查的跨学科项目。">
   <meta property="og:type" content="article">
@@ -33,16 +35,14 @@
     <div class="detail-actions detail-footer-actions"><a class="button button-primary" href="https://www.hk01.com/%E6%95%99%E8%82%B2%E7%99%BC%E5%B1%95/60314388/ai-x-steam-01-%E6%B8%AF%E5%A4%A7%E5%90%8C%E5%AD%B8%E6%9C%83%E6%9B%B8%E9%99%A2%E9%87%8D%E6%85%B6%E7%81%AB%E9%8D%8B%E9%81%8A%E6%88%B2%E5%A5%AAre-learn%E8%B3%BD%E9%81%93%E5%86%A0%E8%BB%8D" target="_blank" rel="noreferrer">查看原始来源</a>
     <button class="button button-secondary" data-copy-value="https://jojo-edtech.github.io/aiedcase/cases/case-166.html">复制本页链接</button></div></article></main>
   <footer class="detail-site-footer"><a href="../index.html">返回资料库</a><span>内容以原始来源为准</span></footer>
-  <script>
-    document.addEventListener('click', async (event) => {
-      const button = event.target.closest('[data-copy-value], [data-copy-target]');
-      if (!button) return;
-      const value = button.dataset.copyValue || document.querySelector(button.dataset.copyTarget)?.textContent || '';
-      await navigator.clipboard.writeText(value);
-      const previous = button.textContent;
-      button.textContent = '已复制';
-      setTimeout(() => { button.textContent = previous; }, 1400);
-    });
-  </script>
+  <script>document.addEventListener('click', async (event) => {
+  const button = event.target.closest('[data-copy-value], [data-copy-target]');
+  if (!button) return;
+  const value = button.dataset.copyValue || document.querySelector(button.dataset.copyTarget)?.textContent || '';
+  await navigator.clipboard.writeText(value);
+  const previous = button.textContent;
+  button.textContent = '已复制';
+  setTimeout(() => { button.textContent = previous; }, 1400);
+});</script>
 </body>
 </html>
