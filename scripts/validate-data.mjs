@@ -7,6 +7,7 @@ import {
   canonicalizeUrl,
   containsEmailAddress,
   duplicateKey,
+  safeHttpUrl,
   titleFingerprint,
 } from './data-quality.mjs';
 
@@ -113,7 +114,8 @@ function validateRecords(config, records) {
     if (ids.has(record.id)) fail(`${label} duplicates id ${record.id}.`);
     ids.add(record.id);
 
-    if (!/^https?:\/\//.test(record.source_url || '')) fail(`${label} has invalid source_url ${record.source_url}.`);
+    if (!safeHttpUrl(record.source_url)) fail(`${label} has invalid source_url ${record.source_url}.`);
+    if (record.redirect_url && !safeHttpUrl(record.redirect_url)) fail(`${label} has invalid redirect_url ${record.redirect_url}.`);
     if (record.canonical_url !== canonicalizeUrl(record.canonical_url)) {
       fail(`${label} has non-canonical canonical_url ${record.canonical_url}.`);
     }

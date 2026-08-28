@@ -9,6 +9,7 @@ import {
   extractPromptVariables,
   qualityLabel,
   redactEmailAddresses,
+  safeHttpUrl,
 } from './data-quality.mjs';
 
 assert.equal(
@@ -21,6 +22,18 @@ assert.equal(qualityLabel(54), '资料不完整');
 assert.equal(redactEmailAddresses('Contact researcher@example.edu for details.'), 'Contact [email removed] for details.');
 assert.equal(containsEmailAddress('Contact researcher@example.edu for details.'), true);
 assert.equal(containsEmailAddress('Contact [email removed] for details.'), false);
+assert.equal(safeHttpUrl('https://example.org/path?q=1'), 'https://example.org/path?q=1');
+for (const unsafe of [
+  'javascript:alert(1)',
+  'data:text/html,<script>alert(1)</script>',
+  'file:///etc/passwd',
+  '//example.org/path',
+  'https://user:password@example.org/',
+  'https://example.org\\@evil.example/',
+  'https://example.org/\nnext',
+]) {
+  assert.equal(safeHttpUrl(unsafe), '', unsafe);
+}
 
 const caseRecord = enrichCaseRecord({
   id: 'case-test',

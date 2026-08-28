@@ -44,25 +44,35 @@ export const LINK_STATUSES = new Set([
 
 export const QUALITY_LABEL_SET = new Set(QUALITY_LABELS.map(([, label]) => label));
 
-export function canonicalizeUrl(value) {
+export function safeHttpUrl(value) {
   const source = String(value || '').trim();
-  if (!source) return '';
+  if (!source || source.length > 4096 || /[\u0000-\u001f\u007f\\]/u.test(source)) return '';
 
   try {
     const url = new URL(source);
-    url.hash = '';
-    url.hostname = url.hostname.toLowerCase().replace(/^www\./, '');
-    for (const name of [...url.searchParams.keys()]) {
-      if (TRACKING_PARAMS.has(name.toLowerCase()) || name.toLowerCase().startsWith('utm_')) {
-        url.searchParams.delete(name);
-      }
-    }
-    url.searchParams.sort();
-    if (url.pathname !== '/') url.pathname = url.pathname.replace(/\/+$/, '');
-    return url.toString().replace(/\?$/, '');
+    if (!['http:', 'https:'].includes(url.protocol)) return '';
+    if (!url.hostname || url.username || url.password) return '';
+    return url.href;
   } catch {
-    return source;
+    return '';
   }
+}
+
+export function canonicalizeUrl(value) {
+  const source = safeHttpUrl(value);
+  if (!source) return '';
+
+  const url = new URL(source);
+  url.hash = '';
+  url.hostname = url.hostname.toLowerCase().replace(/^www\./, '');
+  for (const name of [...url.searchParams.keys()]) {
+    if (TRACKING_PARAMS.has(name.toLowerCase()) || name.toLowerCase().startsWith('utm_')) {
+      url.searchParams.delete(name);
+    }
+  }
+  url.searchParams.sort();
+  if (url.pathname !== '/') url.pathname = url.pathname.replace(/\/+$/, '');
+  return url.toString().replace(/\?$/, '');
 }
 
 export function titleFingerprint(value) {
@@ -96,12 +106,16 @@ export function redactEmailAddresses(value) {
 }
 
 export function sanitizePublicRecord(record) {
-  return Object.fromEntries(
+  const sanitized = Object.fromEntries(
     Object.entries(record).map(([field, value]) => [
       field,
       typeof value === 'string' ? redactEmailAddresses(value) : value,
     ]),
   );
+  for (const field of ['source_url', 'canonical_url', 'redirect_url']) {
+    if (field in sanitized) sanitized[field] = safeHttpUrl(sanitized[field]);
+  }
+  return sanitized;
 }
 
 export function enrichCaseRecord(record) {

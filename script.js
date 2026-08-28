@@ -3835,9 +3835,11 @@ function renderAssistantServiceState() {
 }
 
 function safeExternalUrl(value) {
+  const raw = String(value || "").trim();
+  if (!raw || raw.length > 4096 || /[\u0000-\u001f\u007f\\]/u.test(raw)) return "";
   try {
-    const url = new URL(value);
-    return ["http:", "https:"].includes(url.protocol) ? url.href : "";
+    const url = new URL(raw);
+    return ["http:", "https:"].includes(url.protocol) && url.hostname && !url.username && !url.password ? url.href : "";
   } catch {
     return "";
   }

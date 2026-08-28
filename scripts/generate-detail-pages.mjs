@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { parseCsv } from './csv-utils.mjs';
+import { safeHttpUrl } from './data-quality.mjs';
 
 const siteBase = (process.env.SITE_BASE_URL || 'https://jojo-edtech.github.io/aiedcase').replace(/\/+$/, '');
 const [cases, resources, prompts, paths] = await Promise.all([
@@ -243,7 +244,11 @@ function metadata(items) {
 }
 
 function sourceActions(sourceUrl, pageUrl, label) {
-  return `<div class="detail-actions detail-footer-actions"><a class="button button-primary" href="${escapeAttribute(sourceUrl)}" target="_blank" rel="noreferrer">${escapeHtml(label)}</a>
+  const safeSourceUrl = safeHttpUrl(sourceUrl);
+  const sourceLink = safeSourceUrl
+    ? `<a class="button button-primary" href="${escapeAttribute(safeSourceUrl)}" target="_blank" rel="noreferrer">${escapeHtml(label)}</a>`
+    : '<span class="button button-primary" aria-disabled="true">来源链接不可用</span>';
+  return `<div class="detail-actions detail-footer-actions">${sourceLink}
     <button class="button button-secondary" data-copy-value="${escapeAttribute(pageUrl)}">复制本页链接</button></div>`;
 }
 
