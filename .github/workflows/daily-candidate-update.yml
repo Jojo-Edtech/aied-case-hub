@@ -9,7 +9,6 @@ on:
     branches:
       - main
     paths:
-      - '.github/workflows/daily-candidate-update.yml'
       - 'scripts/collect-candidate-cases.mjs'
       - 'scripts/csv-utils.mjs'
       - 'scripts/data-quality.mjs'
@@ -29,6 +28,8 @@ jobs:
   collect-candidates:
     name: Collect candidate teaching cases
     runs-on: ubuntu-latest
+    environment:
+      name: data-automation
     permissions:
       contents: write  # Required to commit sanitized case data and regenerated pages.
     outputs:
