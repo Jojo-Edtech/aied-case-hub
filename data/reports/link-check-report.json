@@ -1,15 +1,134 @@
 {
-  "run_date": "2026-08-27",
+  "run_date": "2026-08-28",
   "checked_urls": 120,
-  "total_urls": 339,
+  "total_urls": 343,
   "counts": {
-    "blocked": 23,
-    "ok": 74,
+    "blocked": 24,
+    "ok": 83,
     "error": 11,
     "broken": 1,
-    "redirected": 11
+    "redirected": 1
   },
   "results": [
+    {
+      "url": "https://ai.ctl.columbia.edu/explore/prompts",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://ai.ufl.edu/teaching-with-ai/k-12-ai-education-program",
+      "link_status": "redirected",
+      "http_status": 206,
+      "redirect_url": "https://ai.ufl.edu/teaching",
+      "verified": true
+    },
+    {
+      "url": "https://ai4k12.org/",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://ai4k12.org/ai-for-education",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://ai4k12.org/analog-inspiration",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://ai4k12.org/craft-classroom-ready-resources-about-ai-for-teaching",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://ai4k12.org/genai-chatbot-prompt-library-for-educators",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://ai4k12.org/gridworld-reinforcement-learning",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://ai4k12.org/presidential-artificial-intelligence-challenge",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://ai4k12.org/resources/list-of-resources",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://ai4k12.org/teaching-ai-starting-in-prek-2-vicky-sedgwick",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://ai4k12.org/the-learners-apprentice-ai-and-the-amplification-of-human-creativity",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://ai4k12.org/the-power-and-limits-of-artificial-intelligence",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://ai4k12.org/the-rise-of-ai",
+      "link_status": "blocked",
+      "http_status": 429,
+      "redirect_url": "",
+      "verified": false
+    },
+    {
+      "url": "https://aiforeducation.io/ai-resources-main",
+      "link_status": "ok",
+      "http_status": 206,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://aiforeducation.io/ai-resources/state-ai-guidance",
+      "link_status": "ok",
+      "http_status": 206,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://aiforeducation.io/blog/abc7-promptathon-with-dwight-school",
+      "link_status": "ok",
+      "http_status": 206,
+      "redirect_url": "",
+      "verified": true
+    },
     {
       "url": "https://axios.com/2023/05/02/codeorg-leads-push-to-teach-ai",
       "link_status": "blocked",
@@ -53,196 +172,14 @@
       "verified": false
     },
     {
-      "url": "https://code.org/artificial-intelligence",
-      "link_status": "redirected",
-      "http_status": 206,
-      "redirect_url": "https://code.org/en-US/artificial-intelligence",
-      "verified": true
-    },
-    {
-      "url": "https://dayofai.org/curriculum",
-      "link_status": "redirected",
-      "http_status": 200,
-      "redirect_url": "https://dayofai.org/curriculum-resources",
-      "verified": true
-    },
-    {
-      "url": "https://dayofai.org/news/launching-taiwans-nationwide-ai-literacy-for-all-initiative",
+      "url": "https://blog.google/products-and-platforms/products/education/khan-academy-back-to-school",
       "link_status": "ok",
       "http_status": 200,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://edb.gov.hk/tc/curriculum-development/kla/science-edu/ai-for-sci.html",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://edb.gov.hk/tc/curriculum-development/kla/technology-edu/resources/InnovationAndTechnologyEducation/seminars.html",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://edb.gov.hk/tc/edu-system/primary-secondary/applicable-to-primary-secondary/it-in-edu/COE/coe-secsch.html",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://edcity.hk/home/zh-hant/edmarket/edtech-solutions/k12gpt-ai",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://edsurge.com/news/2026-03-27-the-ai-use-case-question-teachers-are-still-asking",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://edsurge.com/news/2026-03-30-from-hello-world-to-ai-what-skills-actually-prepare-students-for-the-future",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://edsurge.com/news/2026-04-03-as-a-tool-of-productivity-ai-can-make-the-effort-to-learn-more-meaningful",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://edsurge.com/news/2026-06-03-what-to-do-about-ai-begin-by-talking-about-it",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://edsurge.com/news/ai-is-in-schools-teachers-are-not-ready",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://edsurge.com/news/ai-meets-esl-and-teachers-are-intrigued",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://edsurge.com/news/ai-wont-replace-educators-but-it-is-changing-how-students-learn",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://edsurge.com/news/how-a-vinyl-record-resurgence-helped-me-understand-the-future-of-ai-in-education",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://edsurge.com/news/how-my-school-used-common-sense-and-collaboration-to-confront-ai",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://edsurge.com/news/i-built-an-ai-grading-tool-then-a-student-thanked-me-for-words-i-didnt-write",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://edsurge.com/news/i-used-ai-to-build-ai-resistant-assignments",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://edsurge.com/news/in-rural-districts-ai-resources-for-educators-are-scarce",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://edsurge.com/news/international-society-for-transforming-education-expands-its-ai-ready-graduate-framework",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://edsurge.com/news/podcast-what-is-the-ai-cheating-panic-really-about",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://edsurge.com/news/protecting-the-student-mind-in-the-age-of-ai",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://edsurge.com/news/teachers-forge-ahead-on-integrating-ai",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://edsurge.com/news/the-k-12-silo-wont-survive-ai-but-our-relationships-might",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://edsurge.com/news/we-must-stop-using-ai-to-level-down-our-students",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://edsurge.com/news/what-does-ai-cost-when-we-skip-the-work",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://edsurge.com/news/what-is-ai-actually-costing-schools",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://edsurge.com/news/your-kids-know-more-about-ai-than-you-do",
+      "url": "https://edsurge.com/news/student-artists-wrestle-with-ais-promise-and-peril",
       "link_status": "ok",
       "http_status": 200,
       "redirect_url": "",
@@ -255,20 +192,6 @@
       "redirect_url": "",
       "verified": false,
       "error": "fetch failed"
-    },
-    {
-      "url": "https://edu.google.com/intl/ALL_us/ai-resources-in-education",
-      "link_status": "ok",
-      "http_status": 206,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://edu.google.com/intl/ALL_us/resources/ai-for-k-12-educators",
-      "link_status": "ok",
-      "http_status": 206,
-      "redirect_url": "",
-      "verified": true
     },
     {
       "url": "https://education.gov.au/schooling/resources/australian-framework-generative-artificial-intelligence-ai-schools",
@@ -287,13 +210,6 @@
       "error": "timeout"
     },
     {
-      "url": "https://educationhub.blog.gov.uk/2025/06/artificial-intelligence-in-schools-everything-you-need-to-know",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
       "url": "https://elementsofai.com/",
       "link_status": "error",
       "http_status": "",
@@ -302,14 +218,84 @@
       "error": "fetch failed"
     },
     {
-      "url": "https://en.wikipedia.org/wiki/AI_literacy",
+      "url": "https://en.wikipedia.org/wiki/ChatGPT_in_education",
       "link_status": "ok",
       "http_status": 200,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://en.wikipedia.org/wiki/Artificial_intelligence_in_education",
+      "url": "https://en.wikipedia.org/wiki/Cognitive_tutor",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Ed_%28chatbot%29",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Edthena",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Intelligent_tutoring_system",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Katherine_Elkins",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/MediSafe_controversy",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Musical_Futures",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/QANDA",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Squirrel_AI",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Talkpal_AI",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Xeropan",
       "link_status": "ok",
       "http_status": 200,
       "redirect_url": "",
@@ -428,6 +414,139 @@
       "verified": false
     },
     {
+      "url": "https://eschoolnews.com/digital-learning/2026/04/22/3-ways-students-can-use-ai-tools-to-improve-their-literacy-skills",
+      "link_status": "ok",
+      "http_status": 206,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://eschoolnews.com/digital-learning/2026/04/24/three-ways-school-districts-can-build-a-sustainable-ai-framework",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://eschoolnews.com/digital-learning/2026/04/28/when-ai-does-the-work-who-does-the-learning",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://eschoolnews.com/digital-learning/2026/05/05/when-ai-means-something-different-in-every-classroom",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://eschoolnews.com/digital-learning/2026/05/12/in-a-new-survey-ai-scores-high-as-a-math-learning-tool",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://eschoolnews.com/digital-learning/2026/05/27/how-ai-helps-teachers-spend-less-time-on-assessments-and-more-time-on-impactful-instruction",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://eschoolnews.com/digital-learning/2026/06/05/my-students-need-real-connection-not-ai-feedback",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://eschoolnews.com/digital-learning/2026/07/14/the-best-time-to-be-a-teacher-leading-with-ai-and-technology-in-the-age-of-personalized-learning",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://eschoolnews.com/digital-learning/2026/08/07/schools-are-building-ai-rules-before-they-know-the-destination",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://eschoolnews.com/digital-learning/2026/08/17/5-ways-ai-can-strengthen-your-teaching-this-school-year",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://eschoolnews.com/featured/2026/04/10/a-new-need-to-know-for-the-ai-classroom",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://eschoolnews.com/innovative-teaching/2026/05/20/despite-concerns-gen-z-students-are-optimistic-about-ai",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://experience-ai.org/en",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://facultyfocus.com/articles/online-education/designing-sustainable-academic-workflows-ai-as-a-reflective-partner-in-faculty-practice",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://facultyfocus.com/articles/teaching-with-technology-articles/from-substitute-to-support-helping-students-use-ai-wisely",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://facultyfocus.com/articles/teaching-with-technology-articles/two-professors-two-approaches-to-ai-and-assignment-design",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://github.com/Jojo-Edtech/aiedcase",
+      "link_status": "ok",
+      "http_status": 206,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://gov.uk/government/publications/generative-artificial-intelligence-in-education/generative-artificial-intelligence-ai-in-education",
+      "link_status": "ok",
+      "http_status": 206,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://grow.google/ai-for-educators",
+      "link_status": "ok",
+      "http_status": 206,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
       "url": "https://gz.gov.cn/zwfw/zxfw/jyfw7/content/post_10264203.html",
       "link_status": "error",
       "http_status": "",
@@ -436,7 +555,14 @@
       "error": "fetch failed"
     },
     {
-      "url": "https://insidehighered.com/news/tech-innovation/artificial-intelligence/2026/08/18/ai-helps-researchers-win-nih-grants-will",
+      "url": "https://insidehighered.com/news/faculty/learning-assessment/2026/08/27/study-ai-tends-mark-students-essays-higher-humans",
+      "link_status": "ok",
+      "http_status": 206,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://insidehighered.com/news/student-success/life-after-college/2026/08/19/ai-career-skills-move-beyond-computer-science",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
@@ -458,63 +584,7 @@
       "verified": false
     },
     {
-      "url": "https://microsoft.com/en-us/education/blog/2026/05/study-and-learn-ai-built-for-your-student",
-      "link_status": "ok",
-      "http_status": 206,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://microsoft.com/en-us/education/blog/2026/06/ai-in-education-is-changing-fast-new-microsoft-365-education-experiences-put-learning-first",
-      "link_status": "ok",
-      "http_status": 206,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://microsoft.com/en-us/education/blog/2026/07/6-key-takeaways-from-iste-2026-how-educators-are-applying-ai-in-the-classroom",
-      "link_status": "ok",
-      "http_status": 206,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://microsoft.com/en-us/education/blog/2026/07/study-and-learn-ai-built-for-learning-in-microsoft-365-copilot",
-      "link_status": "ok",
-      "http_status": 206,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://moe.gov.sg/education-in-sg/educational-technology-journey/edtech-masterplan/artificial-intelligence-in-education",
-      "link_status": "ok",
-      "http_status": 202,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://nypost.com/2026/01/30/business/new-65k-private-school-uses-ai-to-teach-students-in-just-two-hours-a-day-in-silicon-valley-bid-to-shake-up-us-education",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://oregon.gov/ode/educator-resources/teachingcontent/Documents/ODE_Resources_for_the_Educational_Use_of_Generative_AI_in_K-12_Classrooms_2023.pdf",
-      "link_status": "ok",
-      "http_status": 206,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://orise.orau.gov/ai-education-resources/index.html",
-      "link_status": "ok",
-      "http_status": 206,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://orise.orau.gov/k12/documents/lesson-plans/ai-resource-book.pdf",
+      "url": "https://oregon.gov/ode/educator-resources/teachingcontent/pages/generative-artificial-intelligence-%28ai%29-for-k-12-schools.aspx",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
@@ -529,196 +599,224 @@
       "error": "fetch failed"
     },
     {
-      "url": "https://raise.mit.edu/",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://s39613.pcdn.co/articles/educational-assessment/ai-didnt-break-assessment-it-exposed-what-was-already-broken",
-      "link_status": "redirected",
-      "http_status": 200,
-      "redirect_url": "https://facultyfocus.com/articles/educational-assessment/ai-didnt-break-assessment-it-exposed-what-was-already-broken",
-      "verified": true
-    },
-    {
-      "url": "https://s39613.pcdn.co/articles/educational-assessment/why-ai-is-changing-what-it-means-to-be-intelligent",
-      "link_status": "redirected",
-      "http_status": 200,
-      "redirect_url": "https://facultyfocus.com/articles/educational-assessment/why-ai-is-changing-what-it-means-to-be-intelligent",
-      "verified": true
-    },
-    {
-      "url": "https://s39613.pcdn.co/articles/effective-teaching-strategies/the-dopamine-dilemma-how-instant-ai-gratification-fuels-over-reliance-and-undermines-critical-thinking",
-      "link_status": "redirected",
-      "http_status": 200,
-      "redirect_url": "https://facultyfocus.com/articles/effective-teaching-strategies/the-dopamine-dilemma-how-instant-ai-gratification-fuels-over-reliance-and-undermines-critical-thinking",
-      "verified": true
-    },
-    {
-      "url": "https://s39613.pcdn.co/articles/teaching-and-learning/teaching-with-humanity-what-students-need-most-in-the-ai-era",
-      "link_status": "redirected",
-      "http_status": 200,
-      "redirect_url": "https://facultyfocus.com/articles/teaching-and-learning/teaching-with-humanity-what-students-need-most-in-the-ai-era",
-      "verified": true
-    },
-    {
-      "url": "https://s39613.pcdn.co/articles/teaching-and-learning/thinking-beyond-ai-in-college-how-english-major-students-can-explore-literature-through-geography",
-      "link_status": "redirected",
-      "http_status": 200,
-      "redirect_url": "https://facultyfocus.com/articles/teaching-and-learning/thinking-beyond-ai-in-college-how-english-major-students-can-explore-literature-through-geography",
-      "verified": true
-    },
-    {
-      "url": "https://s39613.pcdn.co/articles/teaching-with-technology-articles/still-the-teacher-how-californias-ai-law-keeps-you-at-the-center",
-      "link_status": "redirected",
-      "http_status": 200,
-      "redirect_url": "https://facultyfocus.com/articles/teaching-with-technology-articles/still-the-teacher-how-californias-ai-law-keeps-you-at-the-center",
-      "verified": true
-    },
-    {
-      "url": "https://s39613.pcdn.co/articles/teaching-with-technology-articles/the-cognitive-concern-why-ai-needs-a-nutrition-label",
-      "link_status": "redirected",
-      "http_status": 200,
-      "redirect_url": "https://facultyfocus.com/articles/teaching-with-technology-articles/the-cognitive-concern-why-ai-needs-a-nutrition-label",
-      "verified": true
-    },
-    {
-      "url": "https://s39613.pcdn.co/articles/teaching-with-technology-articles/the-pedagogy-of-trading-places-lessons-from-an-unexpected-role-reversal-with-ai",
-      "link_status": "redirected",
-      "http_status": 200,
-      "redirect_url": "https://facultyfocus.com/articles/teaching-with-technology-articles/the-pedagogy-of-trading-places-lessons-from-an-unexpected-role-reversal-with-ai",
-      "verified": true
-    },
-    {
-      "url": "https://student.edcity.hk/pri/zh-hant/piccks-post/202526/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD-%E7%B6%B2%E4%B8%8A%E8%87%AA%E5%AD%B8%E8%AA%B2%E7%A8%8B%E5%8F%8A%E5%B7%A5%E4%BD%9C%E5%9D%8A",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://studio.code.org/s/oceans/lessons/1/levels/1",
-      "link_status": "redirected",
-      "http_status": 206,
-      "redirect_url": "https://studio.code.org/courses/oceans/units/1/lessons/1/levels/1",
-      "verified": true
-    },
-    {
-      "url": "https://teach.moreland.edu/ai-prompts-guide",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://teacher.edcity.hk/zh-hant/edacademy-whats-new/%E6%95%B8%E5%AD%97%E6%95%99%E8%82%B2%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%B0%88%E6%A5%AD%E5%9F%B9%E8%A8%93%E7%B3%BB%E5%88%97ai-%E6%96%BC%E8%8B%B1%E6%96%87%E8%81%BD",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://teacher.edcity.hk/zh-hant/resource/ai-x-education-%E8%BF%8E%E6%8E%A5%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%96%B0%E4%B8%96%E4%BB%A3",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://teachingchannel.com/k12-hub/blog/65-ai-prompts-for-lesson-planning",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://teachingcommons.stanford.edu/teaching-guides/artificial-intelligence-teaching-guide/understanding-ai-literacy",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://tech.gov.sg/technews/ai-in-education-transforming-singapore-education-system-with-student-learning-space",
+      "url": "https://techlearning.com/technology/ai/a-day-in-the-life-of-a-principal-using-ai",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://techlearning.com/learning/classroom-tools/what-is-edcafe-ai-and-how-can-i-use-it-to-teach",
+      "url": "https://techlearning.com/technology/ai/copilot-study-and-learn-gets-high-marks",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://techlearning.com/learning/leadership/finding-the-students-schools-miss-how-data-relationships-and-ai-are-unlocking-hidden-potential",
+      "url": "https://techlearning.com/technology/ai/creating-5-pillars-to-guide-ai-use-in-your-district",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://techlearning.com/learning/leadership/thoughtfully-leveraging-ai-to-improve-learning-outcomes-efficiency-and-more",
+      "url": "https://techlearning.com/technology/ai/data-dashboards-arent-enough-ai-makes-pd-smarter",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://techlearning.com/technology/ai/4-strategies-for-teaching-with-ai-effectively",
+      "url": "https://techlearning.com/technology/ai/elevating-the-classroom-a-blueprint-for-strategic-ai-integration-and-student-empowerment",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://techlearning.com/technology/ai/4-times-never-to-use-ai-as-a-teacher-or-student",
+      "url": "https://techlearning.com/technology/ai/how-ai-can-make-graduation-memorable-for-the-right-reasons",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://techlearning.com/technology/ai/4-ways-teachers-are-using-ai",
+      "url": "https://techlearning.com/technology/ai/in-an-ai-classroom-content-knowledge-matters-more-than-ever",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://techlearning.com/technology/ai/5-ai-education-trends-according-to-a-microsoft-executive",
+      "url": "https://techlearning.com/technology/ai/managing-student-personal-relationships-with-ai",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://techlearning.com/technology/ai/empowering-the-fall-classroom-a-strategic-guide-to-6-essential-ai-tools-for-educators-and-students",
+      "url": "https://techlearning.com/technology/ai/navigating-the-ai-frontier-in-education-new-webinar-series",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://techlearning.com/technology/ai/powerpoints-speaker-coach-is-a-harsh-but-mostly-helpful-ai-mentor",
+      "url": "https://techlearning.com/technology/ai/preventing-ai-plagiarism",
       "link_status": "ok",
       "http_status": 206,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://the74million.org/article/even-with-human-help-kids-need-motivation-to-use-ai-tutors-the-question-is-what",
+      "url": "https://techlearning.com/technology/ai/summer-prep-to-protect-your-school-from-ai-enabled-explicit-content",
+      "link_status": "ok",
+      "http_status": 206,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://techlearning.com/technology/ai/syracuse-university-gave-ai-access-to-30-000-students-and-faculty-heres-what-they-learned",
+      "link_status": "ok",
+      "http_status": 206,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://techlearning.com/technology/ai/teaching-with-teacherserver-ai-resources-created-by-teachers",
+      "link_status": "ok",
+      "http_status": 206,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://techlearning.com/technology/ai/tech-and-learnings-edtech-to-watch-takeaways-the-ai-playbook-2-part-webinar-series",
+      "link_status": "ok",
+      "http_status": 206,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://techlearning.com/technology/ai/the-ai-bubble-is-deflating-says-one-educator",
+      "link_status": "ok",
+      "http_status": 206,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://techlearning.com/technology/ai/using-gemini-ai-to-prepare-for-standardized-tests",
+      "link_status": "ok",
+      "http_status": 206,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://techlearning.com/technology/ai/what-is-vibe-coding-creating-code-with-ai-explained",
+      "link_status": "ok",
+      "http_status": 206,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://techlearning.com/technology/ai/what-my-freshman-daughter-taught-me-about-ai",
+      "link_status": "ok",
+      "http_status": 206,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://techlearning.com/technology/ai/when-highlights-are-easy-to-fake-with-ai-integrity-matters-more",
+      "link_status": "ok",
+      "http_status": 206,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://techradar.com/pro/this-ai-tool-claims-to-boost-student-grades-by-15-using-a-2400-year-old-technique-but-i-am-not-convinced",
+      "link_status": "ok",
+      "http_status": 206,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://the74million.org/article/a-step-by-step-guide-to-how-much-ai-to-use-in-schools-and-when",
       "link_status": "ok",
       "http_status": 200,
       "redirect_url": "",
       "verified": true
     },
     {
-      "url": "https://the74million.org/article/survey-5-ways-ai-is-cutting-into-students-ability-to-learn",
+      "url": "https://the74million.org/article/ai-tutors-are-praising-instead-of-teaching-heres-why-thats-hurting-students",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://the74million.org/article/as-ai-advances-student-voice-must-keep-pace",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://the74million.org/article/finale-takeaways-from-a-season-of-ai-in-education",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://the74million.org/article/gates-foundation-bets-on-credentials-ai-to-reach-students-before-2045-sunset",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://the74million.org/article/homework-artificial-intelligence-cheating",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://the74million.org/article/in-the-age-of-ai-everyone-should-be-hiring-theater-kids",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://the74million.org/article/more-than-half-of-georgia-teachers-now-use-artificial-intelligence-to-prepare-for-class",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://the74million.org/article/nyc-delays-school-ai-guidance-after-backlash",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://the74million.org/article/reed-hastings-on-what-it-will-take-for-ai-to-be-different-from-other-edtech",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://the74million.org/article/students-convene-to-hammer-out-ai-bill-of-rights-for-schools",
+      "link_status": "ok",
+      "http_status": 200,
+      "redirect_url": "",
+      "verified": true
+    },
+    {
+      "url": "https://the74million.org/article/when-ai-makes-young-people-think-for-themselves-real-learning-happens",
       "link_status": "ok",
       "http_status": 200,
       "redirect_url": "",
@@ -762,104 +860,6 @@
       "http_status": 401,
       "redirect_url": "",
       "verified": false
-    },
-    {
-      "url": "https://youtube.com/watch?v=8n4oUB1-YCE",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://youtube.com/watch?v=8y_wcf8XrmQ",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://youtube.com/watch?v=cNnbbPD6dos",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://youtube.com/watch?v=DItoBftt3JI",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://youtube.com/watch?v=g9-v4jLTzY0",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://youtube.com/watch?v=k2cAm1PfuTU",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://youtube.com/watch?v=mQYb02h3Sjo",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://youtube.com/watch?v=Q8wl2YDlJVQ",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://youtube.com/watch?v=QluNMHOMzgU",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://youtube.com/watch?v=R5tJ9w01zA8",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://youtube.com/watch?v=rfImrGsMsX0",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://youtube.com/watch?v=SAIHzkVz_tg",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://youtube.com/watch?v=tck_1l_yqxA",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
-    },
-    {
-      "url": "https://youtube.com/watch?v=tjLBKX_7irw",
-      "link_status": "ok",
-      "http_status": 200,
-      "redirect_url": "",
-      "verified": true
     }
   ]
 }
