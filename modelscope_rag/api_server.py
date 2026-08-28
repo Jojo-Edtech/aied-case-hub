@@ -20,13 +20,27 @@ HOST = os.getenv("AIEDCASE_API_HOST", "127.0.0.1")
 PORT = int(os.getenv("AIEDCASE_API_PORT", "8792"))
 MAX_BODY_BYTES = int(os.getenv("AIEDCASE_MAX_BODY_BYTES", "65536"))
 REQUESTS_PER_HOUR = int(os.getenv("AIEDCASE_REQUESTS_PER_HOUR", "24"))
+
+
+def normalize_allowed_origin(value: str) -> str | None:
+    candidate = value.strip()
+    if not candidate or "\r" in candidate or "\n" in candidate:
+        return None
+    parsed = urlparse(candidate)
+    if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+        return None
+    if parsed.path not in {"", "/"} or parsed.params or parsed.query or parsed.fragment:
+        return None
+    return f"{parsed.scheme}://{parsed.netloc}"
+
+
 ALLOWED_ORIGINS = {
-    origin.strip()
-    for origin in os.getenv(
+    normalized
+    for raw_origin in os.getenv(
         "CORS_ALLOWED_ORIGINS",
         "https://jojo-edtech.github.io,http://127.0.0.1:4173,http://localhost:4173",
     ).split(",")
-    if origin.strip()
+    if (normalized := normalize_allowed_origin(raw_origin)) is not None
 }
 
 
@@ -64,9 +78,12 @@ class ApiHandler(BaseHTTPRequestHandler):
     def origin(self) -> str:
         return self.headers.get("Origin", "").strip()
 
+    def allowed_origin(self) -> str | None:
+        requested = self.origin()
+        return next((allowed for allowed in ALLOWED_ORIGINS if requested == allowed), None)
+
     def origin_allowed(self) -> bool:
-        origin = self.origin()
-        return not origin or origin in ALLOWED_ORIGINS
+        return not self.origin() or self.allowed_origin() is not None
 
     def client_key(self) -> str:
         forwarded = self.headers.get("X-Forwarded-For", "").split(",", 1)[0].strip()
@@ -96,9 +113,9 @@ class ApiHandler(BaseHTTPRequestHandler):
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("Referrer-Policy", "no-referrer")
         self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
-        origin = self.origin()
-        if origin in ALLOWED_ORIGINS:
-            self.send_header("Access-Control-Allow-Origin", origin)
+        allowed_origin = self.allowed_origin()
+        if allowed_origin is not None:
+            self.send_header("Access-Control-Allow-Origin", allowed_origin)
             self.send_header("Vary", "Origin")
         if retry_after is not None:
             self.send_header("Retry-After", str(retry_after))
@@ -110,9 +127,9 @@ class ApiHandler(BaseHTTPRequestHandler):
             self.send_json(HTTPStatus.FORBIDDEN, {"ok": False, "error": "Origin not allowed"})
             return
         self.send_response(HTTPStatus.NO_CONTENT)
-        origin = self.origin()
-        if origin in ALLOWED_ORIGINS:
-            self.send_header("Access-Control-Allow-Origin", origin)
+        allowed_origin = self.allowed_origin()
+        if allowed_origin is not None:
+            self.send_header("Access-Control-Allow-Origin", allowed_origin)
             self.send_header("Vary", "Origin")
         self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "Content-Type")

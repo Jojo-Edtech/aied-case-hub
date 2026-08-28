@@ -11,7 +11,14 @@ os.environ["RAG_QUOTA_STATE_FILE"] = str(Path(tempfile.gettempdir()) / "aiedcase
 os.environ.pop("MODELSCOPE_API_TOKEN", None)
 os.environ.pop("MODELSCOPE_TOKEN", None)
 
-from modelscope_rag import app
+from modelscope_rag import api_server, app
+
+
+class ApiSecurityTests(unittest.TestCase):
+    def test_allowed_origin_normalization_rejects_header_injection(self) -> None:
+        self.assertIsNone(api_server.normalize_allowed_origin("https://example.com\r\nX-Test: injected"))
+        self.assertIsNone(api_server.normalize_allowed_origin("https://example.com/path"))
+        self.assertEqual(api_server.normalize_allowed_origin("https://example.com/"), "https://example.com")
 
 
 class RagApiTests(unittest.TestCase):

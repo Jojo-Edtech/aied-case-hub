@@ -358,10 +358,10 @@ async function fetchHtmlArticleText(url) {
 
 function extractReadableText(html) {
   const withoutNoise = html
-    .replace(/<script\b[\s\S]*?<\/script>/gi, ' ')
-    .replace(/<style\b[\s\S]*?<\/style>/gi, ' ')
-    .replace(/<noscript\b[\s\S]*?<\/noscript>/gi, ' ')
-    .replace(/<svg\b[\s\S]*?<\/svg>/gi, ' ');
+    .replace(/<script\b[\s\S]*?<\/script\s*>/gi, ' ')
+    .replace(/<style\b[\s\S]*?<\/style\s*>/gi, ' ')
+    .replace(/<noscript\b[\s\S]*?<\/noscript\s*>/gi, ' ')
+    .replace(/<svg\b[\s\S]*?<\/svg\s*>/gi, ' ');
 
   const preferredBlocks = [
     ...withoutNoise.matchAll(/<article\b[^>]*>([\s\S]*?)<\/article>/gi),
@@ -660,15 +660,20 @@ function longestText(values) {
 }
 
 function decodeEntities(value) {
-  return value
-    .replaceAll('&nbsp;', ' ')
-    .replaceAll('&amp;', '&')
-    .replaceAll('&lt;', '<')
-    .replaceAll('&gt;', '>')
-    .replaceAll('&quot;', '"')
-    .replaceAll('&#39;', "'")
-    .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)))
-    .replace(/&#x([0-9a-f]+);/gi, (_, code) => String.fromCodePoint(parseInt(code, 16)));
+  const namedEntities = {
+    amp: '&',
+    apos: "'",
+    gt: '>',
+    lt: '<',
+    nbsp: ' ',
+    quot: '"',
+  };
+
+  return value.replace(/&(?:#x([0-9a-f]+)|#(\d+)|([a-z]+));/gi, (entity, hex, decimal, named) => {
+    if (hex) return String.fromCodePoint(Number.parseInt(hex, 16));
+    if (decimal) return String.fromCodePoint(Number.parseInt(decimal, 10));
+    return namedEntities[named.toLowerCase()] ?? entity;
+  });
 }
 
 function looksLikeTeachingPractice(text, title = '') {
