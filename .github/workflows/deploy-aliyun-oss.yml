@@ -38,18 +38,12 @@ jobs:
     name: Deploy to Aliyun OSS
     if: ${{ vars.ALIYUN_DEPLOY_ENABLED == 'true' }}
     runs-on: ubuntu-latest
-    env:
-      ALIYUN_ACCESS_KEY_ID: ${{ secrets.ALIYUN_ACCESS_KEY_ID }}
-      ALIYUN_ACCESS_KEY_SECRET: ${{ secrets.ALIYUN_ACCESS_KEY_SECRET }}
-      ALIYUN_OSS_BUCKET: ${{ secrets.ALIYUN_OSS_BUCKET }}
-      ALIYUN_OSS_ENDPOINT: ${{ secrets.ALIYUN_OSS_ENDPOINT }}
-      ALIYUN_OSS_PREFIX: ${{ secrets.ALIYUN_OSS_PREFIX }}
     steps:
       - name: Check out repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Set up Node.js
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: "24"
 
@@ -59,12 +53,39 @@ jobs:
       - name: Prepare static files
         run: npm run build:static
 
-      - name: Check Aliyun configuration
+      - name: Install ossutil
+        run: |
+          set -euo pipefail
+          version="2.4.0"
+          archive="ossutil-${version}-linux-amd64.zip"
+          archive_path="$RUNNER_TEMP/$archive"
+          install_root="$RUNNER_TEMP/ossutil"
+          bin_dir="$RUNNER_TEMP/bin"
+
+          curl -fsSL --retry 3 \
+            "https://gosspublic.alicdn.com/ossutil/v2/${version}/${archive}" \
+            -o "$archive_path"
+          echo "85edf66b2fb7238f5c7e25cab820cf29312319fe4935b7c86a6b8485eb434f3c  $archive_path" \
+            | sha256sum --check --strict -
+          unzip -q "$archive_path" -d "$install_root"
+          mkdir -p "$bin_dir"
+          install -m 0755 "$install_root/ossutil-${version}-linux-amd64/ossutil" "$bin_dir/ossutil"
+          echo "$bin_dir" >> "$GITHUB_PATH"
+          command -v ossutil
+
+      - name: Upload static site
+        env:
+          OSS_ACCESS_KEY_ID: ${{ secrets.ALIYUN_ACCESS_KEY_ID }}
+          OSS_ACCESS_KEY_SECRET: ${{ secrets.ALIYUN_ACCESS_KEY_SECRET }}
+          ALIYUN_OSS_BUCKET: ${{ secrets.ALIYUN_OSS_BUCKET }}
+          ALIYUN_OSS_ENDPOINT: ${{ secrets.ALIYUN_OSS_ENDPOINT }}
+          ALIYUN_OSS_PREFIX: ${{ secrets.ALIYUN_OSS_PREFIX }}
+          ALIYUN_OSS_REGION: ${{ secrets.ALIYUN_OSS_REGION }}
         run: |
           set -euo pipefail
           required=(
-            ALIYUN_ACCESS_KEY_ID
-            ALIYUN_ACCESS_KEY_SECRET
+            OSS_ACCESS_KEY_ID
+            OSS_ACCESS_KEY_SECRET
             ALIYUN_OSS_BUCKET
             ALIYUN_OSS_ENDPOINT
           )
@@ -76,28 +97,11 @@ jobs:
             fi
           done
 
-      - name: Install ossutil
-        run: |
-          set -euo pipefail
-          sudo -v
-          curl -fsSL https://gosspublic.alicdn.com/ossutil/install.sh | sudo bash
-          command -v ossutil
-
-      - name: Configure ossutil
-        run: |
-          set -euo pipefail
-          umask 077
-          cat > "$HOME/.ossutilconfig" <<EOF
-          [Credentials]
-          language = EN
-          endpoint = $ALIYUN_OSS_ENDPOINT
-          accessKeyID = $ALIYUN_ACCESS_KEY_ID
-          accessKeySecret = $ALIYUN_ACCESS_KEY_SECRET
-          EOF
-
-      - name: Upload static site
-        run: |
-          set -euo pipefail
+          endpoint_host="${ALIYUN_OSS_ENDPOINT#*://}"
+          endpoint_host="${endpoint_host%%/*}"
+          region="${ALIYUN_OSS_REGION:-${endpoint_host#oss-}}"
+          region="${region%%.aliyuncs.com}"
+          region="${region%-internal}"
           target="oss://${ALIYUN_OSS_BUCKET}/"
 
           if [ -n "$ALIYUN_OSS_PREFIX" ]; then
@@ -106,5 +110,7 @@ jobs:
             target="oss://${ALIYUN_OSS_BUCKET}/${prefix}/"
           fi
 
-          ossutil cp -r dist/ "$target" -u --disable-dir-object
+          ossutil cp -r dist/ "$target" --update \
+            --endpoint "$ALIYUN_OSS_ENDPOINT" \
+            --region "$region"
           echo "Uploaded static site to $target"
