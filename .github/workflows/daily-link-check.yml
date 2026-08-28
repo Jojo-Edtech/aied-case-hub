@@ -16,13 +16,16 @@ concurrency:
   group: aied-data-writes
   cancel-in-progress: false
 
-permissions:
-  contents: write
+permissions: {}
 
 jobs:
   verify-links:
     name: Verify original source links
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      changed: ${{ steps.changes.outputs.changed }}
     env:
       TZ: Asia/Hong_Kong
       LINK_CHECK_LIMIT: '120'
@@ -53,10 +56,12 @@ jobs:
         run: npm run generate:pages
 
       - name: Commit verification results
+        id: changes
         run: |
           set -euo pipefail
           if git diff --quiet -- data/cases.csv data/resources.csv data/prompts.csv data/reports/link-check-report.json cases/ resources/ prompts/ paths/ sitemap.xml; then
             echo "No link verification changes."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
@@ -66,6 +71,7 @@ jobs:
           git commit -m "Verify AIED source links"
           git pull --rebase origin main
           git push origin main
+          echo "changed=true" >> "$GITHUB_OUTPUT"
 
       - name: Publish link report summary
         if: always()
@@ -73,3 +79,12 @@ jobs:
           if [ -f data/reports/link-check-report.json ]; then
             node -e 'const r=require("./data/reports/link-check-report.json"); console.log(`## Link verification\n\nChecked **${r.checked_urls}** of **${r.total_urls}** unique URLs.\n\n\`${JSON.stringify(r.counts)}\``)' >> "$GITHUB_STEP_SUMMARY"
           fi
+
+  deploy:
+    if: ${{ needs.verify-links.outputs.changed == 'true' }}
+    needs: verify-links
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/deploy-pages.yml

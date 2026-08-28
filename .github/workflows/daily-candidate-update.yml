@@ -18,10 +18,7 @@ on:
       - 'data/source_feeds.json'
       - 'package.json'
 
-permissions:
-  contents: write
-  issues: write
-  pull-requests: write
+permissions: {}
 
 concurrency:
   group: aied-data-writes
@@ -31,6 +28,10 @@ jobs:
   collect-candidates:
     name: Collect candidate teaching cases
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      changed: ${{ steps.changes.outputs.changed }}
     env:
       TZ: Asia/Hong_Kong
       SUMMARY_FILE: .tmp/candidate_update_summary.md
@@ -109,3 +110,12 @@ jobs:
               cat "$SUMMARY_FILE"
             fi
           } >> "$GITHUB_STEP_SUMMARY"
+
+  deploy:
+    if: ${{ needs.collect-candidates.outputs.changed == 'true' }}
+    needs: collect-candidates
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/deploy-pages.yml
