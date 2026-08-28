@@ -4,6 +4,12 @@ import { dirname } from 'node:path';
 import { CASE_FIELDS, parseCsv, toCsv } from './csv-utils.mjs';
 import { canonicalizeUrl, enrichCaseRecord, titleFingerprint } from './data-quality.mjs';
 import { extractReadableText } from './html-text.mjs';
+import {
+  MAX_FIRECRAWL_RESPONSE_BYTES,
+  fetchTrustedText,
+  readBoundedResponseText,
+  validateFirecrawlApiBase,
+} from './network-security.mjs';
 
 const CASES_PATH = process.env.CASES_PATH || 'data/cases.csv';
 const CANDIDATES_PATH = process.env.CANDIDATES_PATH || 'data/candidate_cases.csv';
@@ -18,7 +24,9 @@ const ARTICLE_MIN_TEXT_CHARS = Number(process.env.ARTICLE_MIN_TEXT_CHARS || 450)
 const ARTICLE_TEXT_MAX_CHARS = Number(process.env.ARTICLE_TEXT_MAX_CHARS || 4500);
 const FIRECRAWL_ENABLED = process.env.FIRECRAWL_ENABLED !== 'false';
 const FIRECRAWL_PRIMARY = process.env.FIRECRAWL_PRIMARY === 'true';
-const FIRECRAWL_API_BASE = (process.env.FIRECRAWL_API_BASE || 'https://api.firecrawl.dev/v2').replace(/\/+$/, '');
+const FIRECRAWL_API_BASE = validateFirecrawlApiBase(
+  process.env.FIRECRAWL_API_BASE || 'https://api.firecrawl.dev/v2',
+);
 const FIRECRAWL_MAX_PER_RUN = Number(process.env.FIRECRAWL_MAX_PER_RUN || 6);
 const FIRECRAWL_SEARCH_ENABLED = process.env.FIRECRAWL_SEARCH_ENABLED !== 'false';
 const FIRECRAWL_SEARCH_MAX_QUERIES = Number(process.env.FIRECRAWL_SEARCH_MAX_QUERIES || 4);
@@ -225,26 +233,7 @@ async function fetchText(
   accept = 'application/rss+xml, application/atom+xml, application/xml, text/xml, */*',
   timeoutMs = 20000,
 ) {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), timeoutMs);
-
-  try {
-    const response = await fetch(url, {
-      signal: controller.signal,
-      headers: {
-        'user-agent': 'AIED Case Hub updater (https://github.com/Jojo-Edtech/aiedcase)',
-        accept,
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
-    }
-
-    return await response.text();
-  } finally {
-    clearTimeout(timeout);
-  }
+  return fetchTrustedText(url, { accept, timeoutMs });
 }
 
 function createEnrichmentState() {
@@ -406,6 +395,9 @@ async function firecrawlRequest(path, body, state) {
   if (!canUseFirecrawl(state)) {
     throw new Error(state.firecrawlDisabledReason || 'Firecrawl call limit reached.');
   }
+  if (!['/scrape', '/search'].includes(path)) {
+    throw new Error('Unsupported Firecrawl API path.');
+  }
 
   state.firecrawlCalls += 1;
   const controller = new AbortController();
@@ -422,10 +414,11 @@ async function firecrawlRequest(path, body, state) {
     const response = await fetch(`${FIRECRAWL_API_BASE}${path}`, {
       method: 'POST',
       signal: controller.signal,
+      redirect: 'error',
       headers,
       body: JSON.stringify(body),
     });
-    const text = await response.text();
+    const text = await readBoundedResponseText(response, MAX_FIRECRAWL_RESPONSE_BYTES);
 
     if (!response.ok) {
       const message = formatFirecrawlError(path, response.status, text);

@@ -62,6 +62,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Test external network boundaries
+        run: npm run test:network
+
       - name: Collect candidate cases
         run: npm run update:candidates
 
