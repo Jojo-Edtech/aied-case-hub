@@ -14,6 +14,7 @@ on:
       - 'scripts/csv-utils.mjs'
       - 'scripts/data-quality.mjs'
       - 'scripts/generate-detail-pages.mjs'
+      - 'scripts/sanitize-public-data.mjs'
       - 'scripts/validate-data.mjs'
       - 'data/source_feeds.json'
       - 'package.json'
@@ -29,7 +30,7 @@ jobs:
     name: Collect candidate teaching cases
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: write  # Required to commit sanitized case data and regenerated pages.
     outputs:
       changed: ${{ steps.changes.outputs.changed }}
     env:
@@ -63,6 +64,9 @@ jobs:
       - name: Collect candidate cases
         run: npm run update:candidates
 
+      - name: Sanitize public data
+        run: npm run sanitize:public
+
       - name: Validate case data
         run: npm run validate:data
 
@@ -75,14 +79,14 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          if git diff --quiet -- data/cases.csv data/candidate_cases.csv cases/ resources/ prompts/ paths/ sitemap.xml; then
+          if git diff --quiet -- data/cases.csv data/candidate_cases.csv data/resources.csv data/prompts.csv cases/ resources/ prompts/ paths/ sitemap.xml; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/cases.csv data/candidate_cases.csv cases/ resources/ prompts/ paths/ sitemap.xml
+          git add data/cases.csv data/candidate_cases.csv data/resources.csv data/prompts.csv cases/ resources/ prompts/ paths/ sitemap.xml
           git commit -m "Add daily AIED cases"
           gh auth setup-git
           git pull --rebase origin main
@@ -120,6 +124,6 @@ jobs:
     needs: collect-candidates
     permissions:
       contents: read
-      pages: write
-      id-token: write
+      pages: write     # Required by the reusable GitHub Pages deployment workflow.
+      id-token: write  # Required for GitHub Pages OIDC authentication.
     uses: ./.github/workflows/deploy-pages.yml

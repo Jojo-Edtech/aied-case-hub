@@ -28,10 +28,15 @@ on:
       - "scripts/csv-utils.mjs"
       - "scripts/data-quality.mjs"
       - "scripts/generate-detail-pages.mjs"
+      - "scripts/sanitize-public-data.mjs"
       - "package.json"
 
 permissions:
   contents: read
+
+concurrency:
+  group: aiedcase-aliyun-oss
+  cancel-in-progress: false
 
 jobs:
   deploy:

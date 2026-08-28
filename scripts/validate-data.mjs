@@ -5,6 +5,7 @@ import {
   LINK_STATUSES,
   QUALITY_LABEL_SET,
   canonicalizeUrl,
+  containsEmailAddress,
   duplicateKey,
   titleFingerprint,
 } from './data-quality.mjs';
@@ -105,6 +106,9 @@ function validateRecords(config, records) {
     const label = `${config.file} row ${index + 2}`;
     const missing = config.required.filter((field) => !String(record[field] || '').trim());
     if (missing.length > 0) fail(`${label} is missing: ${missing.join(', ')}`);
+    if (Object.values(record).some((value) => containsEmailAddress(value))) {
+      fail(`${label} contains an email address.`);
+    }
 
     if (ids.has(record.id)) fail(`${label} duplicates id ${record.id}.`);
     ids.add(record.id);

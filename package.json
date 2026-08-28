@@ -12,6 +12,7 @@
     "test:quality": "node scripts/test-data-quality.mjs && node scripts/test-html-text.mjs && node scripts/test-static-csp.mjs",
     "update:candidates": "node scripts/collect-candidate-cases.mjs",
     "test:ux": "node scripts/ux-stress-test.mjs --rounds=500",
+    "sanitize:public": "node scripts/sanitize-public-data.mjs",
     "validate:data": "node scripts/validate-data.mjs"
   },
   "dependencies": {

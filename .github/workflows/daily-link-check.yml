@@ -23,7 +23,7 @@ jobs:
     name: Verify original source links
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: write  # Required to commit verified links and regenerated pages.
     outputs:
       changed: ${{ steps.changes.outputs.changed }}
     env:
@@ -49,6 +49,9 @@ jobs:
 
       - name: Verify source links
         run: npm run check:links
+
+      - name: Sanitize public data
+        run: npm run sanitize:public
 
       - name: Validate updated data
         run: npm run validate:data
@@ -89,6 +92,6 @@ jobs:
     needs: verify-links
     permissions:
       contents: read
-      pages: write
-      id-token: write
+      pages: write     # Required by the reusable GitHub Pages deployment workflow.
+      id-token: write  # Required for GitHub Pages OIDC authentication.
     uses: ./.github/workflows/deploy-pages.yml

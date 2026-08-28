@@ -31,6 +31,8 @@ const PROMPT_DOMAIN_BY_TYPE = {
   '学生支持': '元认知与学生支持',
 };
 
+const EMAIL_ADDRESS_PATTERN = /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi;
+
 export const LINK_STATUSES = new Set([
   'unverified',
   'ok',
@@ -83,8 +85,27 @@ export function qualityLabel(score) {
   return QUALITY_LABELS.find(([threshold]) => numeric >= threshold)?.[1] || '资料不完整';
 }
 
+export function containsEmailAddress(value) {
+  EMAIL_ADDRESS_PATTERN.lastIndex = 0;
+  return EMAIL_ADDRESS_PATTERN.test(String(value || ''));
+}
+
+export function redactEmailAddresses(value) {
+  EMAIL_ADDRESS_PATTERN.lastIndex = 0;
+  return String(value || '').replace(EMAIL_ADDRESS_PATTERN, '[email removed]');
+}
+
+export function sanitizePublicRecord(record) {
+  return Object.fromEntries(
+    Object.entries(record).map(([field, value]) => [
+      field,
+      typeof value === 'string' ? redactEmailAddresses(value) : value,
+    ]),
+  );
+}
+
 export function enrichCaseRecord(record) {
-  const source = { ...record };
+  const source = sanitizePublicRecord(record);
   const subject = source.subject || source.subcategory || source.category || '相关主题';
   const method = source.ai_tool_or_method || 'AI 工具或方法';
   const summary = cleanText(source.summary_cn);
@@ -112,7 +133,7 @@ export function enrichCaseRecord(record) {
 }
 
 export function enrichResourceRecord(record) {
-  const source = { ...record };
+  const source = sanitizePublicRecord(record);
   source.canonical_url = canonicalizeUrl(source.canonical_url || source.source_url);
   source.last_verified_date = cleanText(source.last_verified_date);
   source.link_status = LINK_STATUSES.has(source.link_status) ? source.link_status : 'unverified';
@@ -125,7 +146,7 @@ export function enrichResourceRecord(record) {
 }
 
 export function enrichPromptRecord(record) {
-  const source = { ...record };
+  const source = sanitizePublicRecord(record);
   const variables = extractPromptVariables(source.prompt_cn);
 
   source.skill_domain = cleanText(source.skill_domain) || PROMPT_DOMAIN_BY_TYPE[source.prompt_type] || '教学设计';

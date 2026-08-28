@@ -1,12 +1,14 @@
 import assert from 'node:assert/strict';
 import {
   canonicalizeUrl,
+  containsEmailAddress,
   duplicateKey,
   enrichCaseRecord,
   enrichPromptRecord,
   enrichResourceRecord,
   extractPromptVariables,
   qualityLabel,
+  redactEmailAddresses,
 } from './data-quality.mjs';
 
 assert.equal(
@@ -16,6 +18,9 @@ assert.equal(
 assert.deepEqual(extractPromptVariables('为[学段]设计 {{主题}} 活动，并再次检查[学段]。'), ['学段', '主题']);
 assert.equal(qualityLabel(86), '高质量');
 assert.equal(qualityLabel(54), '资料不完整');
+assert.equal(redactEmailAddresses('Contact researcher@example.edu for details.'), 'Contact [email removed] for details.');
+assert.equal(containsEmailAddress('Contact researcher@example.edu for details.'), true);
+assert.equal(containsEmailAddress('Contact [email removed] for details.'), false);
 
 const caseRecord = enrichCaseRecord({
   id: 'case-test',
@@ -44,6 +49,10 @@ const autoCollectedCase = enrichCaseRecord({
 assert.ok(
   Number(autoCollectedCase.quality_score) < Number(caseRecord.quality_score),
   'Automatically collected summaries should not receive the same completeness score as curated records.',
+);
+assert.doesNotMatch(
+  enrichCaseRecord({ ...caseRecord, summary_cn: 'Contact researcher@example.edu.' }).summary_cn,
+  /@/,
 );
 
 const resourceRecord = enrichResourceRecord({
