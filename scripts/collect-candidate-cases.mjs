@@ -3,6 +3,7 @@ import { existsSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { CASE_FIELDS, parseCsv, toCsv } from './csv-utils.mjs';
 import { canonicalizeUrl, enrichCaseRecord, titleFingerprint } from './data-quality.mjs';
+import { extractReadableText } from './html-text.mjs';
 
 const CASES_PATH = process.env.CASES_PATH || 'data/cases.csv';
 const CANDIDATES_PATH = process.env.CANDIDATES_PATH || 'data/candidate_cases.csv';
@@ -354,40 +355,6 @@ async function fetchReadableArticleText(url, state) {
 async function fetchHtmlArticleText(url) {
   const html = await fetchText(url, 'text/html, application/xhtml+xml, */*', 15000);
   return extractReadableText(html);
-}
-
-function extractReadableText(html) {
-  const withoutNoise = html
-    .replace(/<script\b[\s\S]*?<\/script\s*>/gi, ' ')
-    .replace(/<style\b[\s\S]*?<\/style\s*>/gi, ' ')
-    .replace(/<noscript\b[\s\S]*?<\/noscript\s*>/gi, ' ')
-    .replace(/<svg\b[\s\S]*?<\/svg\s*>/gi, ' ');
-
-  const preferredBlocks = [
-    ...withoutNoise.matchAll(/<article\b[^>]*>([\s\S]*?)<\/article>/gi),
-    ...withoutNoise.matchAll(/<main\b[^>]*>([\s\S]*?)<\/main>/gi),
-  ].map((match) => match[1]);
-
-  const bodyMatch = withoutNoise.match(/<body\b[^>]*>([\s\S]*?)<\/body>/i);
-  const candidates = preferredBlocks.length > 0 ? preferredBlocks : [bodyMatch?.[1] || withoutNoise];
-  const text = longestText(
-    candidates.map((candidate) =>
-      decodeEntities(candidate)
-        .replace(/<[^>]+>/g, ' ')
-        .replace(/\s+/g, ' ')
-        .trim(),
-    ),
-  );
-
-  return removeCommonBoilerplate(text);
-}
-
-function removeCommonBoilerplate(text) {
-  return text
-    .replace(/\b(subscribe|sign up|cookie policy|privacy policy|terms of use|advertisement)\b/gi, ' ')
-    .replace(/\b(accept all cookies|manage cookies|skip to content|share this article)\b/gi, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
 }
 
 function isLikelyVideoUrl(url) {

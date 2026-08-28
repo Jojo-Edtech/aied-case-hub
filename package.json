@@ -9,10 +9,13 @@
     "check:links": "node scripts/check-links.mjs",
     "expand:prompts": "node scripts/expand-prompt-skills.mjs",
     "migrate:data": "node scripts/enrich-data-schema.mjs",
-    "test:quality": "node scripts/test-data-quality.mjs",
+    "test:quality": "node scripts/test-data-quality.mjs && node scripts/test-html-text.mjs",
     "update:candidates": "node scripts/collect-candidate-cases.mjs",
     "test:ux": "node scripts/ux-stress-test.mjs --rounds=500",
     "validate:data": "node scripts/validate-data.mjs"
+  },
+  "dependencies": {
+    "parse5": "^8.0.1"
   },
   "engines": {
     "node": ">=20"
