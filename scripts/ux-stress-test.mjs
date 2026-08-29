@@ -3,6 +3,7 @@
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import { createReadStream, existsSync } from "node:fs";
+import { homedir } from "node:os";
 import { extname, join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
@@ -84,7 +85,10 @@ async function loadPlaywright() {
   const candidates = [
     process.env.PLAYWRIGHT_ENTRY,
     "playwright",
-    "/Users/zhouxinxin/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.js",
+    join(
+      homedir(),
+      ".cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.js",
+    ),
   ].filter(Boolean);
 
   for (const candidate of candidates) {
